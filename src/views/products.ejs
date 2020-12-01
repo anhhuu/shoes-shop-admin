@@ -9,7 +9,7 @@
             <i class="fas fa-table mr-1"></i> Products
         </div>
         <div class="card-body">
-            <button type="button" data-toggle="modal" data-target="#newProduct" class="btn btn-success" style="margin-bottom: 10px;">New Products</button>
+            <button type="button" data-toggle="modal" data-target="#editProduct" class="btn btn-success" style="margin-bottom: 10px;">New Products</button>
             <div class="table-responsive">
                 <table class="mt-4 table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -69,8 +69,8 @@
                                         <% } %>
                                 </td>
                                 <td>
-                                    <button type="button" class="btn btn btn-outline-danger " data-toggle="modal " data-target="#exampleModal" style="padding-right: 30px ">Delete</button>
-                                    <button type="button" class="btn btn-outline-warning " style="padding-right: 50px; margin-top: 4px ">Edit</button>
+                                    <button type="button" class="btn btn btn-outline-danger" style="padding-right: 30px ">Delete</button>
+                                    <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#newProduct" style="padding-right: 50px; margin-top: 4px ">Edit</button>
                                 </td>
                             </tr>
                             <% } %>
@@ -82,7 +82,82 @@
 </div>
 
 
-<div class="modal fade" id="newProduct" tabindex="-1" role="dialog" aria-labelledby="newProductModalLable " aria-hidden="true ">
+<div class="modal fade" id="newProduct" tabindex="-1" role="dialog" aria-labelledby="newProductModalLable" aria-hidden="true ">
+    <div class="modal-dialog modal-xl " role="document ">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newProductModalLable">New Products</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close ">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/products/save" novalidate>
+                    <div class="form-row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name">Name</label>
+                            <input type="text " class="form-control" id="name" name="name" value="" required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="category">Category</label>
+                            <select class="custom-select" id="category" name="category" required>
+                              <option selected disabled value=" ">Choose...</option>
+                              <option>Adidas</option>
+                              <option>Nike</option>
+                              <option>Reebok</option>
+                              <option>Converse</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="brand">Brand</label>
+                            <select class="custom-select" id="brand" name="brand" required>
+                            <option selected disabled value=" ">Choose...</option>
+                            <option>Adidas</option>
+                            <option>Nike</option>
+                            <option>Reebok</option>
+                            <option>Converse</option>
+                          </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                            <label for="price">Price</label>
+                            <input type="text" class="form-control" id="price" name="price" value=" " required>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="status">Status</label>
+                            <select class="custom-select" id="status" name="status" required>
+                              <option selected disabled value=" ">Choose...</option>
+                              <option>Còn hàng</option>
+                              <option>Hết hàng</option>
+                            </select>
+                            <div class="invalid-tooltip">
+                                Please select a valid state.
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="color">Color</label>
+                            <input type="text" class="form-control" id="color" name="color" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12 mb-3">
+                            <label for="description"></label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button " class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="newProductModalLable" aria-hidden="true ">
     <div class="modal-dialog modal-xl " role="document ">
         <div class="modal-content">
             <div class="modal-header">
