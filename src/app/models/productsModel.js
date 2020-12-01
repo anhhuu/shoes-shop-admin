@@ -12,3 +12,7 @@ exports.get = async(id) => {
     const product = await booksCollection.findOne({ _id: ObjectId(id) })
     return product;
 }
+
+exports.save = async(obj) => {
+    await db().collection('products').insertOne(obj);
+}

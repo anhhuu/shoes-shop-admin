@@ -12,6 +12,7 @@ exports.details = async(req, res, next) => {
 }
 
 exports.save = async(req, res, next) => {
-    console.log(req.body);
+    await productsModel.save(req.body);
+
     res.redirect('/');
 }
