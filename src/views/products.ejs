@@ -12,6 +12,18 @@
             <button type="button" data-toggle="modal" data-target="#newProduct" class="btn btn-success"
                     style="margin-bottom: 10px;">New Products
             </button>
+            <div class="dropdown text-justify">
+                <button class="btn dropdown-toggle btn-success" type="button" data-toggle="dropdown">Choose Category
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="?category=Adidas&">Adidas</a></li>
+                    <li><a href="?category=Nike&">Nike</a></li>
+                    <li><a href="?category=Reebok&">Reebok</a></li>
+                    <li><a href="?category=Converse&">Converse</a></li>
+                    <li><a href="?category=Puma&">Puma</a></li>
+                    <li><a href="?category=Vans&">Vans</a></li>
+                </ul>
+            </div>
             <div class="table-responsive">
                 <table class="mt-4 table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
@@ -100,7 +112,7 @@
                             <a class="page-link" href="?page=<%=products[1].page+1%>&<%=products[3]%><%=products[2]%> ">></a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<%=products[1].pages%>&<%=products[3]%><<%=products[2]%> ">>></a>
+                            <a class="page-link" href="?page=<%=products[1].pages%>&<%=products[3]%><%=products[2]%> ">>></a>
                         </li>
                     </ul>
                 </nav>
@@ -144,7 +156,7 @@
                                 <option>Adidas</option>
                                 <option>Nike</option>
                                 <option>Reebok</option>
-                                <option>Converse</option>
+                                <option><Con></Con>verse</option>
                             </select>
                         </div>
                     </div>

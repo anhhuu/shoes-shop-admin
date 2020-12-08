@@ -1,6 +1,7 @@
 const {Schema} = require('mongoose');
 const productMongooseModel = require('./mongooseModels/productMongooseModel');
-const categoryMongooseModel = require('./categoryModel');
+const categoryModel = require('./categoryModel');
+const categoryMongooseModel = require('./mongooseModels/categoryMongooseModel');
 const brandMongooseModel = require('./brandModel');
 const {mongooseToObject} = require("../../utils/mongooseToObject");
 
@@ -36,20 +37,25 @@ module.exports.getProducts = async (req,res,next) => {
     const queryParams = req.query;
     let page = queryParams.page;
     let category = queryParams.category;
+    let categoryID = '';
     let Search = queryParams.Search;
 
     console.log(queryParams)
 
     try {
         let result = [];
-
         if (typeof page =='undefined')
             page = '1';
         console.log(page)
+
+        if ( typeof category!= 'undefined'){
+            categoryID = await categoryMongooseModel.find({name: category});
+            console.log(categoryID);
+        }
         let data = await productMongooseModel.paginate({},{page: parseInt(page,10), limit: 5});
-        if (typeof Search !='undefined'){
-            data = await productMongooseModel.paginate({name: {$regex: new RegExp(Search)}},{page: parseInt(page,10), limit: 5});
-            console.log(data);
+        if (typeof Search !='undefined'|| typeof category!= 'undefined'){
+            data = await productMongooseModel.paginate({name: {$regex: new RegExp(Search)},category_id: categoryID[0]._id},{page: parseInt(page,10), limit: 5});
+
         }
 
         let paging = {
@@ -75,7 +81,7 @@ module.exports.getProducts = async (req,res,next) => {
             product.color = data.docs[i].color;
             let brand = await brandMongooseModel.getByID(data.docs[i].brand_id);
             product.brand = brand.name;
-            let category = await categoryMongooseModel.getByID(data.docs[i].category_id);
+            let category = await categoryModel.getByID(data.docs[i].category_id);
             product.category = category.name;
             product.imageURL = data.docs[i].image_show_url;
 
@@ -89,15 +95,16 @@ module.exports.getProducts = async (req,res,next) => {
         result.push(paging);
 
         if (typeof category =='undefined')
-            category = ''
-        result.push(category);
+            result.push('')
+        else
+            result.push("category="+category +"&");
 
         if (typeof Search =='undefined')
             result.push('');
         else
             result.push("Search=" + Search +'&');
 
-        console.log(result[4])
+        console.log(result[2])
         return result;
     } catch (e) {
 
