@@ -52,12 +52,16 @@ module.exports.getProducts = async (req,res,next) => {
             categoryID = await categoryMongooseModel.find({name: category});
             console.log(categoryID);
         }
-        let data = await productMongooseModel.paginate({},{page: parseInt(page,10), limit: 5});
-        if (typeof Search !='undefined'|| typeof category!= 'undefined'){
-            data = await productMongooseModel.paginate({name: {$regex: new RegExp(Search)},category_id: categoryID[0]._id},{page: parseInt(page,10), limit: 5});
 
+        let data = await productMongooseModel.paginate({},{page: parseInt(page,10), limit: 5});
+        if (typeof Search !='undefined'){
+            data = await productMongooseModel.paginate({name: {$regex: new RegExp(Search)}},{page: parseInt(page,10), limit: 5});
         }
 
+        if (typeof category!= 'undefined'){
+            data = await productMongooseModel.paginate({category_id: categoryID[0]._id},{page: parseInt(page,10), limit: 5});
+
+        }
         let paging = {
             pages: data.pages,
             page: data.page,
