@@ -1,23 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="7e8a757c-108f-4606-b024-8ad3117e5fce" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/models/brandModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/categoryModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/mongooseModels/brandMongooseModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/mongooseModels/categoryMongooseModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/mongooseModels/productMongooseModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/mongooseModels/sizeMongooseModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/productModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/models/sizeModel.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/mongooseToObject.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/controllers/productController.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/controllers/productController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/bin/www" beforeDir="false" afterPath="$PROJECT_DIR$/src/bin/www" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/config/db/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/config/db/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/layouts/main.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/layouts/main.ejs" afterDir="false" />
+    <list default="true" id="7e8a757c-108f-4606-b024-8ad3117e5fce" name="Default Changelist" comment="Merge branch 'master' of https://github.com/anhhuu/shoes-shop-admin into master&#10;&#10;# Conflicts:&#10;#&#9;src/views/products.ejs">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/models/productModel.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/models/productModel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/public/js/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/public/js/scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/partials/header.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/partials/header.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/partials/side-nav.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/partials/side-nav.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/views/products.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/products.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,7 +52,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1607394382182</updated>
-      <workItem from="1607394386035" duration="16932000" />
+      <workItem from="1607394386035" duration="20482000" />
     </task>
     <servers />
   </component>

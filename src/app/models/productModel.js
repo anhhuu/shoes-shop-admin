@@ -33,16 +33,25 @@ module.exports.getByURL = async (product_url) => {
 }
 
 module.exports.getProducts = async (req,res,next) => {
+    const queryParams = req.query;
+    let page = queryParams.page;
+    let category = queryParams.category;
+    let Search = queryParams.Search;
+
+    console.log(queryParams)
+
     try {
-        const queryParams = req.query;
-        let page = queryParams.page;
-        let category = queryParams.category;
         let result = [];
 
         if (typeof page =='undefined')
             page = '1';
         console.log(page)
         let data = await productMongooseModel.paginate({},{page: parseInt(page,10), limit: 5});
+        if (typeof Search !='undefined'){
+            data = await productMongooseModel.paginate({name: {$regex: new RegExp(Search)}},{page: parseInt(page,10), limit: 5});
+            console.log(data);
+        }
+
         let paging = {
             pages: data.pages,
             page: data.page,
@@ -78,9 +87,17 @@ module.exports.getProducts = async (req,res,next) => {
 
         result.unshift(products);
         result.push(paging);
+
         if (typeof category =='undefined')
             category = ''
         result.push(category);
+
+        if (typeof Search =='undefined')
+            result.push('');
+        else
+            result.push("Search=" + Search +'&');
+
+        console.log(result[4])
         return result;
     } catch (e) {
 
