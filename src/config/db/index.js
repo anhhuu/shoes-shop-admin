@@ -1,28 +1,23 @@
-const { MongoClient } = require('mongodb');
+const mongoose = require('mongoose');
 
-const uri = 'mongodb+srv://anhhuu:ajhdcYDK8OwmsKpg@shoes-db-dev.u3qsy.mongodb.net';
+const debug = require('debug')('shoes-shop:db')
 
-// Create a new MongoClient
-const client = new MongoClient(uri, { useUnifiedTopology: true });
-
-let database;
-
-async function connectDb() {
-    console.log('Database are connecting!');
+async function connect() {
     try {
-        await client.connect();
-        database = client.db('shoes_shop_dev_v1');
-        // Establish and verify connection
-        console.log('Database connected!');
-    } catch (err) {
-        console.log("Database isn't connected! <ERR: " + err + ">")
+        await mongoose.connect(
+            'mongodb+srv://anhhuu:QntiC4albYUOsYHz@shoes-shop-cluster.cdqes.mongodb.net/shoes-shop-dev-v1?retryWrites=true&w=majority',
+            {
+                useNewUrlParser: true,
+                useUnifiedTopology: true,
+                useFindAndModify: false,
+                useCreateIndex: true
+            });
+        debug('connected successfully!')
+        console.log('connected successfully!')
+    } catch (error) {
+        debug('connected failure! <' + error + '>');
+        console.log('connected failure! <' + error + '>');
     }
 }
 
-console.log('RUNNING DB...');
-
-connectDb();
-
-const db = () => database;
-
-module.exports.db = db;
+module.exports = { connect };

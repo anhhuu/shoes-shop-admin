@@ -7,7 +7,7 @@ require('../config/db');
 
 
 const app = require('../app');
-const debug = require('debug')('admin:server');
+const debug = require('debug')('shoes-shop:server');
 const http = require('http');
 
 /**
