@@ -1,5 +1,5 @@
 <div class="container-fluid">
-    <h1 class="mt-4">Dashboard</h1>
+    <h1 class="mt-4">Products</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active">Dashboard/Products</li>
     </ol>
@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <button type="button" data-toggle="modal" data-target="#newProduct" class="btn btn-success"
-                    style="margin-bottom: 10px;">New Products
+                style="margin-bottom: 10px;">New Products
             </button>
             <div class="dropdown text-justify">
                 <button class="btn dropdown-toggle btn-success" type="button" data-toggle="dropdown">Choose Category
@@ -25,39 +25,45 @@
                 </ul>
             </div>
             <div class="table-responsive">
+                <div class="mt-4">
+                    <input type="text" name="search" id="search">
+                </div>
                 <table class="mt-4 table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>Price</th>
-                        <th>Color</th>
-                        <th>Images</th>
-                        <th>Custom</th>
-                    </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                            <th>Color</th>
+                            <th>Images</th>
+                            <th>Custom</th>
+                        </tr>
                     </thead>
                     <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Brand</th>
-                        <th>Price</th>
-                        <th>Color</th>
-                        <th>Images</th>
-                        <th>Custom</th>
-                    </tr>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Brand</th>
+                            <th>Price</th>
+                            <th>Color</th>
+                            <th>Images</th>
+                            <th>Custom</th>
+                        </tr>
                     </tfoot>
                     <tbody>
-                    <% for(let i = 0; i < products[0].length; i++) { %>
+                        <% for(let i = 0; i < products[0].length; i++) { %>
                         <tr>
                             <td>
                                 <%= products[0][i].id %>
                             </td>
                             <td>
-                                <%= products[0][i].name %>
+                                <a href="products/id/<%= products[0][i].id %>">
+                                    <%= products[0][i].name %>
+                                </a>
+
                             </td>
                             <td>
                                 <%= products[0][i].category %>
@@ -72,47 +78,48 @@
                                 <%= products[0][i].color %>
                             </td>
                             <td>
-                                <%= products[0][i].imageURL %>
+                                <a href=" <%= products[0][i].imageURL %>" target="_blank">Image</a>
                             </td>
                             <td>
-                                <button type="button" class="btn btn btn-outline-danger " data-toggle="modal "
-                                        data-target="#editProduct" style="padding-right: 30px ">Delete
-                                </button>
-                                <button type="button" class="btn btn-outline-warning " data-toggle="modal "
-                                        data-target="#editProduct" style="padding-right: 50px; margin-top: 4px ">Edit
-                                </button>
+                                <a href="#editProduct<%= i %>" data-toggle="modal" data-target="#editProduct<%= i %>"
+                                    class=" twitter">
+                                    <div <i class="fas fa-edit"></i></div>
+                                </a>
                             </td>
                         </tr>
-                    <% } %>
+                        <% } %>
                     </tbody>
                 </table>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
-                            <a class="page-link" href="?page=1&<%=products[3]%><%=products[2]%> "><<</a>
+                            <a class="page-link" href="?page=1&<%=products[3]%><%=products[2]%> ">&laquo;</a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<%=products[1].page-1%>&<%=products[3]%><%=products[2]%>"><</a>
+                            <a class="page-link"
+                                href="?page=<%=products[1].page-1%>&<%=products[3]%><%=products[2]%>">&lt;</a>
                         </li>
 
                         <% for (var i = products[1].page < products[1].pages?products[1].page - 2:products[1].page - 3;i <= products[1].page + 2;i++){ %>
-                            <% if (i < 1) { %>
-                                <% continue;} %>
-
-                            <% if (i > products[1].pages) { %>
-                                <% continue;} %>
-                            <%if (i==products[1].page) {%>
-                                <li class="page-item active"><a class="page-link" href=" ?page=<%=i%>&<%=products[3]%><%=products[2]%>"><%=i%></a></li>
-
-                            <%}else {%>
-                                <li class="page-item"><a class="page-link" href="?page=<%=i%>&<%=products[3]%><%=products[2]%>"><%= i %></a></li>
-                                <%}%>
+                        <% if (i < 1) { %>
+                        <% continue;} %>
+                        <% if (i > products[1].pages) { %>
+                        <% continue;} %>
+                        <%if (i==products[1].page) {%>
+                        <li class="page-item active"><a class="page-link"
+                                href=" ?page=<%=i%>&<%=products[3]%><%=products[2]%>"><%=i%></a></li>
+                        <%}else {%>
+                        <li class="page-item"><a class="page-link"
+                                href="?page=<%=i%>&<%=products[3]%><%=products[2]%>"><%= i %></a></li>
+                        <%}%>
                         <% } %>
                         <li class="page-item ">
-                            <a class="page-link" href="?page=<%=products[1].page+1%>&<%=products[3]%><%=products[2]%> ">></a>
+                            <a class="page-link"
+                                href="?page=<%=products[1].page+1%>&<%=products[3]%><%=products[2]%> ">&gt;</a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" href="?page=<%=products[1].pages%>&<%=products[3]%><%=products[2]%> ">>></a>
+                            <a class="page-link"
+                                href="?page=<%=products[1].pages%>&<%=products[3]%><%=products[2]%> ">&raquo;</a>
                         </li>
                     </ul>
                 </nav>
@@ -123,7 +130,7 @@
 
 
 <div class="modal fade" id="newProduct" tabindex="-1" role="dialog" aria-labelledby="newProductModalLable"
-     aria-hidden="true ">
+    aria-hidden="true ">
     <div class="modal-dialog modal-xl " role="document ">
         <div class="modal-content">
             <div class="modal-header">
@@ -156,83 +163,9 @@
                                 <option>Adidas</option>
                                 <option>Nike</option>
                                 <option>Reebok</option>
-                                <option><Con></Con>verse</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-3 mb-3">
-                            <label for="price">Price</label>
-                            <input type="text" class="form-control" id="price" name="price" value=" " required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="status">Status</label>
-                            <select class="custom-select" id="status" name="status" required>
-                                <option selected disabled value=" ">Choose...</option>
-                                <option>Còn hàng</option>
-                                <option>Hết hàng</option>
-                            </select>
-                            <div class="invalid-tooltip">
-                                Please select a valid state.
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="color">Color</label>
-                            <input type="text" class="form-control" id="color" name="color" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                            <label for="description"></label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button " class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<div class="modal fade" id="editProduct" tabindex="-1" role="dialog" aria-labelledby="editProductModalLable"
-     aria-hidden="true ">
-    <div class="modal-dialog modal-xl " role="document ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editProductModalLable">New Products</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close ">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="/products/save" novalidate>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="name">Name</label>
-                            <input type="text " class="form-control" id="name" name="name" value="" required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="category">Category</label>
-                            <select class="custom-select" id="category" name="category" required>
-                                <option selected disabled value=" ">Choose...</option>
-                                <option>Adidas</option>
-                                <option>Nike</option>
-                                <option>Reebok</option>
-                                <option>Converse</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="brand">Brand</label>
-                            <select class="custom-select" id="brand" name="brand" required>
-                                <option selected disabled value=" ">Choose...</option>
-                                <option>Adidas</option>
-                                <option>Nike</option>
-                                <option>Reebok</option>
-                                <option>Converse</option>
+                                <option>
+                                    <Con></Con>verse
+                                </option>
                             </select>
                         </div>
                     </div>

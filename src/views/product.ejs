@@ -1,0 +1,307 @@
+<div class="container mt-4">
+    <h1 class="mt-4">Product</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Dashboard/Product</li>
+    </ol>
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="info-tab" data-toggle="tab" href="#info" role="tab" aria-controls="info"
+                aria-selected="true">Thông tin cơ bản, bán hàng</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="image-tab" data-toggle="tab" href="#image" role="tab" aria-controls="image"
+                aria-selected="false">Quản lý hình ảnh</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="size-tab" data-toggle="tab" href="#size" role="tab" aria-controls="size"
+                aria-selected="false">Quản lý size, số lượng</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+            <div class="card mt-4">
+                <h5 class="card-header">Thông tin cơ bản, bán hàng</h5>
+                <div class="card-body">
+                    <form method="POST" action="/products/id/<%= product._id %>/info-update">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name"
+                                    value="<%= product.name %>">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="discount">Discount</label>
+                                <input type="text" class="form-control" id="discount" name="discount"
+                                    value="<%= product.discount %>">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="id">ID</label>
+                                <input type="text" class="form-control" id="id" name="id" value="<%= product._id %>"
+                                    disabled>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="price">Price</label>
+                                <input type="text" class="form-control" id="price" name="price"
+                                    value="<%= product.price.price_value %>">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="unit">Unit</label>
+                                <input type="text" class="form-control" id="unit" name="unit"
+                                    value="<%= product.price.price_currency %>">
+                            </div>
+
+                            <div class="form-group col-md-3">
+                                <label for="color">Color</label>
+                                <input type="text" class="form-control" id="color" name="color"
+                                    value="<%= product.color %>">
+                            </div>
+                            <div class="form-group col-md-3">
+                                <label for="SKU">SKU</label>
+                                <input type="text" class="form-control" id="SKU" name="SKU" value="<%= product.SKU %>">
+                            </div>
+
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="brand">Brand</label>
+                                <input type="text" class="form-control" id="brand" name="brand"
+                                    value="<%= brand.name %>" disabled>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="category">Category</label>
+                                <input type="text" class="form-control" id="category" name="category"
+                                    value="<%= category.name %>">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <label for="description">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="image-tab">
+            <div class="card mt-4">
+                <h5 class="card-header">Quản lý hình ảnh</h5>
+                <div class="card-body">
+                    <form method="POST" action="/products/id/<%= product._id %>/image-update"
+                        enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="form-group col-md-3">
+                                <label for="image_show">Image Show</label>
+                                <img src="<%= product.image_show_url %>" alt="image_show" class="img-thumbnail">
+                                <a href="#exampleModal" data-toggle="modal">
+                                    <div <i class="fas fa-trash fa-1x" style="color:rgb(255, 61, 61)"></i></div>
+                                </a>
+                            </div>
+                        </div>
+                        <label for="image_show">Image Detail</label>
+                        <div class="form-row">
+                            <% for(let i = 0; i < 4; i++) { %>
+                            <div class="form-group col-md-3">
+                                <div class="form-group">
+                                    <div class="main-img-preview">
+                                        <img class="thumbnail img-preview" id="img-des-preview-<%= i+1 %>"
+                                            src="/img/default-thumbnail.jpg" title="Preview Logo">
+                                    </div>
+                                    <div class="input-group">
+                                        <input id="img-des-preview-title-<%= i+1 %>" class="form-control"
+                                            placeholder="Choose File" disabled="disabled">
+                                        <div class="input-group-btn">
+                                            <div class="fileUpload btn btn-light">
+                                                <span><i class="fa fa-plus" aria-hidden="true"></i></i></span>
+                                                <input class="image-upload" id="img-des-<%= i+1 %>" name="img-des"
+                                                    type="file">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <% } %>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Cập nhật</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="size" role="tabpanel" aria-labelledby="size-tab">
+            <div class="card mt-4">
+                <h5 class="card-header">Quản lý size, số lượng</h5>
+                <table class="table">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">VN-Size</th>
+                            <th scope="col">US-Size</th>
+                            <th scope="col">Chiều dài (cm)</th>
+                            <th scope="col">Tổng số</th>
+                            <th scope="col">Số lượng còn lại</th>
+                            <th scope="col">Xoá</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for(let i = 0; i < sizes.length; i++) { %>
+                        <tr>
+                            <th scope="row"><%= i + 1 %> </th>
+                            <td><%= sizes[i].VN_size %> </td>
+                            <td><%= sizes[i].US_size %></td>
+                            <td><%= sizes[i].CM_size %></td>
+                            <td><%= sizes[i].amount %></td>
+                            <td>
+                                <%= sizes[i].remaining_amount %>&emsp;
+                                <a href="#editProduct<%= i %>" data-toggle="modal" data-target="#sizeModal" class="">
+                                    <div <i class="fas fa-edit"></i></div>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#editProduct<%= i %>" data-toggle="modal" data-target="#deleteSizeModal"
+                                    class="">
+                                    <div <i class="fas fa-trash-alt"></i></div>
+                                </a>
+                            </td>
+
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+                <div class="mt-4">
+                    <button type="button" data-toggle="modal" data-target="#newSize" class="btn btn-success"
+                        style="margin-bottom: 10px; margin-left: 10px;">
+                        <i class="fas fa-plus"></i>&emsp;Thêm size
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4"></div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xoá hình ảnh</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xoá hình ảnh</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                <button type="button" class="btn btn-primary">Đồng ý</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="sizeModal" tabindex="-1" role="dialog" aria-labelledby="sizeModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="sizeModalLabel">Size</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/products/id/<%= product._id %>/info-update">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="name">VN-Size</label>
+                            <input type="text" class="form-control" id="name" name="name" value="40" disabled>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="name">US-Size</label>
+                            <input type="text" class="form-control" id="name" name="name" value="9" disabled>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="name">Tổng số</label>
+                            <input type="text" class="form-control" id="name" name="name" value="50" disabled>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="name">Số lượng còn lại</label>
+                            <input type="number" class="form-control" id="name" name="name" value="20">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                <button type="button" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="deleteSizeModal" tabindex="-1" role="dialog"
+    aria-labelledby="deleteSizeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteSizeModalLabel">Xoá Size</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/products/id/<%= product._id %>/info-update">
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label for="name">VN-Size</label>
+                            <input type="text" class="form-control" id="name" name="name" value="40" disabled>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="name">US-Size</label>
+                            <input type="text" class="form-control" id="name" name="name" value="9" disabled>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="name">Tổng số</label>
+                            <input type="text" class="form-control" id="name" name="name" value="50" disabled>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label for="name">Số lượng còn lại</label>
+                            <input type="number" class="form-control" id="name" name="name" value="20">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Huỷ bỏ</button>
+                <button type="button" class="btn btn-primary">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/js/productScript.js"></script>
+
+<script>
+    $(document).ready(function () {
+        for (let i = 0; i < 4; i++) {
+            loadFrontendImage('img-des-' + String(i + 1), 'img-des-preview-title-' + String(i + 1),
+                'img-des-preview-' + String(i + 1))
+        }
+    });
+</script>
+
+<script language="javascript" type="text/javascript">
+    $(document).ready(function () {
+        var url = document.location.toString();
+        if (url.match('#')) {
+            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
+        }
+    });
+</script>
