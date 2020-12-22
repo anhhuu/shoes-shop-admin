@@ -1,14 +1,16 @@
-const productsModel = require('../models/productsModel');
+const productsModel = require('../models/productModel');
 
 exports.index = async(req, res, next) => {
     // Get products from model
-    const products = await productsModel.list();
+
+    const products = await productsModel.getProducts(req, res, next);
     // Pass data to view to display list of products
-    res.render('products', { products });
+    // console.log(products);
+    res.render('products', {products});
 };
 
 exports.details = async(req, res, next) => {
-    res.render('books/detail', await productsModel.get(req.params.id));
+    res.render('books/detail', await productsModel.getByID(req.params.id));
 }
 
 exports.save = async(req, res, next) => {

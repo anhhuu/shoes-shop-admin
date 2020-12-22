@@ -43,4 +43,7 @@ app.use(function(err, req, res, next) {
     res.render('error', { layout: 'layouts/error' });
 });
 
+const db= require('./config/db');
+db.connect();
+
 module.exports = app;
