@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const siteRouter = require('./site');
+const productsRouter = require('./products');
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-    res.render('index');
-});
+function route(app) {
+    app.use('/', siteRouter);
+    app.use('/products', productsRouter);
+}
 
-module.exports = router;
+module.exports = route;

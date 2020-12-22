@@ -1,14 +1,17 @@
 #!/usr/bin/env node
 
+const result = require('dotenv').config({ path: 'src/.env' });
+if (result.error) {
+    throw result.error;
+}
+
 /**
  * Module dependencies.
  */
-require('../config/db');
-
-
 const app = require('../app');
-const debug = require('debug')('shoes-shop:server');
+const debug = require('debug')('shoes-shop-admin:server');
 const http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
@@ -88,5 +91,5 @@ function onListening() {
     const bind = typeof addr === 'string' ?
         'pipe ' + addr :
         'port ' + addr.port;
-    debug('Listening on ' + bind);
+    debug('listening on ' + bind);
 }
