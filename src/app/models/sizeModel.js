@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose');
 
 const sizeMongooseModel = require('./mongooseModels/sizeMongooseModel');
-const { mongooseToObject } = require('../../utils/mongooseToObject')
+const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongooseToObject')
 
 module.exports.getByID = async(id) => {
     try {
@@ -11,6 +11,19 @@ module.exports.getByID = async(id) => {
         }
 
         return size;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.getListByBrandID = async(brandId) => {
+    try {
+        let sizes = await sizeMongooseModel.find({ brand_id: brandId });
+        if (sizes.length) {
+            sizes = multipleMongooseToObject(sizes);
+        }
+
+        return sizes;
     } catch (error) {
         throw error;
     }

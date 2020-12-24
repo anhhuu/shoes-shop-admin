@@ -4,11 +4,12 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
-const debugHttp = require('debug')('shoes-shop-admin:http')
+const debugHttp = require('debug')('shoes-shop-admin:http');
+const methodOverride = require('method-override');
 
 const expressLayouts = require('express-ejs-layouts');
 
-const route = require('./routes')
+const route = require('./routes');
 
 const db = require('./config/db');
 db.connect();
@@ -24,6 +25,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(methodOverride(function(req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method
+        delete req.body._method
+        return method
+    }
+}))
 
 route(app);
 

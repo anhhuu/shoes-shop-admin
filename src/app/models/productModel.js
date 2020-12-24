@@ -165,3 +165,45 @@ module.exports.save = async(productObject) => {
         throw error;
     }
 }
+
+//update basic info of shoes (SKU code, name, discount, color, description, category, price)
+module.exports.updateBasicInfo = async(productObject) => {
+    try {
+        let product = await productMongooseModel.findById(productObject._id);
+        await product.updateOne({
+            SKU: productObject.SKU,
+            name: productObject.name,
+            discount: productObject.discount,
+            color: productObject.color,
+            description: productObject.description,
+            category_id: productObject.category_id,
+            price: productObject.price
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
+//update remaining amount of shoes
+module.exports.updateProductDetail = async(productObject) => {
+    try {
+        let product = await productMongooseModel.findById(productObject._id);
+        await product.updateOne({
+            product_detail: productObject.product_detail
+        });
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.updateProductImage = async(productObject) => {
+    try {
+        let product = await productMongooseModel.findById(productObject._id);
+        await product.updateOne({
+            image_show_url: productObject.image_show_url,
+            images_detail_url: productObject.images_detail_url
+        });
+    } catch (error) {
+        throw error;
+    }
+}

@@ -1,7 +1,3 @@
-function deleteImageShow() {
-    $("#haha").replace($("#hihi"));
-}
-
 function readURL(input, imgDescriptionPreID) {
     if (input.files && input.files[0]) {
         var reader = new FileReader();
@@ -12,11 +8,12 @@ function readURL(input, imgDescriptionPreID) {
     }
 }
 
-function loadFrontendImage(imgDescriptionID, imgDescriptionPreTitleID, imgDescriptionPreID) {
+function loadFrontendImage(imgDescriptionID, imgDescriptionPreTitleID, imgDescriptionPreID, btnUpdateImage) {
     var image = document.getElementById(imgDescriptionID);
     //image.className = 'attachment_upload';
     image.onchange = function() {
         document.getElementById(imgDescriptionPreTitleID).value = this.value.substring(12);
+        document.getElementById(btnUpdateImage).disabled = false;
     };
 
     $('#' + imgDescriptionID).change(function() {
