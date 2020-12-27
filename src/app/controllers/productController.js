@@ -9,18 +9,132 @@ const { ObjectID } = require('mongodb');
 
 module.exports.index = async(req, res, next) => {
     // Get products from model
-    const products = await productModel.getProducts(req, res, next);
+    const brands = await brandModel.getAll();
+    const categories = await categoryModel.getAll();
+
+    let query = req.query;
+
     // Pass data to view to display list of products
-    res.render('products', { products });
+    res.render('products', { brands: brands, categories: categories, query: query });
 };
 
-exports.details = async(req, res, next) => {
-    res.render('books/detail', await productModel.getByID(req.params.id));
-}
 
-exports.save = async(req, res, next) => {
-    await productModel.save(req.body);
-    res.redirect('/');
+module.exports.indexTest = async(req, res, next) => {
+    const brands = await brandModel.getAll();
+    const categories = await categoryModel.getAll();
+
+    let query = req.query;
+    let products = await productModel.fillterProducts(query);
+    //console.log(products);
+
+    res.send(products);
+    //res.render('products', { products: products, brands: brands, categories: categories });
+};
+
+module.exports.getCreatePage = async(req, res, next) => {
+    let categories = await categoryModel.getAll();
+    let brands = await brandModel.getAll();
+
+    let sizes = await sizeModel.getListByBrandID(brands[0]._id);
+    res.render('createProduct', { categories: categories, brands: brands, sizes: sizes });
+};
+
+module.exports.create = async(req, res, next) => {
+    multerImageUpload.array('img', 5)(req, res, async(error) => {
+        if (error) {
+            next(error);
+            return;
+        }
+
+        let bodyObject = req.body;
+
+        let product = new Object();
+
+        product.name = bodyObject.name;
+        product.color = bodyObject.color;
+        product.description = bodyObject.description;
+        product.brand_id = bodyObject.brand_id;
+        product.category_id = bodyObject.category_id;
+
+        //price
+        let price = new Object();
+        price.price_value = bodyObject.price_value;
+        price.string_price = price.price_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        price.unit = bodyObject.unit;
+        if (price.unit === "USD") {
+            price.string_price += String('$')
+        } else {
+            price.string_price += String('₫')
+        }
+
+        product.price = price;
+
+        //SKU
+        if (bodyObject.SKU == '') {
+            product.SKU = 'Đang cập nhật';
+        } else {
+            product.SKU = bodyObject.SKU;
+        }
+
+        let sizes = new Array();
+        let amountArr = new Array();
+        let remainingAmountArr = new Array();
+        if (!Array.isArray(bodyObject.sizes)) {
+            sizes.push(bodyObject.sizes);
+            amountArr.push(bodyObject.amount);
+            remainingAmountArr.push(bodyObject.remaining_amount);
+        } else {
+            sizes = bodyObject.sizes;
+            amountArr = bodyObject.amount;
+            remainingAmountArr = bodyObject.remaining_amount;
+        }
+
+        let product_detail = new Array();
+        if (sizes.length) {
+            for (let i = 0; i < sizes.length; i++) {
+                let sizeObj = new Object();
+                sizeObj.size_id = sizes[i];
+                sizeObj.amount = amountArr[i] != '' ? amountArr[i] : '0';
+                sizeObj.remaining_amount = remainingAmountArr[i] != '' ? remainingAmountArr[i] : '0';
+                product_detail.push(sizeObj);
+            }
+        }
+
+        product.product_detail = product_detail;
+        let image_show_url;
+        let images_detail_url = new Array();
+        if (req.files.length) {
+            for (let i = 0; i < req.files.length; i++) {
+                if (req.files[i].originalname == bodyObject.img_show_name) {
+                    image_show_url = req.files[i].path;
+                } else {
+                    images_detail_url.push(req.files[i].path);
+                }
+            }
+        }
+
+        product.image_show_url = image_show_url;
+        product.images_detail_url = images_detail_url;
+
+        product_url = product.name.replace(/[&\/\\#,+()$~%.'" :*?<>{}]/g, '');
+
+        product_url = product_url.toLowerCase();
+
+        let i = 1;
+        while (await productModel.getByURL(product_url)) {
+            product_url = product_url + '-' + String(i);
+            i++;
+        }
+
+        product.product_url = product_url;
+
+        const _id = await productModel.save(product);
+
+        console.log(images_detail_url);
+
+        //res.send(product);
+        res.redirect('/products/id/' + _id);
+    });
 }
 
 module.exports.showProduct = async(req, res, next) => {
@@ -77,11 +191,6 @@ module.exports.infoUpdate = async(req, res, next) => {
 
     //console.log(productUpdate);
     res.redirect('/products/id/' + productUpdate._id);
-}
-
-module.exports.imageUpdate = async(req, res, next) => {
-
-
 }
 
 module.exports.sizeUpdate = async(req, res, next) => {

@@ -25,3 +25,19 @@
     max-height: 240px;
     min-height: 240px;
 }
+
+.fillter-bar {
+    padding: 0;
+    padding-right: 0;
+}
+
+.fillter-bar-left {
+    padding-right: 0.75rem;
+    padding-left: 0;
+}
+
+.fillter-bar-right {
+    padding-right: 0;
+    padding-left: 0.75rem;
+}
+

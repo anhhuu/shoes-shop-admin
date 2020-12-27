@@ -1,8 +1,10 @@
 const { Schema } = require('mongoose');
 const productMongooseModel = require('./mongooseModels/productMongooseModel');
-const categoryModel = require('./categoryModel');
 const categoryMongooseModel = require('./mongooseModels/categoryMongooseModel');
-const brandMongooseModel = require('./brandModel');
+const brandMongooseModel = require('./mongooseModels/brandMongooseModel');
+
+const categoryModel = require('./categoryModel');
+
 const { mongooseToObject } = require("../../utils/mongooseToObject");
 
 module.exports.getByID = async(id) => {
@@ -56,6 +58,86 @@ module.exports.getList = async(page, limit) => {
     }
 }
 
+/*
+queryObj: {
+    query_field: string,
+    query_value: string,
+    brand_id: ObjectID',
+    price_currency: string,
+    price_range: string,
+    category_id: ObjectID,
+    page: number,
+    limit: number,
+}
+*/
+module.exports.fillterProducts = async(queryObj) => {
+    try {
+        if (!queryObj.page) {
+            queryObj.page = 1;
+        }
+
+        if (!queryObj.limit) {
+            queryObj.limit = 10;
+        }
+
+        let priceMin = 0;
+        let priceMax = 0;
+        if (queryObj.price_range == 'all' || !queryObj.price_range) {
+            priceMax = 100000000;
+        } else {
+            priceMin = +queryObj.price_range.split('-')[0];
+            priceMax = +queryObj.price_range.split('-')[1];
+        }
+
+        let brands = await brandMongooseModel.find().lean();
+        brands = brands.map(item => item._id);
+
+        let categories = await categoryMongooseModel.find().lean();
+        categories = categories.map(item => item._id);
+
+        let products = await productMongooseModel.find({
+                $and: [
+                    //{ $text: { $search: '././' } },
+                    {
+                        $and: [
+                            { name: queryObj.query_field == 'name' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                            { SKU: queryObj.query_field == 'SKU' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                            { color: queryObj.query_field == 'color' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                        ]
+                    },
+                    {
+                        $and: [{
+                                'price.price_value': {
+                                    $gt: priceMin
+                                }
+                            },
+                            {
+                                'price.price_value': {
+                                    $lt: priceMax
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        'price.price_currency': !queryObj.price_currency ? { '$regex': '.*.*' } : { '$regex': '.*' + queryObj.price_currency + '.*' }
+                    },
+                    {
+                        brand_id: !queryObj.brands_id ? { $in: brands } : { $in: queryObj.brands_id }
+                    },
+                    {
+                        category_id: !queryObj.categories_id ? { $in: categories } : { $in: queryObj.categories_id }
+                    }
+                ]
+            })
+            .skip(queryObj.limit * queryObj.page - queryObj.limit)
+            .limit(queryObj.limit)
+            .lean();
+
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
 
 module.exports.getProducts = async(req, res, next) => {
     const queryParams = req.query;
@@ -134,7 +216,7 @@ module.exports.getProducts = async(req, res, next) => {
             result.push("Search=" + Search + '&');
 
         //console.log(result[2])
-        console.log(result);
+        //console.log(result);
         return result;
     } catch (e) {
 
@@ -150,7 +232,7 @@ module.exports.save = async(productObject) => {
             price: productObject.price,
             flash_sell: productObject.flash_sell,
             discount: productObject.discount,
-            images_detail_url: productObject.img_detail_url,
+            images_detail_url: productObject.images_detail_url,
             image_show_url: productObject.image_show_url,
             product_detail: productObject.product_detail,
             color: productObject.color,
@@ -160,6 +242,7 @@ module.exports.save = async(productObject) => {
         })
 
         await product.save();
+        return product._id;
 
     } catch (error) {
         throw error;
