@@ -1,7 +1,7 @@
 <div class="container mt-4">
-    <h1 class="mt-4">Product</h1>
+    <h1 class="mt-4">Sản phẩm</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard/Product</li>
+        <li class="breadcrumb-item active">Trang chủ/Sản phẩm/<%= product.name %></li>
     </ol>
 
     <!-- tab nav -->
@@ -32,11 +32,11 @@
                     <form method="POST" action="/products/id/<%= product._id %>/update/info">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="name">Name</label>
+                                <label for="name">Tên</label>
                                 <input type="text" class="form-control" name="name" value="<%= product.name %>">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="discount">Discount</label>
+                                <label for="discount">Khuyến mãi (%)</label>
                                 <input type="text" class="form-control" name="discount" value="<%= product.discount %>">
                             </div>
                             <div class="form-group col-md-3">
@@ -47,12 +47,12 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-3">
-                                <label for="price">Price</label>
+                                <label for="price">Giá</label>
                                 <input type="text" class="form-control" name="price"
                                     value="<%= product.price.price_value %>">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="unit">Unit</label>
+                                <label for="unit">Đơn vị tiền</label>
                                 <select class="custom-select" name="unit">
                                     <option value="VND" <% if(product.price.unit == 'VND') { %> selected <% } %>>VND
                                     </option>
@@ -62,22 +62,22 @@
                             </div>
 
                             <div class="form-group col-md-3">
-                                <label for="color">Color</label>
+                                <label for="color">Màu sắc</label>
                                 <input type="text" class="form-control" name="color" value="<%= product.color %>">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="SKU">SKU</label>
+                                <label for="SKU">Mã SKU</label>
                                 <input type="text" class="form-control" name="SKU" value="<%= product.SKU %>">
                             </div>
 
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="brand">Brand</label>
+                                <label for="brand">Thương hiệu</label>
                                 <input type="text" class="form-control" name="brand" value="<%= brand.name %>" disabled>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="category">Category</label>
+                                <label for="category">Danh mục</label>
                                 <select class="custom-select" name="category_id">
                                     <option value="<%= category._id %>" selected><%= category.name %>
                                     </option>
@@ -91,7 +91,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
-                                <label for="description">Description</label>
+                                <label for="description">Miêu tả</label>
                                 <textarea class="form-control" name="description"
                                     rows="4"><%= product.description %></textarea>
                             </div>

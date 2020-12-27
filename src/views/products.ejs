@@ -1,207 +1,184 @@
 <div class="container-fluid">
-    <h1 class="mt-4">Products</h1>
+    <h1 class="mt-4">Tất cả sản phẩm</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Dashboard/Products</li>
+        <li class="breadcrumb-item active">Trang chủ/Tất cả sản phẩm</li>
     </ol>
 
     <div class="card mb-4">
         <div class="card-header">
-            <i class="fas fa-table mr-1"></i> Products
+            <i class="fas fa-table mr-1"></i>Tất cả sản phẩm
         </div>
         <div class="card-body">
-            <button type="button" data-toggle="modal" data-target="#newProduct" class="btn btn-success"
-                style="margin-bottom: 10px;">New Products
-            </button>
-            <div class="dropdown text-justify">
-                <button class="btn dropdown-toggle btn-success" type="button" data-toggle="dropdown">Choose Category
-                    <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="?category=Adidas&">Adidas</a></li>
-                    <li><a href="?category=Nike&">Nike</a></li>
-                    <li><a href="?category=Reebok&">Reebok</a></li>
-                    <li><a href="?category=Converse&">Converse</a></li>
-                    <li><a href="?category=Puma&">Puma</a></li>
-                    <li><a href="?category=Vans&">Vans</a></li>
-                </ul>
+            <form action="/products/test">
+                <div class="row">
+                    <div class="col-md-2 fillter-bar-right">
+                        <select name="query_field" class="form-control">
+                            <option value="name">Tên sản phẩm</option>
+                            <option value="SKU" <% if(query.query_field && query.query_field === 'SKU') { %>
+                                <%= 'selected' %> <% } %>>SKU sản phẩm</option>
+                            <option value="color" <% if(query.query_field && query.query_field === 'color') { %>
+                                <%= 'selected' %> <% } %>>Màu sắc</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 fillter-bar-left">
+                        <input name="query_value" class="form-control" <% if(query.query_value) { %>
+                            <%= 'value=' + query.query_value %> <% } %> type="text" placeholder="Nhập từ khoá">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Thương hiệu</span>
+                            </div>
+                            <button type="button" class="btn btn-outline border form-control" data-toggle="dropdown">
+                                <div class="row">
+                                    <div class="col-md-10" id="brandText">Tất cả</div>
+                                    <div class="col-md-2">
+                                        <div class="float-right dropdown-toggle"></div>
+                                    </div>
+                                </div>
+                            </button>
+                            <ul class="dropdown-menu col-md-6" id="brandDropdown">
+                                <% for(let i = 0; i < brands.length; i++) { %>
+                                <li><a href="#" class="dropdown-item" tabIndex="-1"><input type="checkbox"
+                                            name="brands_id" value="<%= brands[i]._id %>"
+                                            <% if(query.brands_id && query.brands_id.indexOf(String(brands[i]._id)) > -1) { %>
+                                            <%= 'checked' %> <% } %> />&nbsp;<%= brands[i].name %>
+                                    </a></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row mt-4">
+                    <div class="col-md-1 fillter-bar-right">
+                        <select id="priceUnit" name="price_currency" class="form-control form-control-sm">
+                            <option id="vndUnitOption" value="VND"
+                                <% if(query.price_currency && query.price_currency === 'VND') { %> <%= 'selected' %>
+                                <% } %>>VND</option>
+                            <option id="usdUnitOption" value="USD"
+                                <% if(query.price_currency && query.price_currency === 'USD') { %> <%= 'selected' %>
+                                <% } %>>USD</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3 fillter-bar-left">
+                        <select id="vndUnitRange" name="price_range" class="form-control form-control-sm"
+                            <% if(query.price_currency && query.price_currency === 'USD') { %> <%= 'hidden disabled' %>
+                            <% } %>>
+                            <option value="all" <% if(query.price_range && query.price_range === 'all') { %>
+                                <%= 'selected' %> <% } %>>Tất cả</option>
+                            <option value="0-1000000" <% if(query.price_range && query.price_range === '0-1000000') { %>
+                                <%= 'selected' %> <% } %>>Giá dưới 1.000.000đ</option>
+                            <option value="1000000-2000000"
+                                <% if(query.price_range && query.price_range === '1000000-2000000') { %>
+                                <%= 'selected' %> <% } %>>1.000.000đ - 2.000.000đ</option>
+                            <option value="2000000-3000000"
+                                <% if(query.price_range && query.price_range === '2000000-3000000') { %>
+                                <%= 'selected' %> <% } %>>2.000.000đ - 3.000.000đ</option>
+                            <option value="3000000-5000000"
+                                <% if(query.price_range && query.price_range === '3000000-5000000') { %>
+                                <%= 'selected' %> <% } %>>3.000.000đ - 5.000.000đ</option>
+                            <option value="5000000-10000000"
+                                <% if(query.price_range && query.price_range === '5000000-10000000') { %>
+                                <%= 'selected' %> <% } %>>
+                                5.000.000đ - 10.000.000đ</option>
+                            <option value="10000000-100000000">
+                                <% if(query.price_range && query.price_range === '10000000-100000000') { %>
+                                <%= 'selected' %> <% } %>Giá trên 10.000.000đ</option>
+                        </select>
+
+                        <select id="usdUnitRange" name="price_range" class="form-control form-control-sm"
+                            <% if(!query.price_currency || query.price_currency && query.price_currency === 'VND') { %>
+                            <%= 'hidden disabled' %> <% } %>>
+                            <option value="all" <% if(query.price_range && query.price_range === 'all') { %>
+                                <%= 'selected' %> <% } %>>Tất cả</option>
+                            <option value="0-50" <% if(query.price_range && query.price_range === '0-50') { %>
+                                <%= 'selected' %> <% } %>>Giá dưới 50$</option>
+                            <option value="50-100" <% if(query.price_range && query.price_range === '50-100') { %>
+                                <%= 'selected' %> <% } %>>50$ - 100$</option>
+                            <option value="100-200" <% if(query.price_range && query.price_range === '100-200') { %>
+                                <%= 'selected' %> <% } %>>100$ - 200$</option>
+                            <option value="200-300" <% if(query.price_range && query.price_range === '200-300') { %>
+                                <%= 'selected' %> <% } %>>200$ - 300$</option>
+                            <option value="300-500" <% if(query.price_range && query.price_range === '300-500') { %>
+                                <%= 'selected' %> <% } %>>300$ - 500$</option>
+                            <option value="500-5000" <% if(query.price_range && query.price_range === '500-500') { %>
+                                <%= 'selected' %> <% } %>>Giá trên 500$</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-group input-group-sm mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Danh mục</span>
+                            </div>
+                            <button type="button" class="btn btn-outline border form-control" data-toggle="dropdown">
+                                <div class="row">
+                                    <div class="col-md-10" id="categoryText">Tất cả</div>
+                                    <div class="col-md-2">
+                                        <div class="float-right dropdown-toggle"></div>
+                                    </div>
+                                </div>
+                            </button>
+                            <ul class="dropdown-menu col-md-6" id="categoryDropdown">
+                                <% for(let i = 0; i < categories.length; i++) { %>
+                                <li><a href="#" class="dropdown-item" tabIndex="-1"><input type="checkbox"
+                                            name="categories_id" value="<%= categories[i]._id %>"
+                                            <% if(query.categories_id && query.categories_id.indexOf(String(categories[i]._id)) > -1) { %>
+                                            <%= 'checked' %> <% } %> />
+                                        &nbsp;<%= categories[i].name %>
+                                    </a></li>
+                                <% } %>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-dark btn-sm" style="width: 100%;">Tìm kiếm</button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="row mt-4 float-right fillter-bar-left">
+                <div class="float-right">
+                    <a class="btn btn-success" href="/products/create" style="margin-bottom: 10px;"><i
+                            class=" fas fa-plus"></i>&emsp;Thêm 1 sản
+                        phẩm mới</a>
+
+                </div>
             </div>
+
             <div class="table-responsive">
-                <div class="mt-4">
+                <div class="mt-4" hidden>
                     <input type="text" name="search" id="search">
                 </div>
-                <table class="mt-4 table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Brand</th>
-                            <th>Price</th>
-                            <th>Color</th>
-                            <th>Images</th>
-                            <th>Custom</th>
-                        </tr>
-                    </thead>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Category</th>
-                            <th>Brand</th>
-                            <th>Price</th>
-                            <th>Color</th>
-                            <th>Images</th>
-                            <th>Custom</th>
-                        </tr>
-                    </tfoot>
-                    <tbody>
-                        <% for(let i = 0; i < products[0].length; i++) { %>
-                        <tr>
-                            <td>
-                                <%= products[0][i].id %>
-                            </td>
-                            <td>
-                                <a href="products/id/<%= products[0][i].id %>">
-                                    <%= products[0][i].name %>
-                                </a>
 
-                            </td>
-                            <td>
-                                <%= products[0][i].category %>
-                            </td>
-                            <td>
-                                <%= products[0][i].brand %>
-                            </td>
-                            <td>
-                                <%= products[0][i].price %>
-                            </td>
-                            <td>
-                                <%= products[0][i].color %>
-                            </td>
-                            <td>
-                                <a href=" <%= products[0][i].imageURL %>" target="_blank">Image</a>
-                            </td>
-                            <td>
-                                <a href="#editProduct<%= i %>" data-toggle="modal" data-target="#editProduct<%= i %>"
-                                    class=" twitter">
-                                    <div <i class="fas fa-edit"></i></div>
-                                </a>
-                            </td>
-                        </tr>
-                        <% } %>
-                    </tbody>
-                </table>
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item">
-                            <a class="page-link" href="?page=1&<%=products[3]%><%=products[2]%> ">&laquo;</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link"
-                                href="?page=<%=products[1].page-1%>&<%=products[3]%><%=products[2]%>">&lt;</a>
-                        </li>
 
-                        <% for (var i = products[1].page < products[1].pages?products[1].page - 2:products[1].page - 3;i <= products[1].page + 2;i++){ %>
-                        <% if (i < 1) { %>
-                        <% continue;} %>
-                        <% if (i > products[1].pages) { %>
-                        <% continue;} %>
-                        <%if (i==products[1].page) {%>
-                        <li class="page-item active"><a class="page-link"
-                                href=" ?page=<%=i%>&<%=products[3]%><%=products[2]%>"><%=i%></a></li>
-                        <%}else {%>
-                        <li class="page-item"><a class="page-link"
-                                href="?page=<%=i%>&<%=products[3]%><%=products[2]%>"><%= i %></a></li>
-                        <%}%>
-                        <% } %>
-                        <li class="page-item ">
-                            <a class="page-link"
-                                href="?page=<%=products[1].page+1%>&<%=products[3]%><%=products[2]%> ">&gt;</a>
-                        </li>
-                        <li class="page-item">
-                            <a class="page-link"
-                                href="?page=<%=products[1].pages%>&<%=products[3]%><%=products[2]%> ">&raquo;</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
     </div>
 </div>
 
+<script src="/js/productScript.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#priceUnit').on('change', function () {
+            if ($('#vndUnitOption').is(':selected')) {
+                $('#vndUnitRange').attr("hidden", false);
+                $('#vndUnitRange').attr("disabled", false);
+                $('#usdUnitRange').attr("hidden", true);
+                $('#usdUnitRange').attr("disabled", true);
+            } else {
+                $('#vndUnitRange').attr("hidden", true);
+                $('#vndUnitRange').attr("disabled", true);
+                $('#usdUnitRange').attr("hidden", false);
+                $('#usdUnitRange').attr("disabled", false);
+            }
+        })
+    })
+</script>
 
-<div class="modal fade" id="newProduct" tabindex="-1" role="dialog" aria-labelledby="newProductModalLable"
-    aria-hidden="true ">
-    <div class="modal-dialog modal-xl " role="document ">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="newProductModalLable">New Products</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close ">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form method="POST" action="/products/save" novalidate>
-                    <div class="form-row">
-                        <div class="col-md-6 mb-3">
-                            <label for="name">Name</label>
-                            <input type="text " class="form-control" id="name" name="name" value="" required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="category">Category</label>
-                            <select class="custom-select" id="category" name="category" required>
-                                <option selected disabled value=" ">Choose...</option>
-                                <option>Adidas</option>
-                                <option>Nike</option>
-                                <option>Reebok</option>
-                                <option>Converse</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="brand">Brand</label>
-                            <select class="custom-select" id="brand" name="brand" required>
-                                <option selected disabled value=" ">Choose...</option>
-                                <option>Adidas</option>
-                                <option>Nike</option>
-                                <option>Reebok</option>
-                                <option>
-                                    <Con></Con>verse
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-3 mb-3">
-                            <label for="price">Price</label>
-                            <input type="text" class="form-control" id="price" name="price" value=" " required>
-                        </div>
-                        <div class="col-md-3 mb-3">
-                            <label for="status">Status</label>
-                            <select class="custom-select" id="status" name="status" required>
-                                <option selected disabled value=" ">Choose...</option>
-                                <option>Còn hàng</option>
-                                <option>Hết hàng</option>
-                            </select>
-                            <div class="invalid-tooltip">
-                                Please select a valid state.
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label for="color">Color</label>
-                            <input type="text" class="form-control" id="color" name="color" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-md-12 mb-3">
-                            <label for="description"></label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Submit</button>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button " class="btn btn-secondary" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    $(document).ready(function () {
+        dropdownCheckboxScript("brandDropdown", "brandText");
+        dropdownCheckboxScript("categoryDropdown", "categoryText");
+    })
+</script>
