@@ -1,0 +1,179 @@
+<div class="container mt-4">
+    <h1 class="mt-4">Thêm mới 1 sản phẩm</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Trang chủ/Tạo mới</li>
+    </ol>
+    <form method="POST" id="newProductForm" action="/products/create" enctype="multipart/form-data">
+        <div class="card mt-4">
+            <h5 class="card-header">Thông tin cơ bản</h5>
+            <div class="card-body">
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name">Tên</label>
+                        <input type="text" class="form-control" name="name" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="discount">Khuyến mãi (%)</label>
+                        <input type="text" class="form-control" name="discount" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="category">Danh mục</label>
+                        <select class="custom-select" name="category_id">
+                            <% for(let i = 0; i < categories.length; i++) { %>
+                            <option value="<%= categories[i]._id %>"><%= categories[i].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="price_value">Giá</label>
+                        <input type="text" class="form-control" name="price_value" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="unit">Đơn vị tiền</label>
+                        <select class="custom-select" name="unit">
+                            <option value="VND">VND
+                            </option>
+                            <option value="USD">USD
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="color">Màu sắc</label>
+                        <input type="text" class="form-control" name="color" value="">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="SKU">Mã SKU</label>
+                        <input type="text" class="form-control" name="SKU" value="">
+                    </div>
+
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <label for="description">Miêu tả</label>
+                        <textarea class="form-control" name="description" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <h5 class="card-header">Thương hiệu, size</h5>
+            <div class="card-body">
+                <div class="row d-flex justify-content-center">
+                    <div class="form-group col-md-10">
+                        <label for="category">Thương hiệu</label>
+                        <select class="custom-select" id=brand_id name="brand_id">
+                            <option value="<%= brands[0]._id %>" selected><%= brands[0].name %></option>
+                            <% for(let i = 1; i < brands.length; i++) { %>
+                            <option value="<%= brands[i]._id %>"><%= brands[i].name %></option>
+                            <% } %>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-4 d-flex justify-content-center">
+                    <div class="form-group col-md-10">
+                        <label for="category">Size (Click chọn size để điền số lượng tương ứng, số lượng mặc định là
+                            0)</label>
+                    </div>
+                </div>
+                <%- include('./ajaxPartials/sizesShowOnCreateProduct') %>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <h5 class="card-header">Hình ảnh</h5>
+            <div class="card-body">
+                <label for="image_show">Ảnh bìa sản phẩm</label>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="main-img-preview">
+                            <img class="img-thumbnail img-preview" id="img-show-preview"
+                                src="/img/default-thumbnail.jpg" title="Image detail">
+                        </div>
+                        <div class="input-group">
+                            <input id="img-show-preview-title" class="form-control" placeholder="Choose File"
+                                disabled="disabled">
+                            <div class="input-group-btn">
+                                <div class="fileUpload btn btn-light">
+                                    <span><i class="fa fa-plus" aria-hidden="true"></i></i></span>
+                                    <input class="image-upload" id="img-show" name="img" type="file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="img_show_name" name="img_show_name" type="text" hidden>
+                </div>
+                <label class="mt-4" for="image_detail">Ảnh miêu tả sản phẩm</label>
+                <div class="row">
+                    <% for(let i = 0; i < 4; i++) { %>
+                    <div class="col-md-3">
+                        <div class="main-img-preview">
+                            <img class="img-thumbnail img-preview " id="img-detail-preview<%= i+1 %>"
+                                src="/img/default-thumbnail.jpg" title="Image detail">
+                        </div>
+                        <div class="input-group">
+                            <input id="img-detail-preview-title" class="form-control" placeholder="Choose File"
+                                disabled="disabled">
+                            <div class="input-group-btn">
+                                <div class="fileUpload btn btn-light">
+                                    <span><i class="fa fa-plus" aria-hidden="true"></i></i></span>
+                                    <input class="image-upload" id="img-detail<%= i+1 %>" name="img" type="file">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4 col-md-3" style="padding-bottom: 1.75rem;">
+            <button type="submit" form="newProductForm" class="btn btn-success"><i class="fas fa-plus"></i> &emsp;Thêm
+                sản phẩm</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="/js/productScript.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#img-show').on('change', function () {
+            console.log(this.value.substring(12));
+            $('#img_show_name').val(this.value.substring(12));
+        })
+    })
+</script>
+
+<script>
+    $(document).ready(function () {
+        loadFrontendImage('img-show', 'img-show-preview-title', 'img-show-preview', 'btnUpdateImageShow');
+        for (let i = 0; i < 4; i++) {
+            loadFrontendImage('img-detail' + String(i + 1), 'img-detail-preview-title' + String(i + 1),
+                'img-detail-preview' + String(i + 1),
+                'btnUpdateImageDetail' + String(i + 1));
+        }
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#brand_id').on('change', function () {
+            $.ajax({
+                type: 'GET',
+                url: '/api/sizes',
+                data: {
+                    brand_id: this.value
+                },
+                success: function (result) {
+                    console.log(result);
+                    $('#sizes').html(result);
+                }
+            });
+        })
+    });
+</script>
