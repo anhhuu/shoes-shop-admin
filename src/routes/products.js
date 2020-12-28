@@ -4,7 +4,6 @@ const router = express.Router();
 const productsController = require('../app/controllers/productController')
 
 router.get('/', productsController.index);
-router.get('/test', productsController.indexTest);
 
 router.get('/create', productsController.getCreatePage);
 router.post('/create', productsController.create);

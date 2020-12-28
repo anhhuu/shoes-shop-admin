@@ -1,0 +1,87 @@
+<div id="productsTableShow">
+    <div class="table-responsive">
+        <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Danh mục</th>
+                    <th>Brand</th>
+                    <th>Giá</th>
+                    <th>Màu sắc</th>
+                    <th>Ảnh bìa</th>
+                    <th>Sửa</th>
+                </tr>
+            </thead>
+            <tfoot hidden>
+                <tr>
+                    <th>ID</th>
+                    <th>Tên</th>
+                    <th>Danh mục</th>
+                    <th>Brand</th>
+                    <th>Giá</th>
+                    <th>Màu sắc</th>
+                    <th>Ảnh bìa</th>
+                    <th>Sửa</th>
+                </tr>
+            </tfoot>
+            <tbody>
+                <% for(let i = 0; i < products.length; i++) { %>
+                <tr>
+                    <td>
+                        <%= products[i]._id %>
+                    </td>
+                    <td>
+                        <a href="products/id/<%= products[i]._id %>">
+                            <%= products[i].name %>
+                        </a>
+
+                    </td>
+                    <td>
+                        <%= categories[categories.findIndex(item => String(item._id) == String(products[i].category_id))].name %>
+                    </td>
+                    <td>
+                        <%= brands[brands.findIndex(item => String(item._id) == String(products[i].brand_id))].name %>
+                    </td>
+                    <td>
+                        <%= products[i].price.string_price %>
+                    </td>
+                    <td>
+                        <%= products[i].color %>
+                    </td>
+                    <td>
+                        <a href="<%= products[i].image_show_url %>" target="_blank">Image</a>
+                    </td>
+                    <td>
+                        <a href="products/id/<%= products[i]._id %>">
+                            <div <i class="fas fa-edit"></i></div>
+                        </a>
+                    </td>
+                </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <div class="row d-flex justify-content-center">
+            <% if(parseInt(count / 10) > 1) { %>
+            <input type="text" id="numberOfPage" value="<%= parseInt(count / 10) %>" hidden disabled>
+            <nav aria-label=" ...">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button type="button" id="pageStart" class="page-link">&laquo;</button>
+                    </li>
+                    <% for(let i = 1; i <= count / 10; i++) { %>
+                    <li class="page-item
+                <% if(query.page && +query.page === i) { %> <%= 'active' %> <% } %> ">
+                        <button type="button" class="page-link"><%= i %></button>
+                    </li>
+                    <% } %>
+                    <li class="page-item">
+                        <button type="button" id="pageEnd" class="page-link">&raquo;</button>
+                    </li>
+                </ul>
+            </nav>
+            <% } %>
+        </div>
+    </div>
+
+</div>

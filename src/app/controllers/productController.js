@@ -13,22 +13,10 @@ module.exports.index = async(req, res, next) => {
     const categories = await categoryModel.getAll();
 
     let query = req.query;
+    let fillterProductsData = await productModel.fillterProducts(query);
 
     // Pass data to view to display list of products
-    res.render('products', { brands: brands, categories: categories, query: query });
-};
-
-
-module.exports.indexTest = async(req, res, next) => {
-    const brands = await brandModel.getAll();
-    const categories = await categoryModel.getAll();
-
-    let query = req.query;
-    let products = await productModel.fillterProducts(query);
-    //console.log(products);
-
-    res.send(products);
-    //res.render('products', { products: products, brands: brands, categories: categories });
+    res.render('products', { products: fillterProductsData.products, brands: brands, categories: categories, query: query, count: fillterProductsData.count });
 };
 
 module.exports.getCreatePage = async(req, res, next) => {

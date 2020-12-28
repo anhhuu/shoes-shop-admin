@@ -170,8 +170,7 @@
                     brand_id: this.value
                 },
                 success: function (result) {
-                    console.log(result);
-                    $('#sizes').html(result);
+                    $('#sizes').replaceWith(result);
                 }
             });
         })

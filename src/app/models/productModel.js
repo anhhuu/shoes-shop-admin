@@ -95,45 +95,48 @@ module.exports.fillterProducts = async(queryObj) => {
         let categories = await categoryMongooseModel.find().lean();
         categories = categories.map(item => item._id);
 
-        let products = await productMongooseModel.find({
-                $and: [
-                    //{ $text: { $search: '././' } },
-                    {
-                        $and: [
-                            { name: queryObj.query_field == 'name' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
-                            { SKU: queryObj.query_field == 'SKU' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
-                            { color: queryObj.query_field == 'color' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
-                        ]
-                    },
-                    {
-                        $and: [{
-                                'price.price_value': {
-                                    $gt: priceMin
-                                }
-                            },
-                            {
-                                'price.price_value': {
-                                    $lt: priceMax
-                                }
+        const mongooseQuery = {
+            $and: [
+                //{ $text: { $search: '././' } },
+                {
+                    $and: [
+                        { name: queryObj.query_field == 'name' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                        { SKU: queryObj.query_field == 'SKU' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                        { color: queryObj.query_field == 'color' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                    ]
+                },
+                {
+                    $and: [{
+                            'price.price_value': {
+                                $gt: priceMin
                             }
-                        ]
-                    },
-                    {
-                        'price.price_currency': !queryObj.price_currency ? { '$regex': '.*.*' } : { '$regex': '.*' + queryObj.price_currency + '.*' }
-                    },
-                    {
-                        brand_id: !queryObj.brands_id ? { $in: brands } : { $in: queryObj.brands_id }
-                    },
-                    {
-                        category_id: !queryObj.categories_id ? { $in: categories } : { $in: queryObj.categories_id }
-                    }
-                ]
-            })
-            .skip(queryObj.limit * queryObj.page - queryObj.limit)
-            .limit(queryObj.limit)
-            .lean();
+                        },
+                        {
+                            'price.price_value': {
+                                $lt: priceMax
+                            }
+                        }
+                    ]
+                },
+                {
+                    'price.price_currency': !queryObj.price_currency ? { '$regex': '.*.*' } : { '$regex': '.*' + queryObj.price_currency + '.*' }
+                },
+                {
+                    brand_id: !queryObj.brands_id ? { $in: brands } : { $in: queryObj.brands_id }
+                },
+                {
+                    category_id: !queryObj.categories_id ? { $in: categories } : { $in: queryObj.categories_id }
+                }
+            ]
+        };
 
-        return products;
+        let count = await productMongooseModel.find(mongooseQuery).countDocuments();
+        let products = await productMongooseModel.find(mongooseQuery).skip(queryObj.limit * queryObj.page - queryObj.limit).limit(queryObj.limit).lean();
+
+        return {
+            products,
+            count
+        }
     } catch (error) {
         throw error;
     }
