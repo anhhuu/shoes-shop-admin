@@ -1,12 +1,8 @@
-const categoryMongooseModel = require('./mongooseModels/categoryMongooseModel');
-const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongooseToObject')
+const categoryMongooseModel = require('../mongooseModels/categoryMongooseModel');
 
 module.exports.getAll = async(id) => {
     try {
-        let categories = await categoryMongooseModel.find();
-        if (categories) {
-            categories = multipleMongooseToObject(categories);
-        }
+        let categories = await categoryMongooseModel.find().lean();
 
         return categories;
     } catch (error) {
@@ -16,10 +12,7 @@ module.exports.getAll = async(id) => {
 
 module.exports.getByID = async(id) => {
     try {
-        let category = await categoryMongooseModel.findOne({ _id: id });
-        if (category) {
-            category = mongooseToObject(category);
-        }
+        let category = await categoryMongooseModel.findOne({ _id: id }).lean();
 
         return category;
     } catch (error) {
@@ -29,10 +22,7 @@ module.exports.getByID = async(id) => {
 
 module.exports.getByName = async(name) => {
     try {
-        let category = await categoryMongooseModel.findOne({ name: name });
-        if (category) {
-            category = mongooseToObject(category);
-        }
+        let category = await categoryMongooseModel.findOne({ name: name }).lean();
 
         return category;
     } catch (error) {

@@ -1,12 +1,8 @@
-const brandMongooseModel = require('./mongooseModels/brandMongooseModel');
-const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongooseToObject')
+const brandMongooseModel = require('../mongooseModels/brandMongooseModel');
 
 module.exports.getByID = async(id) => {
     try {
-        let brand = await brandMongooseModel.findOne({ _id: id });
-        if (brand) {
-            brand = mongooseToObject(brand);
-        }
+        let brand = await brandMongooseModel.findOne({ _id: id }).lean();
 
         return brand;
     } catch (error) {
@@ -16,10 +12,7 @@ module.exports.getByID = async(id) => {
 
 module.exports.getAll = async(id) => {
     try {
-        let brands = await brandMongooseModel.find();
-        if (brands) {
-            brands = multipleMongooseToObject(brands);
-        }
+        let brands = await brandMongooseModel.find().lean();
 
         return brands;
     } catch (error) {
@@ -29,10 +22,7 @@ module.exports.getAll = async(id) => {
 
 module.exports.getByName = async(name) => {
     try {
-        let brand = await brandMongooseModel.findOne({ name: name });
-        if (brand) {
-            brand = mongooseToObject(brand);
-        }
+        let brand = await brandMongooseModel.findOne({ name: name }).lean();
 
         return brand;
     } catch (error) {

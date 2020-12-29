@@ -8,15 +8,15 @@ router.get('/', productsController.index);
 router.get('/create', productsController.getCreatePage);
 router.post('/create', productsController.create);
 
-router.get('/id/:id', productsController.showProduct);
+router.get('/id/:id', productsController.editProduct);
 
-router.post('/id/:id/create/size', productsController.sizeCreate);
-router.patch('/id/:id/update/size', productsController.sizeUpdate);
-router.delete('/id/:id/delete/size', productsController.sizeDelete);
+router.post('/id/:id/create/size', productsController.createSize);
+router.patch('/id/:id/update/size', productsController.updateSize);
+router.delete('/id/:id/delete/size', productsController.deleteSize);
 
-router.post('/id/:id/create/image', productsController.imageCreate);
-router.delete('/id/:id/delete/image', productsController.imageDelete);
+router.post('/id/:id/create/image', productsController.createImage);
+router.delete('/id/:id/delete/image', productsController.deleteImage);
 
-router.patch('/id/:id/update/info', productsController.infoUpdate)
+router.patch('/id/:id/update/info', productsController.updateBasicInfo)
 
 module.exports = router;

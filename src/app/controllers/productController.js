@@ -1,7 +1,7 @@
-const productModel = require('../models/productModel');
-const categoryModel = require('../models/categoryModel');
-const brandModel = require('../models/brandModel');
-const sizeModel = require('../models/sizeModel');
+const productService = require('../models/services/productService');
+const categoryService = require('../models/services/categoryService');
+const brandService = require('../models/services/brandService');
+const sizeService = require('../models/services/sizeService');
 
 const multerImageUpload = require('../../config/multer');
 
@@ -9,22 +9,22 @@ const { ObjectID } = require('mongodb');
 
 module.exports.index = async(req, res, next) => {
     // Get products from model
-    const brands = await brandModel.getAll();
-    const categories = await categoryModel.getAll();
+    const brands = await brandService.getAll();
+    const categories = await categoryService.getAll();
 
     let query = req.query;
-    let fillterProductsData = await productModel.fillterProducts(query);
+    let fillterProductsData = await productService.fillterProducts(query);
 
     // Pass data to view to display list of products
-    res.render('products', { products: fillterProductsData.products, brands: brands, categories: categories, query: query, count: fillterProductsData.count });
+    res.render('products/productsShow', { products: fillterProductsData.products, brands: brands, categories: categories, query: query, count: fillterProductsData.count });
 };
 
 module.exports.getCreatePage = async(req, res, next) => {
-    let categories = await categoryModel.getAll();
-    let brands = await brandModel.getAll();
+    let categories = await categoryService.getAll();
+    let brands = await brandService.getAll();
 
-    let sizes = await sizeModel.getListByBrandID(brands[0]._id);
-    res.render('createProduct', { categories: categories, brands: brands, sizes: sizes });
+    let sizes = await sizeService.getListByBrandID(brands[0]._id);
+    res.render('products/productCreate', { categories: categories, brands: brands, sizes: sizes });
 };
 
 module.exports.create = async(req, res, next) => {
@@ -109,14 +109,14 @@ module.exports.create = async(req, res, next) => {
         product_url = product_url.toLowerCase();
 
         let i = 1;
-        while (await productModel.getByURL(product_url)) {
+        while (await productService.getByURL(product_url)) {
             product_url = product_url + '-' + String(i);
             i++;
         }
 
         product.product_url = product_url;
 
-        const _id = await productModel.save(product);
+        const _id = await productService.save(product);
 
         console.log(images_detail_url);
 
@@ -125,25 +125,25 @@ module.exports.create = async(req, res, next) => {
     });
 }
 
-module.exports.showProduct = async(req, res, next) => {
-    let product = await productModel.getByID(req.params.id);
-    let category = await categoryModel.getByID(product.category_id)
-    let brand = await brandModel.getByID(product.brand_id)
-    let categories = await categoryModel.getAll();
+module.exports.editProduct = async(req, res, next) => {
+    let product = await productService.getByID(req.params.id);
+    let category = await categoryService.getByID(product.category_id)
+    let brand = await brandService.getByID(product.brand_id)
+    let categories = await categoryService.getAll();
 
     let sizes = Array();
     for (let i = 0; i < product.product_detail.length; i++) {
-        let size = await sizeModel.getByID(product.product_detail[i].size_id);
+        let size = await sizeService.getByID(product.product_detail[i].size_id);
         size.remaining_amount = product.product_detail[i].remaining_amount;
         size.amount = product.product_detail[i].amount;
 
         sizes.push(size);
     }
 
-    let sizesExpected = await sizeModel.getListByBrandID(product.brand_id);
+    let sizesExpected = await sizeService.getListByBrandID(product.brand_id);
     sizesExpected = sizesExpected.filter(item => !sizes.some(other => item.VN_size == other.VN_size));
 
-    res.render('product', {
+    res.render('products/productEdit', {
         product: product,
         category: category,
         categories: categories,
@@ -153,9 +153,9 @@ module.exports.showProduct = async(req, res, next) => {
     });
 }
 
-module.exports.infoUpdate = async(req, res, next) => {
+module.exports.updateBasicInfo = async(req, res, next) => {
     let bodyObject = req.body;
-    let productUpdate = await productModel.getByID(req.body.id);
+    let productUpdate = await productService.getByID(req.body.id);
 
     let price = new Object();
     price.price_value = bodyObject.price;
@@ -175,15 +175,15 @@ module.exports.infoUpdate = async(req, res, next) => {
     productUpdate.SKU = bodyObject.SKU;
     productUpdate.description = bodyObject.description;
 
-    await productModel.updateBasicInfo(productUpdate);
+    await productService.updateBasicInfo(productUpdate);
 
     //console.log(productUpdate);
     res.redirect('/products/id/' + productUpdate._id);
 }
 
-module.exports.sizeUpdate = async(req, res, next) => {
+module.exports.updateSize = async(req, res, next) => {
     let bodyObject = req.body;
-    let productUpdate = await productModel.getByID(req.body.id);
+    let productUpdate = await productService.getByID(req.body.id);
 
     let product_detail = productUpdate.product_detail;
 
@@ -198,15 +198,15 @@ module.exports.sizeUpdate = async(req, res, next) => {
         }
     }
     productUpdate.product_detail = product_detail;
-    await productModel.updateProductDetail(productUpdate);
+    await productService.updateProductDetail(productUpdate);
 
     res.redirect('/products/id/' + req.params.id + '/#size');
 }
 
 //todo: add isDelete attribute
-module.exports.sizeDelete = async(req, res, next) => {
+module.exports.deleteSize = async(req, res, next) => {
     let bodyObject = req.body;
-    let productUpdate = await productModel.getByID(req.body.id);
+    let productUpdate = await productService.getByID(req.body.id);
 
     let product_detail = productUpdate.product_detail;
 
@@ -218,14 +218,14 @@ module.exports.sizeDelete = async(req, res, next) => {
         }
     }
     productUpdate.product_detail = product_detail;
-    await productModel.updateProductDetail(productUpdate);
+    await productService.updateProductDetail(productUpdate);
 
     res.redirect('/products/id/' + req.params.id + '/#size');
 }
 
-module.exports.sizeCreate = async(req, res, next) => {
+module.exports.createSize = async(req, res, next) => {
     let bodyObject = req.body;
-    let productUpdate = await productModel.getByID(req.body.id);
+    let productUpdate = await productService.getByID(req.body.id);
 
     let product_detail = productUpdate.product_detail;
 
@@ -238,14 +238,14 @@ module.exports.sizeCreate = async(req, res, next) => {
 
     productUpdate.product_detail = product_detail;
     console.log(newSize);
-    await productModel.updateProductDetail(productUpdate);
+    await productService.updateProductDetail(productUpdate);
 
     res.redirect('/products/id/' + req.params.id + '/#size');
 }
 
-module.exports.imageDelete = async(req, res, next) => {
+module.exports.deleteImage = async(req, res, next) => {
     let bodyObject = req.body;
-    let productUpdate = await productModel.getByID(req.body.id);
+    let productUpdate = await productService.getByID(req.body.id);
     if (bodyObject.is_image_show === 'true' && productUpdate.image_show_url) {
         delete productUpdate.image_show_url;
     } else {
@@ -258,11 +258,11 @@ module.exports.imageDelete = async(req, res, next) => {
             }
         }
     }
-    await productModel.updateProductImage(productUpdate);
+    await productService.updateProductImage(productUpdate);
     res.redirect('/products/id/' + req.params.id + '/#image');
 }
 
-module.exports.imageCreate = async(req, res, next) => {
+module.exports.createImage = async(req, res, next) => {
     multerImageUpload.single('img')(req, res, async(error) => {
         if (error) {
             next(error);
@@ -271,7 +271,7 @@ module.exports.imageCreate = async(req, res, next) => {
         }
 
         let bodyObject = req.body;
-        let productUpdate = await productModel.getByID(req.body.id);
+        let productUpdate = await productService.getByID(req.body.id);
 
         if (bodyObject.is_image_show === 'true') {
             productUpdate.image_show_url = req.file.path;
@@ -279,7 +279,7 @@ module.exports.imageCreate = async(req, res, next) => {
             productUpdate.images_detail_url.push(req.file.path);
         }
 
-        productModel.updateProductImage(productUpdate);
+        productService.updateProductImage(productUpdate);
         res.redirect('/products/id/' + req.params.id + '/#image');
     });
 }

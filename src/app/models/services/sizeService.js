@@ -1,14 +1,10 @@
 const { Schema } = require('mongoose');
 
-const sizeMongooseModel = require('./mongooseModels/sizeMongooseModel');
-const { mongooseToObject, multipleMongooseToObject } = require('../../utils/mongooseToObject')
+const sizeMongooseModel = require('../mongooseModels/sizeMongooseModel');
 
 module.exports.getByID = async(id) => {
     try {
-        let size = await sizeMongooseModel.findOne({ _id: id });
-        if (size) {
-            size = mongooseToObject(size);
-        }
+        let size = await sizeMongooseModel.findOne({ _id: id }).lean();
 
         return size;
     } catch (error) {
@@ -18,10 +14,7 @@ module.exports.getByID = async(id) => {
 
 module.exports.getListByBrandID = async(brandId) => {
     try {
-        let sizes = await sizeMongooseModel.find({ brand_id: brandId });
-        if (sizes.length) {
-            sizes = multipleMongooseToObject(sizes);
-        }
+        let sizes = await sizeMongooseModel.find({ brand_id: brandId }).lean();
 
         return sizes;
     } catch (error) {
@@ -31,10 +24,7 @@ module.exports.getListByBrandID = async(brandId) => {
 
 module.exports.getByVNSize = async(VNSize) => {
     try {
-        let size = await sizeMongooseModel.findOne({ VN_size: VNSize });
-        if (size) {
-            size = mongooseToObject(size);
-        }
+        let size = await sizeMongooseModel.findOne({ VN_size: VNSize }).lean();
 
         return size;
     } catch (error) {
@@ -44,10 +34,7 @@ module.exports.getByVNSize = async(VNSize) => {
 
 module.exports.getByVNSizeAndBrandID = async(VNSize, brand_id) => {
     try {
-        let size = await sizeMongooseModel.findOne({ VN_size: VNSize, brand_id: brand_id });
-        if (size) {
-            size = mongooseToObject(size);
-        }
+        let size = await sizeMongooseModel.findOne({ VN_size: VNSize, brand_id: brand_id }).lean();
 
         return size;
     } catch (error) {
