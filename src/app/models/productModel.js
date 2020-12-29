@@ -35,7 +35,6 @@ module.exports.getByURL = async(product_url) => {
     }
 }
 
-
 module.exports.getList = async(page, limit) => {
     try {
         if (!page) {
@@ -289,6 +288,15 @@ module.exports.updateProductImage = async(productObject) => {
             image_show_url: productObject.image_show_url,
             images_detail_url: productObject.images_detail_url
         });
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.getTotalProductByBrandID = async(brand_id) => {
+    try {
+        let count = productMongooseModel.find({ brand_id: brand_id }).count();
+        return count;
     } catch (error) {
         throw error;
     }

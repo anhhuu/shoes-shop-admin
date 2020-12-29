@@ -1,0 +1,67 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Tất cả thương hiệu</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Trang chủ/Tất cả thương hiệu</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>Tất cả thương hiệu
+        </div>
+        <div class="card-body">
+            <div class="row mt-4 float-right fillter-bar-left">
+                <div class="float-right">
+                    <a class="btn btn-success" href="/brands/create" style="margin-bottom: 10px;"><i
+                            class=" fas fa-plus"></i>&emsp;Thêm 1 thương hiệu mới</a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>URL Title</th>
+                            <th>Tổng sản phẩm</th>
+                            <th>Sửa</th>
+                        </tr>
+                    </thead>
+                    <tfoot hidden>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>URL Title</th>
+                            <th>Tổng sản phẩm</th>
+                            <th>Sửa</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <% for(let i = 0; i < brands.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= brands[i]._id %>
+                            </td>
+                            <td>
+                                <a href="brands/id/<%= brands[i]._id %>">
+                                    <%= brands[i].name %>
+                                </a>
+                            </td>
+                            <td>
+                                <%= brands[i].brand_url %>
+                            </td>
+                            <td>
+                                <%= brands[i].totalProduct %>
+                            </td>
+                            <td>
+                                <a href="brands/id/<%= brands[i]._id %>">
+                                    <div <i class="fas fa-edit"></i></div>
+                                </a>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
