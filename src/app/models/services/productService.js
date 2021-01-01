@@ -1,4 +1,6 @@
 const { Schema } = require('mongoose');
+const { ObjectID } = require('mongodb');
+
 const productMongooseModel = require('../mongooseModels/productMongooseModel');
 const categoryMongooseModel = require('../mongooseModels/categoryMongooseModel');
 const brandMongooseModel = require('../mongooseModels/brandMongooseModel');
@@ -55,7 +57,7 @@ queryObj: {
     limit: number,
 }
 */
-module.exports.fillterProducts = async(queryObj) => {
+module.exports.filterProducts = async(queryObj) => {
     try {
         if (!queryObj.page) {
             queryObj.page = 1;
@@ -202,4 +204,13 @@ module.exports.getTotalProductByBrandID = async(brand_id) => {
     } catch (error) {
         throw error;
     }
+}
+
+module.exports.getProductsBySizeID = async(sizeId) => {
+    let products = await productMongooseModel.aggregate(
+        [{
+            $match: { 'product_detail.size_id': ObjectID(sizeId) }
+        }]);
+
+    return products;
 }

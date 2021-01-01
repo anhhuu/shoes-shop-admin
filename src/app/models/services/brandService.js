@@ -10,7 +10,7 @@ module.exports.getByID = async(id) => {
     }
 }
 
-module.exports.getAll = async(id) => {
+module.exports.getAll = async() => {
     try {
         let brands = await brandMongooseModel.find().lean();
 
@@ -43,4 +43,16 @@ module.exports.save = async(brandObject) => {
     } catch (error) {
         throw error;
     }
+}
+
+module.exports.updateInfo = async(brandObject) => {
+    try {
+        let brand = await brandMongooseModel.findById(brandObject._id);
+        await brand.update({
+            name: brandObject.name
+        })
+    } catch (error) {
+        throw error;
+    }
+
 }

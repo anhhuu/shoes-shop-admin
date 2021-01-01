@@ -165,7 +165,7 @@
         $('#brand_id').on('change', function () {
             $.ajax({
                 type: 'GET',
-                url: '/api/sizes',
+                url: '/api/brands/sizes',
                 data: {
                     brand_id: this.value
                 },

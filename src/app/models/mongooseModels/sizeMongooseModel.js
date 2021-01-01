@@ -6,6 +6,7 @@ const Size = new Schema({
     US_size: { type: Number },
     VN_size: { type: Number },
     CM_size: { type: Number },
+    is_deleted: { type: Boolean },
     brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
 }, {
     timestamps: true,

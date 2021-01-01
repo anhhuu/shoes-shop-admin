@@ -13,10 +13,10 @@ module.exports.index = async(req, res, next) => {
     const categories = await categoryService.getAll();
 
     let query = req.query;
-    let fillterProductsData = await productService.fillterProducts(query);
+    let filterProductsData = await productService.filterProducts(query);
 
     // Pass data to view to display list of products
-    res.render('products/productsShow', { products: fillterProductsData.products, brands: brands, categories: categories, query: query, count: fillterProductsData.count });
+    res.render('products/productsShow', { products: filterProductsData.products, brands: brands, categories: categories, query: query, count: filterProductsData.count });
 };
 
 module.exports.getCreatePage = async(req, res, next) => {
@@ -24,6 +24,8 @@ module.exports.getCreatePage = async(req, res, next) => {
     let brands = await brandService.getAll();
 
     let sizes = await sizeService.getListByBrandID(brands[0]._id);
+    sizes = sizes.filter(item => (!item.is_deleted || item.is_deleted == false))
+
     res.render('products/productCreate', { categories: categories, brands: brands, sizes: sizes });
 };
 
@@ -133,15 +135,18 @@ module.exports.editProduct = async(req, res, next) => {
 
     let sizes = Array();
     for (let i = 0; i < product.product_detail.length; i++) {
-        let size = await sizeService.getByID(product.product_detail[i].size_id);
-        size.remaining_amount = product.product_detail[i].remaining_amount;
-        size.amount = product.product_detail[i].amount;
-
-        sizes.push(size);
+        if (!product.product_detail[i].is_deleted) {
+            let size = await sizeService.getByID(product.product_detail[i].size_id);
+            size.remaining_amount = product.product_detail[i].remaining_amount;
+            size.amount = product.product_detail[i].amount;
+            sizes.push(size);
+        }
     }
 
     let sizesExpected = await sizeService.getListByBrandID(product.brand_id);
     sizesExpected = sizesExpected.filter(item => !sizes.some(other => item.VN_size == other.VN_size));
+
+    sizesExpected = sizesExpected.filter(item => (!item.is_deleted || item.is_deleted == false))
 
     res.render('products/productEdit', {
         product: product,
@@ -212,9 +217,11 @@ module.exports.deleteSize = async(req, res, next) => {
 
     for (let i = 0; i < product_detail.length; i++) {
         if (String(product_detail[i].size_id) === String(bodyObject.size_id)) {
-            product_detail.splice(i, 1);
-            console.log(product_detail[i]);
-            i--;
+
+            product_detail[i].is_deleted = true;
+            //product_detail.splice(i, 1);
+            //console.log(product_detail[i]);
+            //i--;
         }
     }
     productUpdate.product_detail = product_detail;
@@ -227,19 +234,25 @@ module.exports.createSize = async(req, res, next) => {
     let bodyObject = req.body;
     let productUpdate = await productService.getByID(req.body.id);
 
+    console.log(bodyObject);
     let product_detail = productUpdate.product_detail;
 
-    let newSize = Object();
-    newSize.size_id = ObjectID(bodyObject.size_id);
-    newSize.remaining_amount = bodyObject.remaining_amount;
-    newSize.amount = bodyObject.remaining_amount;
+    if (!bodyObject.isRestore) {
+        let newSize = Object();
+        newSize.size_id = ObjectID(bodyObject.size_id);
+        newSize.remaining_amount = bodyObject.remaining_amount == '' ? 0 : bodyObject.remaining_amount;
 
-    product_detail.push(newSize);
+        newSize.amount = bodyObject.amount == '' ? 0 : bodyObject.amount;
+        product_detail.push(newSize);
+    } else {
+        index = product_detail.findIndex(item => String(item.size_id) === String(bodyObject.size_id));
+        product_detail[index].is_deleted = false;
+        product_detail[index].remaining_amount = bodyObject.remaining_amount == '' ? product_detail[index].remaining_amount : bodyObject.remaining_amount;
+        product_detail[index].amount = bodyObject.amount == '' ? product_detail[index].amount : bodyObject.amount;
+    }
 
     productUpdate.product_detail = product_detail;
-    console.log(newSize);
     await productService.updateProductDetail(productUpdate);
-
     res.redirect('/products/id/' + req.params.id + '/#size');
 }
 

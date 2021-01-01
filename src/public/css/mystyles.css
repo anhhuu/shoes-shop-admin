@@ -26,17 +26,17 @@
     min-height: 240px;
 }
 
-.fillter-bar {
+.filter-bar {
     padding: 0;
     padding-right: 0;
 }
 
-.fillter-bar-left {
+.filter-bar-left {
     padding-right: 0.75rem;
     padding-left: 0;
 }
 
-.fillter-bar-right {
+.filter-bar-right {
     padding-right: 0;
     padding-left: 0.75rem;
 }

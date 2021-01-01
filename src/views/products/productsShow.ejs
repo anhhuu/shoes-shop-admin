@@ -9,9 +9,9 @@
             <i class="fas fa-table mr-1"></i>Tất cả sản phẩm
         </div>
         <div class="card-body">
-            <form action="/products" method="GET" id="formFillterProducts">
+            <form action="/products" method="GET" id="formfilterProducts">
                 <div class="row">
-                    <div class="col-md-2 fillter-bar-right">
+                    <div class="col-md-2 filter-bar-right">
                         <select name="query_field" class="form-control">
                             <option value="name">Tên sản phẩm</option>
                             <option value="SKU" <% if(query.query_field && query.query_field === 'SKU') { %>
@@ -20,7 +20,7 @@
                                 <%= 'selected' %> <% } %>>Màu sắc</option>
                         </select>
                     </div>
-                    <div class="col-md-3 fillter-bar-left">
+                    <div class="col-md-3 filter-bar-left">
                         <input name="query_value" class="form-control" <% if(query.query_value) { %>
                             <%= 'value=' + query.query_value %> <% } %> type="text" placeholder="Nhập từ khoá">
                     </div>
@@ -51,7 +51,7 @@
 
                 </div>
                 <div class="row mt-4">
-                    <div class="col-md-1 fillter-bar-right">
+                    <div class="col-md-1 filter-bar-right">
                         <select id="priceUnit" name="price_currency" class="form-control form-control-sm">
                             <option id="vndUnitOption" value="VND"
                                 <% if(query.price_currency && query.price_currency === 'VND') { %> <%= 'selected' %>
@@ -61,7 +61,7 @@
                                 <% } %>>USD</option>
                         </select>
                     </div>
-                    <div class="col-md-3 fillter-bar-left">
+                    <div class="col-md-3 filter-bar-left">
                         <select id="vndUnitRange" name="price_range" class="form-control form-control-sm"
                             <% if(query.price_currency && query.price_currency === 'USD') { %> <%= 'hidden disabled' %>
                             <% } %>>
@@ -137,7 +137,7 @@
                     </div>
                 </div>
 
-                <div class="row mt-4 float-right fillter-bar-left">
+                <div class="row mt-4 float-right filter-bar-left">
                     <div class="float-right">
                         <a class="btn btn-success" href="/products/create" style="margin-bottom: 10px;"><i
                                 class=" fas fa-plus"></i>&emsp;Thêm 1 sản
@@ -190,15 +190,15 @@
             } else {
                 $(this).append('<input type="text" name="page" value=' + $(this).text() + 'hidden>');
             }
-            $('form#formFillterProducts').submit();
+            $('form#formfilterProducts').submit();
         })
     });
 </script>
 
 <script>
-    $("form#formFillterProducts").submit(function (e) {
+    $("form#formfilterProducts").submit(function (e) {
         e.preventDefault();
-        let query = $('form#formFillterProducts').serialize();
+        let query = $('form#formfilterProducts').serialize();
         let loading =
             '<div id="productsTableShow">' +
             '<div class="table-responsive">' +

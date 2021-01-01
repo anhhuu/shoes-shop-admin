@@ -14,7 +14,7 @@ module.exports.getByID = async(id) => {
 
 module.exports.getListByBrandID = async(brandId) => {
     try {
-        let sizes = await sizeMongooseModel.find({ brand_id: brandId }).lean();
+        let sizes = await sizeMongooseModel.find({ brand_id: brandId }).sort({ VN_size: 'asc' }).lean();
 
         return sizes;
     } catch (error) {
@@ -54,6 +54,17 @@ module.exports.save = async(sizeObject) => {
 
         await size.save();
 
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.update = async(sizeObj) => {
+    try {
+        let size = await sizeMongooseModel.findById(sizeObj._id);
+        await size.updateOne({
+            is_deleted: sizeObj.is_deleted
+        });
     } catch (error) {
         throw error;
     }

@@ -1,0 +1,133 @@
+<div class="container mt-4">
+    <h1 class="mt-4">Thương hiệu</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Trang chủ/Thương hiệu/<%= brand.name %></li>
+    </ol>
+    <div class="card mt-4">
+        <h5 class="card-header">Thông tin</h5>
+        <div class="card-body">
+            <!-- update basic info FORM -->
+            <form method="POST" action="/brands/id/<%= brand._id %>/update">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="name">Tên</label>
+                        <input type="text" class="form-control" name="name" value="<%= brand.name %>">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="brand_url">URL Title</label>
+                        <input type="text" class="form-control" name="brand_url" value="<%= brand.brand_url %>"
+                            disabled>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="total">Tổng số sản phẩm</label>
+                        <input type="text" class="form-control" value="<%= brand.totalProduct %>" disabled>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="id">ID</label>
+                        <input type="text" class="form-control" value="<%= brand._id %>" disabled>
+                        <input type="text" class="form-control" name="id" value="<%= brand._id %>" hidden>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
+                    &emsp;Cập nhật thông tin</button>
+                <input type="text" name="_method" value="put" hidden>
+            </form>
+            <!-- /update basic info FORM -->
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <h5 class="card-header">Quản lý size</h5>
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">VN-Size</th>
+                    <th scope="col">US-Size</th>
+                    <th scope="col">Chiều dài (cm)</th>
+                    <th scope="col">Text</th>
+                    <th scope="col">Xoá</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < sizes.length; i++) { %>
+                <tr>
+                    <th scope="row"><%= i + 1 %> </th>
+                    <td><%= sizes[i].VN_size %> </td>
+                    <td><%= sizes[i].US_size %></td>
+                    <td><%= sizes[i].CM_size %></td>
+                    <td><%= sizes[i].text %></td>
+                    <td>
+                        <a href="#deleteSizeModal<%= i %>" data-toggle="modal" data-target="#deleteSizeModal<%= i %>"
+                            class="">
+                            <div <i class="fas fa-trash-alt" style="color:rgb(255, 61, 61)"></i></div>
+                        </a>
+                    </td>
+                </tr>
+
+                <!-- modal for delete a size -->
+                <div class="modal fade bd-example-modal-lg" id="deleteSizeModal<%= i %>" tabindex="-1" role="dialog"
+                    aria-labelledby="deleteSizeModalLabe<%= i %>" aria-hidden="true">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Xoá Size</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+
+                                <!-- delete size FORM-->
+                                <form method="POST" id="deleteSizeForm<%= i %>"
+                                    action="/brands/id/<%= brand._id %>/delete/size">
+                                    <div class="form-row">
+                                        <div class="form-group col-md-4">
+                                            <label for="name">VN-Size</label>
+                                            <input type="text" class="form-control" value="<%= sizes[i].VN_size %>"
+                                                disabled>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <label for="name">US-Size</label>
+                                            <input type="text" class="form-control" value="<%= sizes[i].US_size %>"
+                                                disabled>
+                                        </div>
+
+                                        <div class="form-group col-md-4">
+                                            <label for="name">Chiều dài (cm)</label>
+                                            <input type="number" class="form-control" value="<%= sizes[i].CM_size %>"
+                                                disabled>
+                                        </div>
+                                    </div>
+
+                                    <span>Xoá size tương ứng với xoá các sản sản phẩm của size này?</span>
+
+                                    <input type="text" name="id" value="<%= brand._id %>" hidden>
+                                    <input type="text" name="size_id" value="<%= sizes[i]._id %>" hidden>
+                                    <input type="text" name="_method" value="delete" hidden>
+                                </form>
+                                <!-- /delete size FORM-->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                        class="fas fa-times"></i>&emsp;Huỷ bỏ</button>
+                                <button type="submit" form="deleteSizeForm<%= i %>" class="btn btn-danger"><i
+                                        class="fas fa-check"></i>
+                                    &emsp;Xác nhận</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /modal for delete a size -->
+
+                <% } %>
+            </tbody>
+        </table>
+        <div class="mt-4">
+            <button type="button" data-toggle="modal" data-target="#newSizeModal" class="btn btn-success"
+                style="margin-bottom: 10px; margin-left: 10px;">
+                <i class="fas fa-plus"></i>&emsp;Thêm size cho thương hiệu
+            </button>
+        </div>
+    </div>
+</div>
