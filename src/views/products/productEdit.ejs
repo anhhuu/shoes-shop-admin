@@ -160,7 +160,7 @@
                                 enctype="multipart/form-data" id="newImageShowForm">
                                 <div class="main-img-preview">
                                     <img class="img-thumbnail img-preview " id="img-show-preview"
-                                        src="/img/default-thumbnail.jpg" title="Image detail">
+                                        src="/resources/img/default-thumbnail.jpg" title="Image detail">
                                 </div>
                                 <div class="input-group">
                                     <input id="img-show-preview-title" class="form-control" placeholder="Chọn file ảnh"
@@ -488,7 +488,7 @@
                         <div class="form-group col-md-4">
                             <div class="main-img-preview">
                                 <img class="img-thumbnail img-preview" id="img-detail-preview"
-                                    src="/img/default-thumbnail.jpg" title="Image detail">
+                                    src="/resources/img/default-thumbnail.jpg" title="Image detail">
                             </div>
                             <div class="input-group">
                                 <input id="img-detail-preview-title" class="form-control" placeholder="Chọn file ảnh"
@@ -518,76 +518,5 @@
     </div>
 </div>
 
-
-<script src="/js/productScript.js"></script>
-
-<script>
-    $(document).ready(function () {
-        loadFrontendImage('img-detail', 'img-detail-preview-title', 'img-detail-preview',
-            'btnUpdateImageDetail');
-        loadFrontendImage('img-show', 'img-show-preview-title', 'img-show-preview', 'btnUpdateImageShow');
-    });
-</script>
-
-<!-- url with #tab -->
-<script language="javascript" type="text/javascript">
-    $(document).ready(function () {
-        var url = document.location.toString();
-        if (url.match('#')) {
-            $('.nav-tabs a[href="#' + url.split('#')[1] + '"]').tab('show');
-        }
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('#newSizeSelected').on('change', function () {
-            $('#btnConfirmToCreateNewSize').prop('disabled',
-                true);
-            if ($('#textMessageOnCreateNewSize p')) {
-                $('#textMessageOnCreateNewSize p').remove()
-            }
-
-            if ($('#textMessageOnCreateNewSize input')) {
-                $('#textMessageOnCreateNewSize input').remove()
-            }
-
-            $('#amountInput').val('');
-            $('#remainingAmountInput').val('');
-
-            $('#newSizeSelected option').each(function () {
-                if ($(this).is(':selected') && $(this).val() != '') {
-
-                    $.ajax({
-                        type: 'GET',
-                        url: '/api/products/is-deleted-size',
-                        data: {
-                            size_id: this.value,
-                            id: $('#productID').val()
-                        },
-                        success: function (result) {
-                            $('#btnConfirmToCreateNewSize').prop('disabled',
-                                false);
-                            if (result != '') {
-                                let text =
-                                    ' Hệ thống phát hiện size bạn chọn đã bị xoá với các thuộc tính trước khi xoá là: <br> - Tổng số lượng: ' +
-                                    result.amount + '<br> - Số lượng còn lại: ' +
-                                    result.remaining_amount +
-                                    '<br> Chỉnh sửa thông tin tương ứng, hoặc giữ nguyên để khôi phục.';
-
-                                $('#textMessageOnCreateNewSize').append('<p>' +
-                                    text + '</p>');
-                                $('#textMessageOnCreateNewSize').append(
-                                    '<input type="text" name="isRestore" hidden value="true">'
-                                );
-                                $('#amountInput').val(result.amount);
-                                $('#remainingAmountInput').val(result
-                                    .remaining_amount);
-                            }
-                        }
-                    });
-                }
-            })
-        })
-    })
-</script>
+<script src="/resources/js/imagePreviewProcess.js"></script>
+<script src="/resources/js/productEdit.js"></script>

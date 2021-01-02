@@ -79,7 +79,29 @@
                             0)</label>
                     </div>
                 </div>
-                <%- include('./sizesShowOnCreateProduct') %>
+                <div id="sizes">
+                    <input type="text" id="totalSizes" value="<%= sizes.length %>" disabled hidden>
+                    <% for(let i = 0; i < sizes.length; i++) { %>
+                    <div class="row d-flex justify-content-center">
+                        <div class="input-group mb-3 col-md-8">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <input type="checkbox" name="sizes" id="checkboxSize<%= i+1 %>"
+                                        value="<%= sizes[i]._id %>">
+                                </div>
+                            </div>
+                            <div class="input-group-prepend col-md-5" style="padding: 0;">
+                                <span class="input-group-text" id="inputGroupPrepend"
+                                    style="width: 100%;"><%= sizes[i].text %></span>
+                            </div>
+                            <input type="text" class="form-control" id="amount<%= i+1 %>" name="amount"
+                                placeholder="Tổng số" disabled>
+                            <input type="text" class="form-control" id="remaining_amount<%= i+1 %>"
+                                name="remaining_amount" placeholder="Số lượng còn lại" disabled>
+                        </div>
+                    </div>
+                    <% } %>
+                </div>
             </div>
         </div>
 
@@ -91,7 +113,7 @@
                     <div class="col-md-3">
                         <div class="main-img-preview">
                             <img class="img-thumbnail img-preview" id="img-show-preview"
-                                src="/img/default-thumbnail.jpg" title="Image detail">
+                                src="/resources/img/default-thumbnail.jpg" title="Image detail">
                         </div>
                         <div class="input-group">
                             <input id="img-show-preview-title" class="form-control" placeholder="Choose File"
@@ -112,7 +134,7 @@
                     <div class="col-md-3">
                         <div class="main-img-preview">
                             <img class="img-thumbnail img-preview " id="img-detail-preview<%= i+1 %>"
-                                src="/img/default-thumbnail.jpg" title="Image detail">
+                                src="/resources/img/default-thumbnail.jpg" title="Image detail">
                         </div>
                         <div class="input-group">
                             <input id="img-detail-preview-title" class="form-control" placeholder="Choose File"
@@ -138,41 +160,5 @@
 </div>
 
 
-<script src="/js/productScript.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#img-show').on('change', function () {
-            console.log(this.value.substring(12));
-            $('#img_show_name').val(this.value.substring(12));
-        })
-    })
-</script>
-
-<script>
-    $(document).ready(function () {
-        loadFrontendImage('img-show', 'img-show-preview-title', 'img-show-preview', 'btnUpdateImageShow');
-        for (let i = 0; i < 4; i++) {
-            loadFrontendImage('img-detail' + String(i + 1), 'img-detail-preview-title' + String(i + 1),
-                'img-detail-preview' + String(i + 1),
-                'btnUpdateImageDetail' + String(i + 1));
-        }
-    });
-</script>
-
-<script>
-    $(document).ready(function () {
-        $('#brand_id').on('change', function () {
-            $.ajax({
-                type: 'GET',
-                url: '/api/brands/sizes',
-                data: {
-                    brand_id: this.value
-                },
-                success: function (result) {
-                    $('#sizes').replaceWith(result);
-                }
-            });
-        })
-    });
-</script>
+<script src="/resources/js/imagePreviewProcess.js"></script>
+<script src="/resources/js/productCreate.js"></script>

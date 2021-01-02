@@ -69,3 +69,39 @@ module.exports.update = async(sizeObj) => {
         throw error;
     }
 }
+
+module.exports.isVNSizeWithBrandIdExist = async(VNSize, brand_id) => {
+    try {
+        let size = await sizeMongooseModel.findOne({ VN_size: VNSize, brand_id: brand_id }).lean();
+        if (size) {
+            return true
+        }
+        return false
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.isUSSizeWithBrandIdExist = async(USSize, brand_id) => {
+    try {
+        let size = await sizeMongooseModel.findOne({ US_size: USSize, brand_id: brand_id }).lean();
+        if (size) {
+            return true
+        }
+        return false
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.isCMSizeWithBrandIdExist = async(CMSize, brand_id) => {
+    try {
+        let size = await sizeMongooseModel.findOne({ CM_size: CMSize, brand_id: brand_id }).lean();
+        if (size) {
+            return true
+        }
+        return false
+    } catch (error) {
+        throw error;
+    }
+}

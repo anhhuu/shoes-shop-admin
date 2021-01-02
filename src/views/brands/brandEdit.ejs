@@ -131,3 +131,80 @@
         </div>
     </div>
 </div>
+
+
+<!-- modal for create a new size-->
+<div class="modal fade bd-example-modal-lg" id="newSizeModal" tabindex="-1" role="dialog"
+    aria-labelledby="newSizeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm Size</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- new a size FORM -->
+                <form method="POST" id="newSizeForm" action="/products/id//create/size">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="validationCustom01">VN Size</label>
+                            <div class="form-group">
+                                <select name="VN_size" id="newVNSizeSelected" class="custom-select" required>
+                                    <option value="">Chọn size</option>
+                                    <% for(let i = 25; i <= 50; i+=0.5) { %>
+                                    <option value="<%= i %>"><%= i %></option>
+                                    <% } %>
+                                </select>
+                                <div class="invalid-feedback">Vui lòng chọn size</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="validationCustom01">US Size</label>
+                            <div class="form-group">
+                                <select name="US_size" id="newUSSizeSelected" class="custom-select" required>
+                                    <option value="">Chọn size</option>
+                                    <% for(let i = 1; i <= 20; i+=0.5) { %>
+                                    <option value="<%= i %>"><%= i %></option>
+                                    <% } %>
+                                </select>
+                                <div class="invalid-feedback">Vui lòng chọn size</div>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="validationCustom01">Chiều dài (cm)</label>
+                            <div class="form-group">
+                                <select name="CM_size" id="newCMSizeSelected" class="custom-select" required>
+                                    <option value="">Chọn size</option>
+                                    <% for(let i = 15; i <= 50; i+=0.5) { %>
+                                    <option value="<%= i %>"><%= i %></option>
+                                    <% } %>
+                                </select>
+                                <div class="invalid-feedback">Vui lòng chọn size</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row" id=textMessageOnCreateNewSize></div>
+                    <input type="text" id="productID" name="id" value="" hidden>
+                </form>
+                <!-- /new a size FORM -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="fas fa-times"></i>&emsp;Huỷ bỏ</button>
+                <button type="submit" id="btnConfirmToCreateNewSize" form="newSizeForm" class="btn btn-primary"
+                    disabled><i class="fas fa-check"></i>
+                    &emsp;Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#newVNSizeSelected').on('change', () => {
+
+        })
+    })
+</script>

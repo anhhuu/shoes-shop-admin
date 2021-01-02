@@ -9,7 +9,7 @@
             <i class="fas fa-table mr-1"></i>Tất cả sản phẩm
         </div>
         <div class="card-body">
-            <form action="/products" method="GET" id="formfilterProducts">
+            <form action="/products" method="GET" id="formFilterProducts">
                 <div class="row">
                     <div class="col-md-2 filter-bar-right">
                         <select name="query_field" class="form-control">
@@ -153,72 +153,4 @@
     </div>
 </div>
 
-<script src="/js/productScript.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#priceUnit').on('change', function () {
-            if ($('#vndUnitOption').is(':selected')) {
-                $('#vndUnitRange').attr("hidden", false);
-                $('#vndUnitRange').attr("disabled", false);
-                $('#usdUnitRange').attr("hidden", true);
-                $('#usdUnitRange').attr("disabled", true);
-            } else {
-                $('#vndUnitRange').attr("hidden", true);
-                $('#vndUnitRange').attr("disabled", true);
-                $('#usdUnitRange').attr("hidden", false);
-                $('#usdUnitRange').attr("disabled", false);
-            }
-        })
-    })
-</script>
-
-<script>
-    $(document).ready(function () {
-        dropdownCheckboxScript("brandDropdown", "brandText");
-        dropdownCheckboxScript("categoryDropdown", "categoryText");
-    })
-</script>
-
-<script>
-    $(document).ready(function () {
-        $(document).on('click', '.page-item', function (e) {
-            if ($(this).find('button').attr('id') == 'pageStart') {
-                $(this).append('<input type="text" name="page" value=' + 1 + '>hidden');
-            } else if ($(this).find('button').attr('id') == 'pageEnd') {
-                $(this).append('<input type="text" name="page" value=' + $('#numberOfPage').val() +
-                    'hidden>');
-            } else {
-                $(this).append('<input type="text" name="page" value=' + $(this).text() + 'hidden>');
-            }
-            $('form#formfilterProducts').submit();
-        })
-    });
-</script>
-
-<script>
-    $("form#formfilterProducts").submit(function (e) {
-        e.preventDefault();
-        let query = $('form#formfilterProducts').serialize();
-        let loading =
-            '<div id="productsTableShow">' +
-            '<div class="table-responsive">' +
-            '<div class="d-flex justify-content-center">' +
-            '<div class="spinner-border text-danger" role="status">' +
-            '<span class="sr-only">Loading...</span>' +
-            '</div> </div> </div> </div>'
-
-        $('#productsTableShow').replaceWith(loading);
-
-        setTimeout(function () {
-            $.ajax({
-                url: '/api/products',
-                type: 'get',
-                data: query,
-                success: function (result) {
-                    $('#productsTableShow').replaceWith(result);
-                    window.history.pushState('', 'Tất cả sản phẩm', '/products?' + query);
-                }
-            });
-        }, 700)
-    })
-</script>
+<script src="/resources/js/productsShow.js"></script>
