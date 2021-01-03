@@ -11,8 +11,10 @@
         <div class="card-body">
             <div class="row mt-4 float-right filter-bar-left">
                 <div class="float-right">
-                    <a class="btn btn-success" href="/brands/create" style="margin-bottom: 10px;"><i
-                            class=" fas fa-plus"></i>&emsp;Thêm 1 thương hiệu mới</a>
+                    <button type="button" data-toggle="modal" data-target="#newBrandModal" class="btn btn-success"
+                        style="margin-bottom: 10px; margin-left: 10px;">
+                        <i class="fas fa-plus"></i>&emsp;Thêm 1 thương hiệu mới
+                    </button>
                 </div>
             </div>
             <div class="table-responsive">
@@ -65,3 +67,5 @@
         </div>
     </div>
 </div>
+
+<%- include('./brandCreate.ejs') %>

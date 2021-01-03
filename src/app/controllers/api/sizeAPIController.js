@@ -17,15 +17,16 @@ module.exports.isVNSizeExist = async(req, res, next) => {
     const VN_size = req.query.VN_size;
 
     const isExist = await sizeService.isVNSizeWithBrandIdExist(VN_size, brand_id);
-
+    console.log(isExist)
     if (isExist) {
-        return {
+        res.send({
             is_exist: true
-        }
+        })
+        return;
     }
-    return {
+    res.send({
         is_exist: false
-    }
+    })
 }
 
 module.exports.isUSSizeExist = async(req, res, next) => {
@@ -35,13 +36,14 @@ module.exports.isUSSizeExist = async(req, res, next) => {
     const isExist = await sizeService.isUSSizeWithBrandIdExist(US_size, brand_id);
 
     if (isExist) {
-        return {
+        res.send({
             is_exist: true
-        }
+        })
+        return;
     }
-    return {
+    res.send({
         is_exist: false
-    }
+    })
 }
 
 module.exports.isCMSizeExist = async(req, res, next) => {
@@ -51,11 +53,12 @@ module.exports.isCMSizeExist = async(req, res, next) => {
     const isExist = await sizeService.isCMSizeWithBrandIdExist(CM_size, brand_id);
 
     if (isExist) {
-        return {
+        res.send({
             is_exist: true
-        }
+        })
+        return;
     }
-    return {
+    res.send({
         is_exist: false
-    }
+    })
 }

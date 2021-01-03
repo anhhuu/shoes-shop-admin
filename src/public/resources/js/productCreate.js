@@ -1,12 +1,12 @@
 loadBrandSizesAJAX = () => {
-    $('#brand_id').on('change', function() {
+    $('#brand_id').on('change', event => {
         $.ajax({
             type: 'GET',
             url: '/api/sizes',
             data: {
-                brand_id: this.value
+                brand_id: $(event.currentTarget).val()
             },
-            success: function(sizes) {
+            success: sizes => {
                 const sizesElement = $('#sizes');
                 sizesElement.empty();
                 sizesElement.append(

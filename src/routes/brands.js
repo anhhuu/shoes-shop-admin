@@ -10,5 +10,6 @@ router.get('/id/:id', brandController.editBrand);
 router.put('/id/:id/update', brandController.updateBrand);
 
 router.delete('/id/:id/delete/size', brandController.deleteSize);
+router.post('/id/:id/size/create', brandController.createSize);
 
 module.exports = router;

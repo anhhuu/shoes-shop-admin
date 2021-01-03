@@ -1,0 +1,36 @@
+<!-- modal for create a brand -->
+<div class="modal fade bd-example-modal-lg" id="newBrandModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- create a brand FORM-->
+                <form method="POST" id="createNewBrand" action="/brands/create">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Tên thương hiệu</label>
+                            <input type="text" name="name" class="form-control" value="" placeholder="Nhập tên">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="url">URL Title</label>
+                            <input type="text" name="url" class="form-control" value="" placeholder="Nhập url">
+                        </div>
+                    </div>
+                </form>
+                <!-- /create a brand FORM-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="fas fa-times"></i>&emsp;Huỷ bỏ</button>
+                <button type="submit" form="updateSizeForm" class="btn btn-primary"><i class="fas fa-check"></i>
+                    &emsp;Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /modal for create a brand -->

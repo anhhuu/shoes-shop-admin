@@ -54,3 +54,20 @@ module.exports.deleteSize = async(req, res, next) => {
     await sizeService.update(size);
     res.redirect('/brands/id/' + bodyObject.id);
 }
+
+module.exports.createSize = async(req, res, next) => {
+    const bodyObject = req.body;
+    const brand_id = req.params.id;
+
+    const text = `Size ${String(parseFloat(bodyObject.US_size).toFixed(1))}US - ${String(parseFloat(bodyObject.VN_size).toFixed(1))}VN - ${String(parseFloat(bodyObject.CM_size).toFixed(1))}CM`;
+
+    let newSize = {
+        text: text,
+        brand_id: brand_id,
+        VN_size: bodyObject.VN_size,
+        US_size: bodyObject.US_size,
+        CM_size: bodyObject.CM_size
+    }
+    sizeService.save(newSize);
+    res.redirect('/brands/id/' + brand_id);
+}

@@ -1,2 +1,16 @@
 Add flash message
-Size bị xoá => product bị xoá size tương ứng
+
+Kiểm tra trùng lặp url brand
+Kiểm tra trùng lặp tên brand
+Kiểm tra trùng lặp url product
+Kiểm tra trùng lặp tên category
+Thêm brand
+Thêm category
+
+Chỉnh sửa routing về /size/create
+Thêm chức năng xoá sản phẩm
+
+Xem các mục đã bị xoá và khôi phục (category, brand, chi tiết sản phẩm)
+
+Kiểm tra tồn tại sản phẩm => 404 
+Kiểm tra tồn tại brand => 404 

@@ -73,7 +73,7 @@ module.exports.update = async(sizeObj) => {
 module.exports.isVNSizeWithBrandIdExist = async(VNSize, brand_id) => {
     try {
         let size = await sizeMongooseModel.findOne({ VN_size: VNSize, brand_id: brand_id }).lean();
-        if (size) {
+        if (size && !size.is_deleted) {
             return true
         }
         return false
@@ -85,7 +85,7 @@ module.exports.isVNSizeWithBrandIdExist = async(VNSize, brand_id) => {
 module.exports.isUSSizeWithBrandIdExist = async(USSize, brand_id) => {
     try {
         let size = await sizeMongooseModel.findOne({ US_size: USSize, brand_id: brand_id }).lean();
-        if (size) {
+        if (size && !size.is_deleted) {
             return true
         }
         return false
@@ -97,7 +97,7 @@ module.exports.isUSSizeWithBrandIdExist = async(USSize, brand_id) => {
 module.exports.isCMSizeWithBrandIdExist = async(CMSize, brand_id) => {
     try {
         let size = await sizeMongooseModel.findOne({ CM_size: CMSize, brand_id: brand_id }).lean();
-        if (size) {
+        if (size && !size.is_deleted) {
             return true
         }
         return false

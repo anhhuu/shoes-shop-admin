@@ -13,7 +13,6 @@ checkIsDeletedSizeAJAX = () => {
         $('#remainingAmountInput').val('');
 
         $('#newSizeSelected option').each((index, element) => {
-            console.log($(element));
             if ($(element).is(':selected') && $(element).val() != '') {
 
                 $.ajax({
@@ -23,9 +22,8 @@ checkIsDeletedSizeAJAX = () => {
                         size_id: element.value,
                         id: $('#productID').val()
                     },
-                    success: function(result) {
-                        $('#btnConfirmToCreateNewSize').prop('disabled',
-                            false);
+                    success: result => {
+                        $('#btnConfirmToCreateNewSize').prop('disabled', false);
                         if (result != '') {
                             let text =
                                 ' Hệ thống phát hiện size bạn chọn đã bị xoá với các thuộc tính trước khi xoá là: <br>' +

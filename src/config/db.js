@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const debug = require('debug')('shoes-shop-admin:db')
 
-async function connect() {
+connect = async() => {
     try {
         await mongoose.connect(process.env.DB_URI_LOCAL, {
             useNewUrlParser: true,

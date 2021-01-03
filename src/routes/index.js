@@ -5,7 +5,7 @@ const brandsRouter = require('./brands');
 
 const routeAPI = require('./api/index');
 
-function route(app) {
+route = app => {
     app.use('/', siteRouter);
     app.use('/products', productsRouter);
     app.use('/brands', brandsRouter);

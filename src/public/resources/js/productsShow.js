@@ -13,7 +13,7 @@ showListCheckedOnDropdownCheckbox = (dropdownMenuID, textID) => {
         $('#' + textID).text(options.join(', '));
     }
 
-    $('#' + dropdownMenuID + ' a').on('click', function(event) {
+    $('#' + dropdownMenuID + ' a').on('click', event => {
         let $target = $(event.currentTarget),
             val = $target.text(),
             $inp = $target.find('input'),
@@ -22,13 +22,13 @@ showListCheckedOnDropdownCheckbox = (dropdownMenuID, textID) => {
         if ((idx = options.indexOf(val.replace(/\s/g, ''))) > -1) {
             options.splice(idx, 1);
             $('#' + textID).text(options.join(', '));
-            setTimeout(function() {
+            setTimeout(() => {
                 $inp.prop('checked', false)
             }, 0);
         } else {
             options.push(val.replace(/\s/g, ''));
             $('#' + textID).text(options.join(', '));
-            setTimeout(function() {
+            setTimeout(() => {
                 $inp.prop('checked', true)
             }, 0);
         }
@@ -44,7 +44,7 @@ showListCheckedOnDropdownCheckbox = (dropdownMenuID, textID) => {
 }
 
 filterSubmitAJAX = () => {
-    $("form#formFilterProducts").submit(function(e) {
+    $("form#formFilterProducts").submit(e => {
         e.preventDefault();
         let query = $('form#formFilterProducts').serialize();
         let loading =
@@ -57,12 +57,12 @@ filterSubmitAJAX = () => {
 
         $('#productsTableShow').replaceWith(loading);
 
-        setTimeout(function() {
+        setTimeout(() => {
             $.ajax({
                 url: '/api/products',
                 type: 'get',
                 data: query,
-                success: function(result) {
+                success: result => {
                     $('#productsTableShow').replaceWith(result);
                     window.history.pushState('', 'Tất cả sản phẩm', '/products?' + query);
                 }
@@ -78,7 +78,7 @@ $(document).ready(() => {
 
     //show/hidden price unselected
     (() => {
-        $('#priceUnit').on('change', function() {
+        $('#priceUnit').on('change', () => {
             if ($('#vndUnitOption').is(':selected')) {
                 $('#vndUnitRange').attr("hidden", false);
                 $('#vndUnitRange').attr("disabled", false);

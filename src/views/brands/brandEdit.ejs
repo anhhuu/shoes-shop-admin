@@ -25,7 +25,7 @@
                     <div class="form-group col-md-3">
                         <label for="id">ID</label>
                         <input type="text" class="form-control" value="<%= brand._id %>" disabled>
-                        <input type="text" class="form-control" name="id" value="<%= brand._id %>" hidden>
+                        <input type="text" class="form-control" id="brand_id" name="id" value="<%= brand._id %>" hidden>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary"><i class="fas fa-check"></i>
@@ -146,7 +146,7 @@
             </div>
             <div class="modal-body">
                 <!-- new a size FORM -->
-                <form method="POST" id="newSizeForm" action="/products/id//create/size">
+                <form method="POST" id="newSizeForm" action="/brands/id/<%= brand._id %>/size/create">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="validationCustom01">VN Size</label>
@@ -185,8 +185,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="form-row" id=textMessageOnCreateNewSize></div>
-                    <input type="text" id="productID" name="id" value="" hidden>
+                    <div class="form-row" id=textMessageVNSizeExist></div>
+                    <div class="form-row" id=textMessageUSSizeExist></div>
+                    <div class="form-row" id=textMessageCMSizeExist></div>
                 </form>
                 <!-- /new a size FORM -->
             </div>
@@ -201,10 +202,4 @@
     </div>
 </div>
 
-<script>
-    $(document).ready(function () {
-        $('#newVNSizeSelected').on('change', () => {
-
-        })
-    })
-</script>
+<script src="/resources/js/brandEdit.js"></script>
