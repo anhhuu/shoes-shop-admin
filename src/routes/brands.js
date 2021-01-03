@@ -4,6 +4,7 @@ const router = express.Router();
 const brandController = require('../app/controllers/brandController');
 
 router.get('/', brandController.index);
+router.post('/create', brandController.create);
 
 router.get('/id/:id', brandController.editBrand);
 

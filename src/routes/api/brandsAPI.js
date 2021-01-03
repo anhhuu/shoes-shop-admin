@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const brandAPIController = require('../../app/controllers/api/brandAPIController');
 
-/* GET users listing. */
+router.get('/is-name-exist', brandAPIController.isExistByName);
+router.get('/is-url-exist', brandAPIController.isExistByURL);
 
 module.exports = router;

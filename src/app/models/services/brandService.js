@@ -30,6 +30,30 @@ module.exports.getByName = async(name) => {
     }
 }
 
+module.exports.isExistByName = async(name) => {
+    try {
+        let brand = await brandMongooseModel.findOne({ name: name }).lean();
+        if (brand && !brand.is_deleted) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.isExistByURL = async(url) => {
+    try {
+        let brand = await brandMongooseModel.findOne({ brand_url: url }).lean();
+        if (brand && !brand.is_deleted) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        throw error;
+    }
+}
+
 module.exports.save = async(brandObject) => {
     try {
         let brand = new brandMongooseModel({
@@ -39,6 +63,7 @@ module.exports.save = async(brandObject) => {
         });
 
         await brand.save();
+        return brand;
 
     } catch (error) {
         throw error;

@@ -14,12 +14,21 @@
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="name">Tên thương hiệu</label>
-                            <input type="text" name="name" class="form-control" value="" placeholder="Nhập tên">
+                            <input type="text" id="txtBrandName" name="name" class="form-control" value=""
+                                placeholder="Nhập tên">
                         </div>
                         <div class="form-group col-md-6">
                             <label for="url">URL Title</label>
-                            <input type="text" name="url" class="form-control" value="" placeholder="Nhập url">
+                            <input type="text" id="txtBrandURL" name="url" class="form-control" value=""
+                                placeholder="Nhập URL title">
                         </div>
+                    </div>
+                    <div id="messageForExistName">
+                        <p>Tên thương hiệu phải lớn hơn 3 ký tự</p>
+
+                    </div>
+                    <div id="messageForExistURL">
+                        <p>URL title phải lớn hơn 3 ký tự</p>
                     </div>
                 </form>
                 <!-- /create a brand FORM-->
@@ -27,7 +36,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
                         class="fas fa-times"></i>&emsp;Huỷ bỏ</button>
-                <button type="submit" form="updateSizeForm" class="btn btn-primary"><i class="fas fa-check"></i>
+                <button type="submit" form="createNewBrand" id="btnCreateBrand" class="btn btn-primary" disabled><i
+                        class="fas fa-check"></i>
                     &emsp;Thêm</button>
             </div>
         </div>

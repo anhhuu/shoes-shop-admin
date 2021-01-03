@@ -71,3 +71,12 @@ module.exports.createSize = async(req, res, next) => {
     sizeService.save(newSize);
     res.redirect('/brands/id/' + brand_id);
 }
+
+module.exports.create = async(req, res, next) => {
+    const brand = {
+        name: req.body.name,
+        brand_url: req.body.url
+    }
+    const brandResult = await brandService.save(brand);
+    res.redirect('/brands/id/' + brandResult._id);
+}
