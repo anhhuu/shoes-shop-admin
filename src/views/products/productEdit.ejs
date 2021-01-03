@@ -29,7 +29,7 @@
                 <h5 class="card-header">Thông tin cơ bản, bán hàng</h5>
                 <div class="card-body">
                     <!-- update basic info FORM -->
-                    <form method="POST" action="/products/id/<%= product._id %>/update/info">
+                    <form method="POST" action="/products/id/<%= product._id %>/info/update">
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label for="name">Tên</label>
@@ -142,7 +142,7 @@
                                                     class="fas fa-check"></i>
                                                 &emsp;Đồng ý</button>
                                         </div>
-                                        <form method="POST" action="/products/id/<%= product._id %>/delete/image"
+                                        <form method="POST" action="/products/id/<%= product._id %>/images/delete"
                                             id="deleteImageShowForm">
                                             <input type="text" name="id" value="<%= product._id %>" hidden>
                                             <input type="text" name="is_image_show" value="true" hidden>
@@ -156,7 +156,7 @@
 
                             <% } else { %>
                             <!-- create image show FORM -->
-                            <form action="/products/id/<%= product._id %>/create/image" method="POST"
+                            <form action="/products/id/<%= product._id %>/images/create" method="POST"
                                 enctype="multipart/form-data" id="newImageShowForm">
                                 <div class="main-img-preview">
                                     <img class="img-thumbnail img-preview " id="img-show-preview"
@@ -218,7 +218,7 @@
                                                 class="btn btn-danger"><i class="fas fa-check"></i>
                                                 &emsp;Đồng ý</button>
                                         </div>
-                                        <form method="POST" action="/products/id/<%= product._id %>/delete/image"
+                                        <form method="POST" action="/products/id/<%= product._id %>/images/delete"
                                             id="deleteImageDetailForm<%= i+1 %>">
                                             <input type="text" name="id" value="<%= product._id %>" hidden>
                                             <input type="text" name="is_image_show" value="false" hidden>
@@ -297,7 +297,7 @@
                                         <div class="modal-body">
                                             <!-- update remaining of size FORM-->
                                             <form method="POST" id="updateSizeForm<%= i %>"
-                                                action="/products/id/<%= product._id %>/update/size">
+                                                action="/products/id/<%= product._id %>/sizes/update">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-3">
                                                         <label for="name">VN-Size</label>
@@ -354,7 +354,7 @@
 
                                             <!-- delete size FORM-->
                                             <form method="POST" id="deleteSizeForm<%= i %>"
-                                                action="/products/id/<%= product._id %>/delete/size">
+                                                action="/products/id/<%= product._id %>/sizes/delete">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-3">
                                                         <label for="name">VN-Size</label>
@@ -427,7 +427,7 @@
             </div>
             <div class="modal-body">
                 <!-- new a size FORM -->
-                <form method="POST" id="newSizeForm" action="/products/id/<%= product._id %>/create/size">
+                <form method="POST" id="newSizeForm" action="/products/id/<%= product._id %>/sizes/create">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="validationCustom01">Size</label>
@@ -482,7 +482,7 @@
             </div>
             <div class="modal-body">
                 <!-- new a image detail FORM -->
-                <form id="newImageDetailForm" action="/products/id/<%= product._id %>/create/image" method="POST"
+                <form id="newImageDetailForm" action="/products/id/<%= product._id %>/images/create" method="POST"
                     enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group col-md-4">

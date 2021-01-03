@@ -80,7 +80,7 @@
 
                                 <!-- delete size FORM-->
                                 <form method="POST" id="deleteSizeForm<%= i %>"
-                                    action="/brands/id/<%= brand._id %>/delete/size">
+                                    action="/brands/id/<%= brand._id %>/sizes/delete">
                                     <div class="form-row">
                                         <div class="form-group col-md-4">
                                             <label for="name">VN-Size</label>
@@ -146,7 +146,7 @@
             </div>
             <div class="modal-body">
                 <!-- new a size FORM -->
-                <form method="POST" id="newSizeForm" action="/brands/id/<%= brand._id %>/size/create">
+                <form method="POST" id="newSizeForm" action="/brands/id/<%= brand._id %>/sizes/create">
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="validationCustom01">VN Size</label>

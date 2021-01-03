@@ -14,7 +14,7 @@ module.exports.index = async(req, res, next) => {
     res.render('brands/brandsShow', { brands: brands });
 };
 
-module.exports.editBrand = async(req, res, next) => {
+module.exports.getBrandEditPage = async(req, res, next) => {
     let brand_id = req.params.id;
     console.log(brand_id);
     let brand = await brandService.getByID(brand_id);

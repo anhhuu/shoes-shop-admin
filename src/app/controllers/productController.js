@@ -127,7 +127,7 @@ module.exports.create = async(req, res, next) => {
     });
 }
 
-module.exports.editProduct = async(req, res, next) => {
+module.exports.getProductEditPage = async(req, res, next) => {
     let product = await productService.getByID(req.params.id);
     let category = await categoryService.getByID(product.category_id)
     let brand = await brandService.getByID(product.brand_id)
