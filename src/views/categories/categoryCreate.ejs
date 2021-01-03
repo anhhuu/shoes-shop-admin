@@ -1,0 +1,46 @@
+<!-- modal for create a category -->
+<div class="modal fade bd-example-modal-lg" id="newCategoryModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Thêm mới</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- create a category FORM-->
+                <form method="POST" id="createNewCategory" action="/categories/create">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="name">Tên danh mục</label>
+                            <input type="text" id="txtCategoryName" name="name" class="form-control" value=""
+                                placeholder="Nhập tên">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="url">URL Title</label>
+                            <input type="text" id="txtCategoryURL" name="url" class="form-control" value=""
+                                placeholder="Nhập URL title">
+                        </div>
+                    </div>
+                    <div id="messageForExistName">
+                        <p>Tên danh mục phải lớn hơn 3 ký tự</p>
+
+                    </div>
+                    <div id="messageForExistURL">
+                        <p>URL title phải lớn hơn 3 ký tự</p>
+                    </div>
+                </form>
+                <!-- /create a Category FORM-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="fas fa-times"></i>&emsp;Huỷ bỏ</button>
+                <button type="submit" form="createNewCategory" id="btnCreateCategory" class="btn btn-primary"
+                    disabled><i class="fas fa-check"></i>
+                    &emsp;Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /modal for create a category -->

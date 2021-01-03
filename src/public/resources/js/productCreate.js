@@ -30,9 +30,28 @@ loadBrandSizesAJAX = () => {
                         '</div>'
                     sizesElement.append(sizesListElement);
                 });
+                enableOnCheckedSize();
             }
         })
     })
+}
+
+enableOnCheckedSize = () => {
+    let totalSizes = $('#totalSizes').val();
+    $('input:checkbox').prop('checked', false);
+    for (let i = 0; i < totalSizes; i++) {
+        $('#checkboxSize' + String(i + 1)).on('change', function() {
+            if (this.checked === true) {
+                //console.log(totalSizes);
+                //console.log(i);
+                $('#amount' + String(i + 1)).attr('disabled', false);
+                $('#remaining_amount' + String(i + 1)).attr('disabled', false);
+            } else {
+                $('#amount' + String(i + 1)).attr('disabled', true);
+                $('#remaining_amount' + String(i + 1)).attr('disabled', true);
+            }
+        })
+    }
 }
 
 $(document).ready(() => {
@@ -53,4 +72,5 @@ $(document).ready(() => {
     })()
 
     loadBrandSizesAJAX();
+    enableOnCheckedSize();
 });

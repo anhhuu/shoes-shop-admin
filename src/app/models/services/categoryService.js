@@ -43,3 +43,27 @@ module.exports.save = async(categoryObject) => {
         throw error;
     }
 }
+
+module.exports.isExistByName = async(name) => {
+    try {
+        let category = await categoryMongooseModel.findOne({ name: name }).lean();
+        if (category && !category.is_deleted) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.isExistByURL = async(url) => {
+    try {
+        let category = await categoryMongooseModel.findOne({ category_url: url }).lean();
+        if (category && !category.is_deleted) {
+            return true;
+        }
+        return false;
+    } catch (error) {
+        throw error;
+    }
+}

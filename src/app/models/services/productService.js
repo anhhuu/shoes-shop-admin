@@ -70,7 +70,7 @@ module.exports.filterProducts = async(queryObj) => {
         let priceMin = 0;
         let priceMax = 0;
         if (queryObj.price_range == 'all' || !queryObj.price_range) {
-            priceMax = 100000000;
+            priceMax = 200000000;
         } else {
             priceMin = +queryObj.price_range.split('-')[0];
             priceMax = +queryObj.price_range.split('-')[1];
@@ -119,6 +119,7 @@ module.exports.filterProducts = async(queryObj) => {
 
         let count = await productMongooseModel.find(mongooseQuery).countDocuments();
         let products = await productMongooseModel.find(mongooseQuery).skip(queryObj.limit * queryObj.page - queryObj.limit).limit(queryObj.limit).lean();
+        console.log(count);
 
         return {
             products,
@@ -200,6 +201,15 @@ module.exports.updateProductImage = async(productObject) => {
 module.exports.getTotalProductByBrandID = async(brand_id) => {
     try {
         let count = productMongooseModel.find({ brand_id: brand_id }).count();
+        return count;
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports.getTotalProductByCategoryID = async(category_id) => {
+    try {
+        let count = productMongooseModel.find({ category_id: category_id }).count();
         return count;
     } catch (error) {
         throw error;

@@ -1,0 +1,115 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Tất cả Danh mục</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Trang chủ/Tất cả danh mục</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>Tất cả danh mục
+        </div>
+        <div class="card-body">
+            <div class="row mt-4 float-right filter-bar-left">
+                <div class="float-right">
+                    <button type="button" data-toggle="modal" data-target="#newCategoryModal" class="btn btn-success"
+                        style="margin-bottom: 10px; margin-left: 10px;">
+                        <i class="fas fa-plus"></i>&emsp;Thêm 1 danh mục mới
+                    </button>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>URL Title</th>
+                            <th>Tổng sản phẩm</th>
+                            <th>Sửa</th>
+                        </tr>
+                    </thead>
+                    <tfoot hidden>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tên</th>
+                            <th>URL Title</th>
+                            <th>Tổng sản phẩm</th>
+                            <th>Sửa</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        <% for(let i = 0; i < categories.length; i++) { %>
+                        <tr>
+                            <td>
+                                <%= categories[i]._id %>
+                            </td>
+                            <td>
+                                <%= categories[i].name %>
+                            </td>
+                            <td>
+                                <%= categories[i].category_url %>
+                            </td>
+                            <td>
+                                <%= categories[i].totalProduct %>
+                            </td>
+                            <td>
+                                <a href="#editCategoryModal<%= i %>" data-toggle="modal"
+                                    data-target="#editCategoryModal<%= i %>">
+                                    <div <i class="fas fa-edit"></i></div>
+                                </a>
+                            </td>
+                            <div class="modal fade bd-example-modal-lg" id="editCategoryModal<%= i %>" tabindex="-1"
+                                role="dialog">
+                                <div class="modal-dialog modal-lg" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Chỉnh sửa</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <!-- update remaining of size FORM-->
+                                            <form method="POST" id="updateSizeForm<%= i %>"
+                                                action="/category/id/<%= categories[i]._id %>/update">
+                                                <div class="form-row">
+                                                    <div class="form-group col-md-6">
+                                                        <label for="name">Tên danh mục</label>
+                                                        <input type="text" class="form-control" name="name"
+                                                            value="<%= categories[i].name %>">
+                                                    </div>
+                                                    <div class="form-group col-md-6">
+                                                        <label for="name">URL Title</label>
+                                                        <input type="text" class="form-control" name="category_url"
+                                                            value="<%= categories[i].category_url %>">
+                                                    </div>
+                                                </div>
+                                                <input type="text" name="_method" value="patch" hidden>
+                                                <input type="text" name="category_id" value="<%= categories[i]._id %>"
+                                                    hidden>
+                                            </form>
+                                            <!-- /update remaining of size FORM-->
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                                                    class="fas fa-times"></i>&emsp;Huỷ bỏ</button>
+                                            <button type="submit" form="updateSizeForm<%= i %>"
+                                                class="btn btn-primary"><i class="fas fa-check"></i>
+                                                &emsp;Cập nhật</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('./categoryCreate.ejs') %>
+
+
+<script src="/resources/js/brandCreate.js"></script>

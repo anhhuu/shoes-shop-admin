@@ -2,17 +2,24 @@ Add flash message
 
 Kiểm tra trùng lặp url brand OK
 Kiểm tra trùng lặp tên brand OK
+Thêm brand OK
+Fix check hiện size OK
 
 Kiểm tra trùng lặp url product
 Kiểm tra trùng lặp tên category
-Thêm brand OK
 Thêm category
 
+
 Chỉnh sửa routing về /size/create
+
 Thêm chức năng xoá sản phẩm
 Thêm chức năng xoá brand
+Thêm chức năng xoá category
 
 Xem các mục đã bị xoá và khôi phục (category, brand, chi tiết sản phẩm)
 
 Kiểm tra tồn tại sản phẩm => 404 
 Kiểm tra tồn tại brand => 404 
+
+
+SKU là của detail
