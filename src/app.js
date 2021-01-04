@@ -9,6 +9,10 @@ const methodOverride = require('method-override');
 
 const expressLayouts = require('express-ejs-layouts');
 
+const passport = require("./config/passport");
+const session = require("express-session");
+
+
 const route = require('./routes');
 
 const db = require('./config/db');
@@ -35,6 +39,22 @@ app.use(methodOverride((req, res) => {
         return method
     }
 }))
+
+//Config passport
+app.use(session({
+    secret: process.env.PASSPORT_SECRET,
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use((req, res, next) => {
+    res.locals.user = req.user;
+    next();
+});
+
 
 route(app);
 

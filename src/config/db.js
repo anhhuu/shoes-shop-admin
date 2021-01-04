@@ -4,7 +4,7 @@ const debug = require('debug')('shoes-shop-admin:db')
 connect = async() => {
     try {
         await mongoose.connect(
-            process.env.DB_URI_LOCAL_V2, {
+            process.env.DB_URI_V2, {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
                 useFindAndModify: false,
