@@ -1,3 +1,5 @@
+const createError = require('http-errors');
+
 const brandService = require('../models/services/brandService');
 const sizeService = require('../models/services/sizeService');
 const productService = require('../models/services/productService');
@@ -15,17 +17,23 @@ module.exports.index = async(req, res, next) => {
 };
 
 module.exports.getBrandEditPage = async(req, res, next) => {
-    let brand_id = req.params.id;
-    console.log(brand_id);
-    let brand = await brandService.getByID(brand_id);
-    brand.totalProduct = await productService.getTotalProductByBrandID(brand._id);
+    try {
+        const brand_id = req.params.id;
+        let brand = await brandService.getByID(brand_id);
+        if (!brand) {
+            next(createError(404));
+        }
+        brand.totalProduct = await productService.getTotalProductByBrandID(brand._id);
 
-    let sizes = await sizeService.getListByBrandID(brand._id);
-    sizes = sizes.filter(item => (!item.is_deleted || item.is_deleted == false))
+        let sizes = await sizeService.getListByBrandID(brand._id);
+        sizes = sizes.filter(item => (!item.is_deleted || item.is_deleted == false))
 
-    //console.log(sizes);
+        //console.log(sizes);
 
-    res.render('brands/brandEdit', { brand: brand, sizes: sizes });
+        res.render('brands/brandEdit', { brand: brand, sizes: sizes });
+    } catch (error) {
+        next(createError(404, error));
+    }
 }
 
 module.exports.updateBrand = async(req, res, next) => {

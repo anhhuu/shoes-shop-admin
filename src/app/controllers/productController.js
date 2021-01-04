@@ -1,3 +1,5 @@
+const createError = require('http-errors');
+
 const productService = require('../models/services/productService');
 const categoryService = require('../models/services/categoryService');
 const brandService = require('../models/services/brandService');
@@ -50,8 +52,8 @@ module.exports.create = async(req, res, next) => {
         let price = new Object();
         price.price_value = bodyObject.price_value;
         price.string_price = price.price_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        price.unit = bodyObject.unit;
-        if (price.unit === "USD") {
+        price.price_currency = bodyObject.price_currency;
+        if (price.price_currency === "USD") {
             price.string_price += String('$')
         } else {
             price.string_price += String('₫')
@@ -128,34 +130,42 @@ module.exports.create = async(req, res, next) => {
 }
 
 module.exports.getProductEditPage = async(req, res, next) => {
-    let product = await productService.getByID(req.params.id);
-    let category = await categoryService.getByID(product.category_id)
-    let brand = await brandService.getByID(product.brand_id)
-    let categories = await categoryService.getAll();
-
-    let sizes = Array();
-    for (let i = 0; i < product.product_detail.length; i++) {
-        if (!product.product_detail[i].is_deleted) {
-            let size = await sizeService.getByID(product.product_detail[i].size_id);
-            size.remaining_amount = product.product_detail[i].remaining_amount;
-            size.amount = product.product_detail[i].amount;
-            sizes.push(size);
+    try {
+        let product = await productService.getByID(req.params.id);
+        if (!product) {
+            next(createError(404));
+            return;
         }
+        let category = await categoryService.getByID(product.category_id)
+        let brand = await brandService.getByID(product.brand_id)
+        let categories = await categoryService.getAll();
+
+        let sizes = Array();
+        for (let i = 0; i < product.product_detail.length; i++) {
+            if (!product.product_detail[i].is_deleted) {
+                let size = await sizeService.getByID(product.product_detail[i].size_id);
+                size.remaining_amount = product.product_detail[i].remaining_amount;
+                size.amount = product.product_detail[i].amount;
+                sizes.push(size);
+            }
+        }
+
+        let sizesExpected = await sizeService.getListByBrandID(product.brand_id);
+        sizesExpected = sizesExpected.filter(item => !sizes.some(other => item.VN_size == other.VN_size));
+
+        sizesExpected = sizesExpected.filter(item => (!item.is_deleted || item.is_deleted == false))
+
+        res.render('products/productEdit', {
+            product: product,
+            category: category,
+            categories: categories,
+            brand: brand,
+            sizes: sizes,
+            sizesExpected: sizesExpected
+        });
+    } catch (error) {
+        next(createError(404, error));
     }
-
-    let sizesExpected = await sizeService.getListByBrandID(product.brand_id);
-    sizesExpected = sizesExpected.filter(item => !sizes.some(other => item.VN_size == other.VN_size));
-
-    sizesExpected = sizesExpected.filter(item => (!item.is_deleted || item.is_deleted == false))
-
-    res.render('products/productEdit', {
-        product: product,
-        category: category,
-        categories: categories,
-        brand: brand,
-        sizes: sizes,
-        sizesExpected: sizesExpected
-    });
 }
 
 module.exports.updateBasicInfo = async(req, res, next) => {
@@ -165,12 +175,14 @@ module.exports.updateBasicInfo = async(req, res, next) => {
     let price = new Object();
     price.price_value = bodyObject.price;
     price.string_price = price.price_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    price.unit = bodyObject.unit;
-    if (price.unit === "USD") {
+    price.price_currency = bodyObject.price_currency;
+    if (price.price_currency === "USD") {
         price.string_price += String('$')
     } else {
         price.string_price += String('₫')
     }
+
+    price.price_value = +price.price_value;
 
     productUpdate.price = price;
     productUpdate.name = bodyObject.name;

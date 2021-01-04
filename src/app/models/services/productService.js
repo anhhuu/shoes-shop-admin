@@ -80,6 +80,7 @@ module.exports.filterProducts = async(queryObj) => {
         brands = brands.map(item => item._id);
 
         let categories = await categoryMongooseModel.find().lean();
+        console.log(queryObj);
         categories = categories.map(item => item._id);
 
         const mongooseQuery = {

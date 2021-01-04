@@ -38,6 +38,7 @@ module.exports.save = async(categoryObject) => {
         });
 
         await category.save();
+        return category;
 
     } catch (error) {
         throw error;
@@ -66,4 +67,17 @@ module.exports.isExistByURL = async(url) => {
     } catch (error) {
         throw error;
     }
+}
+
+module.exports.updateInfo = async(categoryObject) => {
+    try {
+        let category = await categoryMongooseModel.findById(categoryObject._id);
+        await category.update({
+            name: categoryObject.name,
+            category_url: categoryObject.category_url
+        })
+    } catch (error) {
+        throw error;
+    }
+
 }

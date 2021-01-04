@@ -52,11 +52,13 @@
                                     value="<%= product.price.price_value %>">
                             </div>
                             <div class="form-group col-md-3">
-                                <label for="unit">Đơn vị tiền</label>
-                                <select class="custom-select" name="unit">
-                                    <option value="VND" <% if(product.price.unit == 'VND') { %> selected <% } %>>VND
+                                <label for="price_currency">Đơn vị tiền</label>
+                                <select class="custom-select" name="price_currency">
+                                    <option value="VND" <% if(product.price.price_currency == 'VND') { %> selected
+                                        <% } %>>VND
                                     </option>
-                                    <option value="USD" <% if(product.price.unit == 'USD') { %> selected <% } %>>USD
+                                    <option value="USD" <% if(product.price.price_currency == 'USD') { %> selected
+                                        <% } %>>USD
                                     </option>
                                 </select>
                             </div>

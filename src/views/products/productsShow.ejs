@@ -52,17 +52,17 @@
                 </div>
                 <div class="row mt-4">
                     <div class="col-md-1 filter-bar-right">
-                        <select id="priceUnit" name="price_currency" class="form-control form-control-sm">
-                            <option id="vndUnitOption" value="VND"
+                        <select id="priceCurrency" name="price_currency" class="form-control form-control-sm">
+                            <option id="vndCurrencyOption" value="VND"
                                 <% if(query.price_currency && query.price_currency === 'VND') { %> <%= 'selected' %>
                                 <% } %>>VND</option>
-                            <option id="usdUnitOption" value="USD"
+                            <option id="usdCurrencyOption" value="USD"
                                 <% if(query.price_currency && query.price_currency === 'USD') { %> <%= 'selected' %>
                                 <% } %>>USD</option>
                         </select>
                     </div>
                     <div class="col-md-3 filter-bar-left">
-                        <select id="vndUnitRange" name="price_range" class="form-control form-control-sm"
+                        <select id="vndCurrencyRange" name="price_range" class="form-control form-control-sm"
                             <% if(query.price_currency && query.price_currency === 'USD') { %> <%= 'hidden disabled' %>
                             <% } %>>
                             <option value="all" <% if(query.price_range && query.price_range === 'all') { %>
@@ -88,7 +88,7 @@
                                 Giá trên 10.000.000đ</option>
                         </select>
 
-                        <select id="usdUnitRange" name="price_range" class="form-control form-control-sm"
+                        <select id="usdCurrencyRange" name="price_range" class="form-control form-control-sm"
                             <% if(!query.price_currency || query.price_currency && query.price_currency === 'VND') { %>
                             <%= 'hidden disabled' %> <% } %>>
                             <option value="all" <% if(query.price_range && query.price_range === 'all') { %>

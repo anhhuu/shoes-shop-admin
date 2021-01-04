@@ -78,17 +78,17 @@ $(document).ready(() => {
 
     //show/hidden price unselected
     (() => {
-        $('#priceUnit').on('change', () => {
-            if ($('#vndUnitOption').is(':selected')) {
-                $('#vndUnitRange').attr("hidden", false);
-                $('#vndUnitRange').attr("disabled", false);
-                $('#usdUnitRange').attr("hidden", true);
-                $('#usdUnitRange').attr("disabled", true);
+        $('#priceCurrency').on('change', () => {
+            if ($('#vndCurrencyOption').is(':selected')) {
+                $('#vndCurrencyRange').attr("hidden", false);
+                $('#vndCurrencyRange').attr("disabled", false);
+                $('#usdCurrencyRange').attr("hidden", true);
+                $('#usdCurrencyRange').attr("disabled", true);
             } else {
-                $('#vndUnitRange').attr("hidden", true);
-                $('#vndUnitRange').attr("disabled", true);
-                $('#usdUnitRange').attr("hidden", false);
-                $('#usdUnitRange').attr("disabled", false);
+                $('#vndCurrencyRange').attr("hidden", true);
+                $('#vndCurrencyRange').attr("disabled", true);
+                $('#usdCurrencyRange').attr("hidden", false);
+                $('#usdCurrencyRange').attr("disabled", false);
             }
         })
     })();

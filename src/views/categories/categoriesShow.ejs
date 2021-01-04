@@ -71,7 +71,7 @@
                                         <div class="modal-body">
                                             <!-- update remaining of size FORM-->
                                             <form method="POST" id="updateSizeForm<%= i %>"
-                                                action="/category/id/<%= categories[i]._id %>/update">
+                                                action="/categories/id/<%= categories[i]._id %>/update">
                                                 <div class="form-row">
                                                     <div class="form-group col-md-6">
                                                         <label for="name">Tên danh mục</label>
@@ -84,7 +84,7 @@
                                                             value="<%= categories[i].category_url %>">
                                                     </div>
                                                 </div>
-                                                <input type="text" name="_method" value="patch" hidden>
+                                                <input type="text" name="_method" value="put" hidden>
                                                 <input type="text" name="category_id" value="<%= categories[i]._id %>"
                                                     hidden>
                                             </form>
@@ -112,4 +112,4 @@
 <%- include('./categoryCreate.ejs') %>
 
 
-<script src="/resources/js/brandCreate.js"></script>
+<script src="/resources/js/categoryCreate.js"></script>
