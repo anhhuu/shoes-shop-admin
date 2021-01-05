@@ -39,3 +39,18 @@ module.exports.validPassword = (user, password) => {
 module.exports.getUserProfile = (id) => {
     return User.findOne({ _id: id }).lean();
 }
+
+module.exports.getList = async(page, limit) => {
+    try {
+        page = !page || page < 1 ? 1 : page;
+        limit = !limit || limit < 10 ? 10 : limit;
+        const users = await User.find({}, '-password').skip(page * limit - limit).limit(limit).lean();
+        const count = await User.find({}, '-password').countDocuments();
+        return {
+            users,
+            count
+        }
+    } catch (error) {
+        throw error;
+    }
+}

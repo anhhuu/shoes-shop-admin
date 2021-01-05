@@ -1,0 +1,85 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Tất cả người dùng</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Trang chủ/Tất cả người dùng</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>Tất cả người dùng
+        </div>
+        <div class="card-body">
+            <div id="usersTableShow">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>SĐT</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tfoot hidden>
+                            <tr>
+                                <th>ID</th>
+                                <th>Tên</th>
+                                <th>Email</th>
+                                <th>SĐT</th>
+                                <th>Chi tiết</th>
+                            </tr>
+                        </tfoot>
+                        <tbody>
+                            <% for(let i = 0; i < users.length; i++) { %>
+                            <tr>
+                                <td>
+                                    <a href="customers/id/<%= users[i]._id %>">
+                                        <%= users[i]._id %>
+                                    </a>
+                                </td>
+
+                                <td>
+                                    <%= users[i].last_name %>
+                                </td>
+                                <td>
+                                    <%= users[i].email %>
+                                </td>
+                                <td>
+                                    <%= users[i].phone_number %>
+                                </td>
+
+                                <td>
+                                    <a href="users/id/<%= users[i]._id %>">
+                                        <div <i class="fas fa-edit"></i></div>
+                                    </a>
+                                </td>
+                            </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row d-flex justify-content-center">
+                    <% if(numberOfPage > 1) { %>
+                    <input type="text" id="numberOfPage" value="<%= numberOfPage %>" hidden disabled>
+                    <nav aria-label=" ...">
+                        <ul class="pagination">
+                            <li class="page-item">
+                                <button type="button" id="pageStart" class="page-link">&laquo;</button>
+                            </li>
+                            <% for(let i = 1; i <= numberOfPage; i++) { %>
+                            <li class="page-item">
+                                <button type="button" class="page-link"><%= i %></button>
+                            </li>
+                            <% } %>
+                            <li class="page-item">
+                                <button type="button" id="pageEnd" class="page-link">&raquo;</button>
+                            </li>
+                        </ul>
+                    </nav>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
