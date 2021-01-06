@@ -41,7 +41,13 @@ const User = new Schema({
     role_id: {
         type: Schema.Types.ObjectId,
         ref: "Role"
+    },
+
+    isBlocked: {
+        type: Boolean,
     }
+
+
 
 }, {
     timestamps: true,

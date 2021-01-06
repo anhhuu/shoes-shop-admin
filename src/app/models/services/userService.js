@@ -54,3 +54,15 @@ module.exports.getList = async(page, limit) => {
         throw error;
     }
 }
+
+module.exports.updateBlockedStatus = async(id, isBlocked) => {
+    try {
+        console.log(isBlocked)
+        const user = await User.findById(id);
+        await user.updateOne({
+            isBlocked: isBlocked
+        })
+    } catch (error) {
+        throw error;
+    }
+}

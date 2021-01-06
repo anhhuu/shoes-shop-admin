@@ -1,7 +1,7 @@
 <div class="container-fluid">
-    <h1 class="mt-4">Tất cả người dùng</h1>
+    <h1 class="mt-4">Tài khoản người dùng</h1>
     <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item active">Trang chủ/Tất cả người dùng</li>
+        <li class="breadcrumb-item active"><a href="/">Trang chủ</a>/Tài khoản người dùng</li>
     </ol>
 
     <div class="card mb-4">
@@ -50,7 +50,7 @@
                                 </td>
 
                                 <td>
-                                    <a href="users/id/<%= users[i]._id %>">
+                                    <a href="customers/id/<%= users[i]._id %>">
                                         <div <i class="fas fa-edit"></i></div>
                                     </a>
                                 </td>
@@ -61,19 +61,18 @@
                 </div>
                 <div class="row d-flex justify-content-center">
                     <% if(numberOfPage > 1) { %>
-                    <input type="text" id="numberOfPage" value="<%= numberOfPage %>" hidden disabled>
                     <nav aria-label=" ...">
                         <ul class="pagination">
                             <li class="page-item">
-                                <button type="button" id="pageStart" class="page-link">&laquo;</button>
+                                <a href="/customers?page=<%= 1 %>" id="pageStart" class="page-link">&laquo;</a>
                             </li>
                             <% for(let i = 1; i <= numberOfPage; i++) { %>
-                            <li class="page-item">
-                                <button type="button" class="page-link"><%= i %></button>
+                            <li class="page-item <% if(i==page) { %> <%= 'active' %> <% } %>">
+                                <a href="/customers?page=<%= i %> " class="page-link"><%= i %></a>
                             </li>
                             <% } %>
                             <li class="page-item">
-                                <button type="button" id="pageEnd" class="page-link">&raquo;</button>
+                                <a href="/customers?page=<%= numberOfPage %>" id="pageEnd" class="page-link">&raquo;</a>
                             </li>
                         </ul>
                     </nav>
