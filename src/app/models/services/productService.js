@@ -59,6 +59,7 @@ queryObj: {
 */
 module.exports.filterProducts = async(queryObj) => {
     try {
+
         if (!queryObj.page) {
             queryObj.page = 1;
         }
@@ -86,6 +87,9 @@ module.exports.filterProducts = async(queryObj) => {
         const mongooseQuery = {
             $and: [
                 //{ $text: { $search: '././' } },
+                {
+                    is_deleted: false,
+                },
                 {
                     $and: [
                         { name: queryObj.query_field == 'name' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
@@ -224,4 +228,15 @@ module.exports.getProductsBySizeID = async(sizeId) => {
         }]);
 
     return products;
+}
+
+module.exports.delete = async(id) => {
+    try {
+        const product = productMongooseModel.findById(id);
+        await product.updateOne({
+            is_deleted: true
+        })
+    } catch (error) {
+        throw error;
+    }
 }

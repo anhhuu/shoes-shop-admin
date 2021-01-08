@@ -10,7 +10,8 @@ module.exports.getProductsWithFilters = async(req, res, next) => {
     let query = req.query;
     let filterProductsData = await productService.filterProducts(query);
 
-    res.render('products/productsTableShow', { layout: false, products: filterProductsData.products, brands: brands, categories: categories, query: query, count: filterProductsData.count }, (err, html) => {
+    const numberOfPage = Math.ceil(parseFloat(filterProductsData.count) / 10.0);
+    res.render('products/productsTableShow', { layout: false, products: filterProductsData.products, brands: brands, categories: categories, query: query, numberOfPage: numberOfPage }, (err, html) => {
         res.send(html);
     })
 };

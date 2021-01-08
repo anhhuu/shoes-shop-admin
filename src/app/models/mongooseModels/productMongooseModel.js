@@ -15,7 +15,8 @@ const Product = new Schema({
     description: { type: String },
     product_detail: { type: Object },
     brand_id: { type: Schema.Types.ObjectId, ref: "Brand" },
-    category_id: { type: Schema.Types.ObjectId, ref: "Category" }
+    category_id: { type: Schema.Types.ObjectId, ref: "Category" },
+    is_deleted: { type: Boolean }
 }, {
     timestamps: true,
 });

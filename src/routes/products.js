@@ -19,4 +19,6 @@ router.delete('/id/:id/images/delete', productsController.deleteImage);
 
 router.patch('/id/:id/info/update', productsController.updateBasicInfo)
 
+router.delete('/id/:id/delete', productsController.delete);
+
 module.exports = router;

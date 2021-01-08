@@ -3,7 +3,6 @@ const userService = require('../models/services/userService')
 module.exports.index = async(req, res, next) => {
     const page = req.query.page;
     const data = await userService.getList(page, 10);
-    console.log(data);
 
     const numberOfPage = Math.ceil(parseFloat(data.count / 10.0));
 

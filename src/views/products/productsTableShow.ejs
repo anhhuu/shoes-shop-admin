@@ -62,14 +62,14 @@
             </tbody>
         </table>
         <div class="row d-flex justify-content-center">
-            <% if(parseInt(count / 10) > 1) { %>
-            <input type="text" id="numberOfPage" value="<%= parseInt(count / 10) %>" hidden disabled>
+            <% if(numberOfPage > 1) { %>
+            <input type="text" id="numberOfPage" value="<%= numberOfPage %>" hidden disabled>
             <nav aria-label=" ...">
                 <ul class="pagination">
                     <li class="page-item">
                         <button type="button" id="pageStart" class="page-link">&laquo;</button>
                     </li>
-                    <% for(let i = 1; i <= count / 10; i++) { %>
+                    <% for(let i = 1; i <= numberOfPage; i++) { %>
                     <li class="page-item
                 <% if(query.page && +query.page === i) { %> <%= 'active' %> <% } %> ">
                         <button type="button" class="page-link"><%= i %></button>

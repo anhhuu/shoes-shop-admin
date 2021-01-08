@@ -16,9 +16,10 @@ module.exports.index = async(req, res, next) => {
 
     let query = req.query;
     let filterProductsData = await productService.filterProducts(query);
+    const numberOfPage = Math.ceil(parseFloat(filterProductsData.count) / 10.0);
 
     // Pass data to view to display list of products
-    res.render('products/productsShow', { products: filterProductsData.products, brands: brands, categories: categories, query: query, count: filterProductsData.count });
+    res.render('products/productsShow', { products: filterProductsData.products, brands: brands, categories: categories, query: query, numberOfPage: numberOfPage });
 };
 
 module.exports.getCreatePage = async(req, res, next) => {
@@ -307,4 +308,10 @@ module.exports.createImage = async(req, res, next) => {
         productService.updateProductImage(productUpdate);
         res.redirect('/products/id/' + req.params.id + '/#image');
     });
+}
+
+module.exports.delete = async(req, res, next) => {
+    const id = req.params.id;
+    await productService.delete(id);
+    res.redirect('/products')
 }

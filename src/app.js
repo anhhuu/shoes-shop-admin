@@ -23,7 +23,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.set('layout', 'layouts/main');
-app.set("layout extractScripts", true)
+app.set("layout extractScripts", true);
 
 app.use(logger('dev', { stream: { write: msg => debugHttp(msg.trimEnd()) } }));
 app.use(express.json());

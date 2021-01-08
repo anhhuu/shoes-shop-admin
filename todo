@@ -17,14 +17,17 @@ Kiểm tra tồn tại brand => 404 OK
 
 UNIT -> CURRENCY OK
 
-Address 
+Address -> OK
+Quản lý, block user OK
 
 Thêm chức năng xoá sản phẩm
 Thêm chức năng xoá brand
 Thêm chức năng xoá category
-Fix paginating
+Fix paginating (trang filter)
+
 Xem các mục đã bị xoá và khôi phục (category, brand, chi tiết sản phẩm)
 
-Quản lý, block user
+Chỉnh sửa thông tin cá nhân của admin, check admin không được block bản thân
+
 
 SKU là của detail

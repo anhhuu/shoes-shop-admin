@@ -37,15 +37,15 @@ module.exports.validPassword = (user, password) => {
 }
 
 module.exports.getUserProfile = (id) => {
-    return User.findOne({ _id: id }).lean();
+    return User.findOne({ _id: id }).populate('role_id').lean();
 }
 
 module.exports.getList = async(page, limit) => {
     try {
         page = !page || page < 1 ? 1 : page;
         limit = !limit || limit < 10 ? 10 : limit;
-        const users = await User.find({}, '-password').skip(page * limit - limit).limit(limit).lean();
-        const count = await User.find({}, '-password').countDocuments();
+        const users = await User.find({}, '-password').populate('role_id').skip(page * limit - limit).limit(limit).lean();
+        const count = await User.find({}, '-password').populate('role_id').countDocuments();
         return {
             users,
             count
