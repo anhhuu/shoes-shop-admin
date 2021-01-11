@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
+const {hashString} = require("../../../utils/hasingPassword");
 
 const User = new Schema({
     first_name: {
@@ -54,8 +55,7 @@ const User = new Schema({
 });
 
 User.pre('save', async function(next) {
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
+    this.password = hashString(10,this.password);
 })
 
 

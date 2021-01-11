@@ -6,6 +6,7 @@ const logger = require('morgan');
 const app = express();
 const debugHttp = require('debug')('shoes-shop-admin:http');
 const methodOverride = require('method-override');
+const flash = require('connect-flash');
 
 const expressLayouts = require('express-ejs-layouts');
 
@@ -31,6 +32,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use(methodOverride((req, res) => {
     if (req.body && typeof req.body === 'object' && '_method' in req.body) {
         // look in urlencoded POST bodies and delete it
@@ -46,6 +48,9 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(flash());
+
 
 app.use(passport.initialize());
 app.use(passport.session());
