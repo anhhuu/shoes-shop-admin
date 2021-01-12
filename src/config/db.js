@@ -11,10 +11,8 @@ connect = async() => {
                 useCreateIndex: true
             });
         debug('connected successfully!');
-        //console.log('connected successfully!')
     } catch (error) {
         debug('connected failure! <' + error + '>');
-        //console.log('connected failure! <' + error + '>');
     }
 }
 

@@ -17,7 +17,7 @@ module.exports.getEditPage = async(req, res, next) => {
     const id = req.params.id;
     const user = await userService.getUserProfile(id);
     console.log(user);
-    res.render('customers/customersEdit', { user: user });
+    res.render('customers/customersEdit', { account: user });
 }
 
 module.exports.changeBlockedStatus = async(req, res, next) => {

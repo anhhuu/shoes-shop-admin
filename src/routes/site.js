@@ -9,10 +9,7 @@ const passport = require('../config/passport');
 
 router.get('/', auth.protectRequest, siteController.index);
 router.get('/login', siteController.getLoginPage);
-router.post('/login', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
-}));
+router.post('/login', siteController.login);
 router.get('/logout', siteController.logout);
 
 module.exports = router;

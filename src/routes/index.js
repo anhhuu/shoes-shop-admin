@@ -4,6 +4,7 @@ const productsRouter = require('./products');
 const brandsRouter = require('./brands');
 const categoriesRouter = require('./categories');
 const customersRouter = require('./customers');
+const usersRouter = require('./users');
 
 const routeAPI = require('./api/index');
 
@@ -13,6 +14,7 @@ route = app => {
     app.use('/brands', brandsRouter);
     app.use('/categories', categoriesRouter);
     app.use('/customers', customersRouter);
+    app.use('/users', usersRouter);
     routeAPI(app);
 }
 

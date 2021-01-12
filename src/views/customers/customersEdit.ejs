@@ -2,7 +2,7 @@
     <h1 class="mt-4">Người dùng</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item active"><a href="/">Trang chủ</a>/<a href="/customers">Tài khoản người
-                dùng</a>/<%= user._id %></li>
+                dùng</a>/<%= account._id %></li>
     </ol>
 
     <div class="card mt-4">
@@ -11,8 +11,8 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-4">
                     <div class="profile-img">
-                        <% if(user.avatar_image_url) { %>
-                        <img src="<%= user.avatar_image_url %>" alt="">
+                        <% if(account.avatar_image_url) { %>
+                        <img src="<%= account.avatar_image_url %>" alt="">
                         <% } else { %>
                         <img src="/resources/img/user-img-default.png" alt="" />
                         <% } %>
@@ -21,17 +21,17 @@
                 <div class="col-md-4 mt-4">
                     <div class="profile-head">
                         <h5>
-                            <%= user.first_name + ' ' + user.last_name %>
+                            <%= account.first_name + ' ' + account.last_name %>
                         </h5>
                         <h6>
-                            <%= user.email %>
+                            <%= account.email %>
                         </h6>
-                        <form action="/customers/id/<%= user._id %>/change-blocked-status" method="POST">
-                            <input type="text" name="user_id" value="<%= user._id%>" hidden>
-                            <input type="text" name="isBlocked" value="<%= !user.isBlocked%>" hidden>
+                        <form action="/customers/id/<%= account._id %>/change-blocked-status" method="POST">
+                            <input type="text" name="user_id" value="<%= account._id%>" hidden>
+                            <input type="text" name="isBlocked" value="<%= !account.isBlocked%>" hidden>
                             <input type="text" name="_method" value="patch" hidden>
-                            <% if(user.role_id.name == 'CUSTOMER') { %>
-                            <% if(user.isBlocked) { %>
+                            <% if(account.role_id.name == 'CUSTOMER') { %>
+                            <% if(account.isBlocked) { %>
                             <button type="submit" class="btn btn-outline-info mt-4"><i class="fas fa-unlock-alt"></i>
                                 &ensp;Unblock</button>
                             <% } else { %>
@@ -65,27 +65,27 @@
                         <tbody>
                             <tr>
                                 <th scope="row">User ID</th>
-                                <td><%= user._id %></td>
+                                <td><%= account._id %></td>
                             </tr>
                             <tr>
                                 <th scope="row">Họ</th>
-                                <td><%= user.first_name %></td>
+                                <td><%= account.first_name %></td>
                             </tr>
                             <tr>
                                 <th scope="row">Tên</th>
-                                <td><%= user.last_name %> </td>
+                                <td><%= account.last_name %> </td>
                             </tr>
                             <tr>
                                 <th scope="row">Email</th>
-                                <td><%= user.email %></td>
+                                <td><%= account.email %></td>
                             </tr>
                             <tr>
                                 <th scope="row">SĐT</th>
-                                <td><%= user.phone_number %></td>
+                                <td><%= account.phone_number %></td>
                             </tr>
                             <tr>
                                 <th scope="row">Xác nhận qua email</th>
-                                <% if(user.active) {%>
+                                <% if(account.active) {%>
                                 <td><%= 'Đã xác nhận' %> </td>
                                 <% } else { %>
                                 <td><%= 'Chưa xác nhận' %> </td>
@@ -93,7 +93,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Loại tài khoản</th>
-                                <% if(user.role_id.name == 'CUSTOMER') {%>
+                                <% if(account.role_id.name == 'CUSTOMER') {%>
                                 <td><%= 'Khách hàng' %> </td>
                                 <% } else { %>
                                 <td><%= 'ADMIN' %> </td>
@@ -101,7 +101,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Trạng thái tài khoản</th>
-                                <% if(!user.isBlocked) {%>
+                                <% if(!account.isBlocked) {%>
                                 <td><%= 'Bình thường' %> </td>
                                 <% } else { %>
                                 <td><%= 'Đã bị khoá' %> </td>
@@ -109,7 +109,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Địa chỉ</th>
-                                <td><%= user.address %></td>
+                                <td><%= account.address %></td>
                             </tr>
                         </tbody>
                     </table>

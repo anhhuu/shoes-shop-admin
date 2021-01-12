@@ -1,7 +1,6 @@
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const app = express();
 const debugHttp = require('debug')('shoes-shop-admin:http');
@@ -10,8 +9,11 @@ const methodOverride = require('method-override');
 const expressLayouts = require('express-ejs-layouts');
 
 const passport = require("./config/passport");
+
+const cookieParser = require('cookie-parser');
 const session = require("express-session");
 
+const { flash } = require('express-flash-message');
 
 const route = require('./routes');
 
@@ -46,6 +48,8 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(flash({ sessionKeyName: 'flashMessage' }));
 
 app.use(passport.initialize());
 app.use(passport.session());

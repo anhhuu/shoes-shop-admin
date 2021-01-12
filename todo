@@ -20,14 +20,17 @@ UNIT -> CURRENCY OK
 Address -> OK
 Quản lý, block user OK
 
-Thêm chức năng xoá sản phẩm
+Thêm chức năng xoá sản phẩm OK
+Check admin không được block bản thân OK
+
+Chỉnh sửa thông tin cá nhân của admin OK
+
 Thêm chức năng xoá brand
 Thêm chức năng xoá category
 Fix paginating (trang filter)
 
 Xem các mục đã bị xoá và khôi phục (category, brand, chi tiết sản phẩm)
 
-Chỉnh sửa thông tin cá nhân của admin, check admin không được block bản thân
 
 
 SKU là của detail

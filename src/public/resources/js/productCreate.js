@@ -45,13 +45,79 @@ enableOnCheckedSize = () => {
                 //console.log(totalSizes);
                 //console.log(i);
                 $('#amount' + String(i + 1)).attr('disabled', false);
+                $('#amount' + String(i + 1)).prop('required', true);
                 $('#remaining_amount' + String(i + 1)).attr('disabled', false);
+                $('#remaining_amount' + String(i + 1)).prop('required', true);
             } else {
                 $('#amount' + String(i + 1)).attr('disabled', true);
+                $('#amount' + String(i + 1)).prop('required', false);
                 $('#remaining_amount' + String(i + 1)).attr('disabled', true);
+                $('#remaining_amount' + String(i + 1)).prop('required', false);
             }
         })
     }
+}
+
+
+checkDiscount = () => {
+    $('input[name = "discount"]').bind('keyup', (event) => {
+        const discountInput = $(event.currentTarget).val();
+        if (isNaN(discountInput) || discountInput === '' || +discountInput < 0 || +discountInput > 99) {
+            $(event.currentTarget).addClass('is-invalid');
+            $('#errDiscount').text('Discount phải là số dương và < 100');
+            $('#btnCreate').attr('disabled', true);
+        } else {
+            $(event.currentTarget).removeClass('is-invalid');
+            $(event.currentTarget).addClass('is-valid');
+            $('#errDiscount').text('');
+            $('#btnCreate').attr('disabled', false);
+        }
+    })
+}
+
+checkPrice = () => {
+    $('input[name = "price_value"]').bind('keyup', (event) => {
+        const priceInput = $(event.currentTarget).val();
+        if (isNaN(priceInput) || +priceInput < 0 || priceInput === '') {
+            $(event.currentTarget).addClass('is-invalid');
+            $('#errPrice').text('Price phải là số dương');
+            $('#btnCreate').attr('disabled', true);
+        } else {
+            $(event.currentTarget).removeClass('is-invalid');
+            $(event.currentTarget).addClass('is-valid');
+            $('#errPrice').text('');
+            $('#btnCreate').attr('disabled', false);
+        }
+    })
+}
+
+checkRemainingAmount = () => {
+    $('input[name = "remaining_amount"]').bind('keyup', (event) => {
+        console.log('x');
+        const sizeInput = $(event.currentTarget).val();
+        if (isNaN(sizeInput) || +sizeInput < 0) {
+            $(event.currentTarget).addClass('is-invalid');
+            $('#btnCreate').attr('disabled', true);
+        } else {
+            $(event.currentTarget).removeClass('is-invalid');
+            $(event.currentTarget).addClass('is-valid');
+            $('#btnCreate').attr('disabled', false);
+        }
+    })
+}
+checkAmount = () => {
+    $('input[name = "amount"]').bind('keyup', (event) => {
+        console.log('x');
+        const sizeInput = $(event.currentTarget).val();
+        if (isNaN(sizeInput) || +sizeInput < 0) {
+            $(event.currentTarget).addClass('is-invalid');
+            $('#btnCreate').attr('disabled', true);
+        } else {
+            $(event.currentTarget).removeClass('is-invalid');
+            $(event.currentTarget).addClass('is-valid');
+            $('#btnCreate').attr('disabled', false);
+        }
+    })
 }
 
 $(document).ready(() => {
@@ -73,4 +139,8 @@ $(document).ready(() => {
 
     loadBrandSizesAJAX();
     enableOnCheckedSize();
+    checkDiscount();
+    checkPrice();
+    checkRemainingAmount();
+    checkAmount();
 });

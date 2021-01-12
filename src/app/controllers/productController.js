@@ -51,7 +51,7 @@ module.exports.create = async(req, res, next) => {
 
         //price
         let price = new Object();
-        price.price_value = bodyObject.price_value;
+        price.price_value = +bodyObject.price_value;
         price.string_price = price.price_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         price.price_currency = bodyObject.price_currency;
         if (price.price_currency === "USD") {
@@ -87,8 +87,8 @@ module.exports.create = async(req, res, next) => {
             for (let i = 0; i < sizes.length; i++) {
                 let sizeObj = new Object();
                 sizeObj.size_id = sizes[i];
-                sizeObj.amount = amountArr[i] != '' ? amountArr[i] : '0';
-                sizeObj.remaining_amount = remainingAmountArr[i] != '' ? remainingAmountArr[i] : '0';
+                sizeObj.amount = !isNaN(amountArr[i]) ? +amountArr[i] : 0;
+                sizeObj.remaining_amount = !isNaN(remainingAmountArr[i]) ? +remainingAmountArr[i] : 0;
                 product_detail.push(sizeObj);
             }
         }
@@ -123,9 +123,8 @@ module.exports.create = async(req, res, next) => {
 
         const _id = await productService.save(product);
 
-        console.log(images_detail_url);
-
         //res.send(product);
+        console.log(product);
         res.redirect('/products/id/' + _id);
     });
 }
@@ -137,6 +136,7 @@ module.exports.getProductEditPage = async(req, res, next) => {
             next(createError(404));
             return;
         }
+        product.discount = product.discount * 100;
         let category = await categoryService.getByID(product.category_id)
         let brand = await brandService.getByID(product.brand_id)
         let categories = await categoryService.getAll();
@@ -153,7 +153,6 @@ module.exports.getProductEditPage = async(req, res, next) => {
 
         let sizesExpected = await sizeService.getListByBrandID(product.brand_id);
         sizesExpected = sizesExpected.filter(item => !sizes.some(other => item.VN_size == other.VN_size));
-
         sizesExpected = sizesExpected.filter(item => (!item.is_deleted || item.is_deleted == false))
 
         res.render('products/productEdit', {
@@ -175,27 +174,33 @@ module.exports.updateBasicInfo = async(req, res, next) => {
 
     let price = new Object();
     price.price_value = bodyObject.price;
-    price.string_price = price.price_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    price.price_currency = bodyObject.price_currency;
-    if (price.price_currency === "USD") {
-        price.string_price += String('$')
-    } else {
-        price.string_price += String('₫')
+    if (!isNaN(price.price_value)) {
+        price.string_price = price.price_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        price.price_currency = bodyObject.price_currency;
+        if (price.price_currency === "USD") {
+            price.string_price += String('$')
+        } else {
+            price.string_price += String('₫')
+        }
+
+
+        price.price_value = +price.price_value;
+
+        if (!isNaN(bodyObject.discount)) {
+            productUpdate.discount = parseFloat(+bodyObject.discount / 100);
+        } else {
+            productUpdate.discount = 0;
+        }
+
+        productUpdate.price = price;
+        productUpdate.name = bodyObject.name;
+        productUpdate.color = bodyObject.color;
+        productUpdate.category_id = bodyObject.category_id;
+        productUpdate.SKU = bodyObject.SKU;
+        productUpdate.description = bodyObject.description;
+
+        await productService.updateBasicInfo(productUpdate);
     }
-
-    price.price_value = +price.price_value;
-
-    productUpdate.price = price;
-    productUpdate.name = bodyObject.name;
-    productUpdate.discount = bodyObject.discount;
-    productUpdate.color = bodyObject.color;
-    productUpdate.category_id = bodyObject.category_id;
-    productUpdate.SKU = bodyObject.SKU;
-    productUpdate.description = bodyObject.description;
-
-    await productService.updateBasicInfo(productUpdate);
-
-    //console.log(productUpdate);
     res.redirect('/products/id/' + productUpdate._id);
 }
 
@@ -208,10 +213,10 @@ module.exports.updateSize = async(req, res, next) => {
     for (let i = 0; i < product_detail.length; i++) {
         if (String(product_detail[i].size_id) === String(bodyObject.size_id)) {
             if (+product_detail[i].remaining_amount >= +bodyObject.remaining_amount) {
-                product_detail[i].remaining_amount = bodyObject.remaining_amount;
-            } else {
+                product_detail[i].remaining_amount = +bodyObject.remaining_amount;
+            } else if (+product_detail[i].remaining_amount < +bodyObject.remaining_amount) {
                 product_detail[i].amount = +product_detail[i].amount + +bodyObject.remaining_amount - +product_detail[i].remaining_amount;
-                product_detail[i].remaining_amount = bodyObject.remaining_amount;
+                product_detail[i].remaining_amount = +bodyObject.remaining_amount;
             }
         }
     }
@@ -253,15 +258,15 @@ module.exports.createSize = async(req, res, next) => {
     if (!bodyObject.isRestore) {
         let newSize = Object();
         newSize.size_id = ObjectID(bodyObject.size_id);
-        newSize.remaining_amount = bodyObject.remaining_amount == '' ? 0 : bodyObject.remaining_amount;
+        newSize.remaining_amount = isNaN(bodyObject.remaining_amount) ? 0 : +bodyObject.remaining_amount;
 
-        newSize.amount = bodyObject.amount == '' ? 0 : bodyObject.amount;
+        newSize.amount = isNaN(bodyObject.amount) ? 0 : +bodyObject.amount;
         product_detail.push(newSize);
     } else {
         index = product_detail.findIndex(item => String(item.size_id) === String(bodyObject.size_id));
         product_detail[index].is_deleted = false;
-        product_detail[index].remaining_amount = bodyObject.remaining_amount == '' ? product_detail[index].remaining_amount : bodyObject.remaining_amount;
-        product_detail[index].amount = bodyObject.amount == '' ? product_detail[index].amount : bodyObject.amount;
+        product_detail[index].remaining_amount = isNaN(bodyObject.remaining_amount) ? product_detail[index].remaining_amount : bodyObject.remaining_amount;
+        product_detail[index].amount = isNaN(bodyObject.amount) ? product_detail[index].amount : bodyObject.amount;
     }
 
     productUpdate.product_detail = product_detail;
