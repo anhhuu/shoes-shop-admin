@@ -1,14 +1,20 @@
 const passport = require('../../config/passport');
 
 module.exports.index = async(req, res, next) => {
-    res.render('index');
+    res.render('index', {
+        options: {
+            message: req.flash('message')
+        }
+    });
 }
 
 module.exports.getLoginPage = async(req, res, next) => {
-    let a = +'234d'
-    let b = +'f3';
-    console.log(a, b);
-    res.render('users/login', { layout: false });
+    res.render('users/login', {
+        layout: false,
+        options: {
+            message: req.flash('message')
+        }
+    }, );
 }
 
 module.exports.logout = async(req, res, next) => {

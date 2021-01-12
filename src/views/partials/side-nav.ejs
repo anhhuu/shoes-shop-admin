@@ -52,6 +52,8 @@
         </div>
         <div class="sb-sidenav-footer">
             <div class="small">Logged in as:</div>
-            admin
+            <% if(locals.user) { %>
+            <%= user.email %>
+            <% } %>
         </div>
     </nav>

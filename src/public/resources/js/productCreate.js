@@ -31,6 +31,10 @@ loadBrandSizesAJAX = () => {
                     sizesElement.append(sizesListElement);
                 });
                 enableOnCheckedSize();
+                checkDiscount();
+                checkPrice();
+                checkRemainingAmount();
+                checkAmount();
             }
         })
     })
