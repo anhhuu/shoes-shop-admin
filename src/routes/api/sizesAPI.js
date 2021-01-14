@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const sizeAPIController = require('../../app/controllers/api/sizeAPIController');
 
-router.get('/', sizeAPIController.getSizes);
+const auth = require('../../middlewares/auth');
 
-router.get('/is-VNSize-exist', sizeAPIController.isVNSizeExist);
-router.get('/is-USSize-exist', sizeAPIController.isUSSizeExist);
-router.get('/is-CMSize-exist', sizeAPIController.isCMSizeExist);
+router.get('/', auth.protectAPIRequest, sizeAPIController.getSizes);
+
+router.get('/is-VNSize-exist', auth.protectAPIRequest, sizeAPIController.isVNSizeExist);
+router.get('/is-USSize-exist', auth.protectAPIRequest, sizeAPIController.isUSSizeExist);
+router.get('/is-CMSize-exist', auth.protectAPIRequest, sizeAPIController.isCMSizeExist);
 
 module.exports = router;

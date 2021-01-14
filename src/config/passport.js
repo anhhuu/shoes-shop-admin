@@ -6,6 +6,7 @@ const roleServices = require('../app/models/services/roleServices');
 
 passport.use(new LocalStrategy(async(email, password, done) => {
     try {
+        console.log(email);
         let user = await User.findOne({ email });
         if (!user) {
             return done(null, false, { message: 'Incorrect username.' });

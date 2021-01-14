@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const {sendMail} = require("../../../config/mailjet");
+const { sendMail } = require("../../../config/mailjet");
 const userService = require("../../models/services/userService");
 
 
@@ -9,10 +9,10 @@ exports.logout = (req, res) => {
 }
 
 
-exports.signup = async (req, res, next) => {
+exports.signup = async(req, res, next) => {
 
     try {
-        const {first_name, last_name, password, username: email, phone_number, address} = req.body;
+        const { first_name, last_name, password, username: email, phone_number, address } = req.body;
         const user = await userService.createUser({
             first_name,
             last_name,
@@ -27,12 +27,12 @@ exports.signup = async (req, res, next) => {
         if (user) {
             const userEmail = user.email;
 
-            const token = await jwt.sign({email: userEmail}, process.env.JWT_SECRET, {expiresIn: '1h'},);
+            const token = await jwt.sign({ email: userEmail }, process.env.JWT_SECRET, { expiresIn: '1h' }, );
             const link = `${process.env.WEB_URL}/users/verification/${token}`
             sendMail(link, userEmail, 'Activate your account', 'Verify account');
 
             res.json({
-                message: 'An email has been sent to your email please check '+ email+ '\'s ads mail inbox'
+                message: 'An email has been sent to your email please check ' + email + '\'s ads mail inbox'
             })
 
         } else {
@@ -50,7 +50,7 @@ exports.signup = async (req, res, next) => {
     }
 }
 
-exports.verification = async (req, res, next) => {
+exports.verification = async(req, res, next) => {
 
     try {
 
@@ -59,7 +59,7 @@ exports.verification = async (req, res, next) => {
         const user = await userService.activateUser(decodedID.email);
         console.log(user);
         if (user) {
-            req.flash('message','An email is verified');
+            req.flash('message', 'An email is verified');
             res.redirect('/login');
         } else {
             res.status(404).json({
@@ -77,7 +77,7 @@ exports.verification = async (req, res, next) => {
 
 }
 
-exports.checkAuthentication = async (req, res, next) => {
+exports.checkAuthentication = async(req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
@@ -85,6 +85,7 @@ exports.checkAuthentication = async (req, res, next) => {
     }
 }
 
+/*
 exports.forgotPassword = async (req, res, next) => {
     try {
         const {email} = req.body;
@@ -188,3 +189,5 @@ exports.postResetPassword = async (req, res, next) => {
     }
 
 }
+
+*/
