@@ -1,6 +1,7 @@
 const User = require('../mongooseModels/userMongooseModel');
 const bcrypt = require('bcryptjs');
 const { hashString } = require("../../../utils/hasingPassword");
+const Role = require('../mongooseModels/roleMongooseModel');
 
 /**
  *
@@ -123,7 +124,7 @@ module.exports.createUser = async(user) => {
         roleID = roleID._id;
         console.log(user);
         delete user.role_name;
-        const userResult = await User.create({...user, role_id: roleID });
+        const userResult = await User.create({...user, role_id: roleID.toString() });
 
         if (userResult) {
             return userResult
