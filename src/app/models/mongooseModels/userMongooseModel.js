@@ -55,7 +55,7 @@ const User = new Schema({
 });
 
 User.pre('save', async function(next) {
-    this.password = hashString(10,this.password);
+    this.password = await hashString(10,this.password);
 })
 
 

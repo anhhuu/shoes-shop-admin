@@ -57,7 +57,7 @@ class Validator {
     static PHONE_MIN_LENGTH = 9;
 
     static validate(type, ...input) {
-
+        return true;
         if (input.length === 0) return true;
 
         if (type === Validator.FIRST_NAME || type === Validator.LAST_NAME || Validator.ADDRESS === type) {
