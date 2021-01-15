@@ -1,13 +1,13 @@
-const { Schema } = require('mongoose');
-const { ObjectID } = require('mongodb');
+const {Schema} = require('mongoose');
+const {ObjectID} = require('mongodb');
 
 const productMongooseModel = require('../mongooseModels/productMongooseModel');
 const categoryMongooseModel = require('../mongooseModels/categoryMongooseModel');
 const brandMongooseModel = require('../mongooseModels/brandMongooseModel');
 
-module.exports.getByID = async(id) => {
+module.exports.getByID = async (id) => {
     try {
-        let product = await productMongooseModel.findOne({ _id: id }).lean();
+        let product = await productMongooseModel.findOne({_id: id}).lean();
 
         return product;
 
@@ -16,9 +16,9 @@ module.exports.getByID = async(id) => {
     }
 }
 
-module.exports.getByURL = async(product_url) => {
+module.exports.getByURL = async (product_url) => {
     try {
-        let product = await productMongooseModel.findOne({ product_url: product_url }).lean();
+        let product = await productMongooseModel.findOne({product_url: product_url}).lean();
 
         return product;
     } catch (error) {
@@ -26,7 +26,7 @@ module.exports.getByURL = async(product_url) => {
     }
 }
 
-module.exports.getList = async(page, limit) => {
+module.exports.getList = async (page, limit) => {
     try {
         if (!page) {
             page = 1;
@@ -57,7 +57,7 @@ queryObj: {
     limit: number,
 }
 */
-module.exports.filterProducts = async(queryObj) => {
+module.exports.filterProducts = async (queryObj) => {
     try {
 
         if (!queryObj.page) {
@@ -92,17 +92,32 @@ module.exports.filterProducts = async(queryObj) => {
                 },
                 {
                     $and: [
-                        { name: queryObj.query_field == 'name' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
-                        { SKU: queryObj.query_field == 'SKU' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
-                        { color: queryObj.query_field == 'color' ? { $regex: '.*' + queryObj.query_value + '.*', $options: 'i' } : { $regex: '.*.*', $options: 'i' } },
+                        {
+                            name: queryObj.query_field == 'name' ? {
+                                $regex: '.*' + queryObj.query_value + '.*',
+                                $options: 'i'
+                            } : {$regex: '.*.*', $options: 'i'}
+                        },
+                        {
+                            SKU: queryObj.query_field == 'SKU' ? {
+                                $regex: '.*' + queryObj.query_value + '.*',
+                                $options: 'i'
+                            } : {$regex: '.*.*', $options: 'i'}
+                        },
+                        {
+                            color: queryObj.query_field == 'color' ? {
+                                $regex: '.*' + queryObj.query_value + '.*',
+                                $options: 'i'
+                            } : {$regex: '.*.*', $options: 'i'}
+                        },
                     ]
                 },
                 {
                     $and: [{
-                            'price.price_value': {
-                                $gt: priceMin
-                            }
-                        },
+                        'price.price_value': {
+                            $gt: priceMin
+                        }
+                    },
                         {
                             'price.price_value': {
                                 $lt: priceMax
@@ -111,13 +126,13 @@ module.exports.filterProducts = async(queryObj) => {
                     ]
                 },
                 {
-                    'price.price_currency': !queryObj.price_currency ? { '$regex': '.*.*' } : { '$regex': '.*' + queryObj.price_currency + '.*' }
+                    'price.price_currency': !queryObj.price_currency ? {'$regex': '.*.*'} : {'$regex': '.*' + queryObj.price_currency + '.*'}
                 },
                 {
-                    brand_id: !queryObj.brands_id ? { $in: brands } : { $in: queryObj.brands_id }
+                    brand_id: !queryObj.brands_id ? {$in: brands} : {$in: queryObj.brands_id}
                 },
                 {
-                    category_id: !queryObj.categories_id ? { $in: categories } : { $in: queryObj.categories_id }
+                    category_id: !queryObj.categories_id ? {$in: categories} : {$in: queryObj.categories_id}
                 }
             ]
         };
@@ -135,7 +150,7 @@ module.exports.filterProducts = async(queryObj) => {
     }
 }
 
-module.exports.save = async(productObject) => {
+module.exports.save = async (productObject) => {
     try {
         let product = new productMongooseModel({
             SKU: productObject.SKU,
@@ -162,7 +177,7 @@ module.exports.save = async(productObject) => {
 }
 
 //update basic info of shoes (SKU code, name, discount, color, description, category, price)
-module.exports.updateBasicInfo = async(productObject) => {
+module.exports.updateBasicInfo = async (productObject) => {
     try {
         let product = await productMongooseModel.findById(productObject._id);
         await product.updateOne({
@@ -180,7 +195,7 @@ module.exports.updateBasicInfo = async(productObject) => {
 }
 
 //update remaining amount of shoes
-module.exports.updateProductDetail = async(productObject) => {
+module.exports.updateProductDetail = async (productObject) => {
     try {
         let product = await productMongooseModel.findById(productObject._id);
         await product.updateOne({
@@ -191,7 +206,7 @@ module.exports.updateProductDetail = async(productObject) => {
     }
 }
 
-module.exports.updateProductImage = async(productObject) => {
+module.exports.updateProductImage = async (productObject) => {
     try {
         let product = await productMongooseModel.findById(productObject._id);
         await product.updateOne({
@@ -203,34 +218,34 @@ module.exports.updateProductImage = async(productObject) => {
     }
 }
 
-module.exports.getTotalProductByBrandID = async(brand_id) => {
+module.exports.getTotalProductByBrandID = async (brand_id) => {
     try {
-        let count = productMongooseModel.find({ brand_id: brand_id }).count();
+        let count = productMongooseModel.find({brand_id: brand_id}).count();
         return count;
     } catch (error) {
         throw error;
     }
 }
 
-module.exports.getTotalProductByCategoryID = async(category_id) => {
+module.exports.getTotalProductByCategoryID = async (category_id) => {
     try {
-        let count = productMongooseModel.find({ category_id: category_id }).count();
+        let count = productMongooseModel.find({category_id: category_id}).count();
         return count;
     } catch (error) {
         throw error;
     }
 }
 
-module.exports.getProductsBySizeID = async(sizeId) => {
+module.exports.getProductsBySizeID = async (sizeId) => {
     let products = await productMongooseModel.aggregate(
         [{
-            $match: { 'product_detail.size_id': ObjectID(sizeId) }
+            $match: {'product_detail.size_id': ObjectID(sizeId)}
         }]);
 
     return products;
 }
 
-module.exports.delete = async(id) => {
+module.exports.delete = async (id) => {
     try {
         const product = productMongooseModel.findById(id);
         await product.updateOne({
@@ -239,4 +254,9 @@ module.exports.delete = async(id) => {
     } catch (error) {
         throw error;
     }
+}
+
+module.exports.getTopTenProducts= async () => {
+    return productMongooseModel.find({})
+        .sort({ purchase_count: -1 }).limit(10).lean();
 }
