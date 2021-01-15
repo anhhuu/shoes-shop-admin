@@ -25,7 +25,6 @@ module.exports.signup = async(req, res, next) => {
             role_name: process.env.ROLE_NAME
         });
 
-        //console.log(user);
 
         if (user) {
             const userEmail = user.email;
@@ -62,8 +61,7 @@ module.exports.verification = async(req, res, next) => {
         const user = await userService.activateUser(decodedID.email);
         console.log(user);
         if (user) {
-            req.flash('message', 'An email is verified');
-            res.redirect('/login');
+            res.redirect('/login?message='+ encodeURI('Your email is verified'));
         } else {
             res.status(404).json({
                 message: 'User not found'

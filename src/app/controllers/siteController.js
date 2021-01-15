@@ -1,36 +1,34 @@
 const passport = require('../../config/passport');
 
-module.exports.index = async(req, res, next) => {
-    res.render('index', {
-        options: {
-            message: req.flash('message')
-        }
-    });
+module.exports.index = async (req, res, next) => {
+
+    res.render('index');
 }
 
-module.exports.getLoginPage = async(req, res, next) => {
+module.exports.getLoginPage = async (req, res, next) => {
+    const message = req.query.message;
     res.render('users/login', {
         layout: false,
         options: {
-            message: req.flash('message')
+            message
         }
-    }, );
+    },);
 }
 
-module.exports.logout = async(req, res, next) => {
+module.exports.logout = async (req, res, next) => {
     req.logout();
     res.redirect('/login');
 }
 
-module.exports.login = async(req, res, next) => {
-    passport.authenticate('local', async(err, user, info) => {
+module.exports.login = async (req, res, next) => {
+    passport.authenticate('local', async (err, user, info) => {
         if (err) {
             return next(err)
         } else if (!user) {
             console.log('message: ' + info.message);
             return res.redirect('/login')
         } else {
-            req.logIn(user, async(err) => {
+            req.logIn(user, async (err) => {
                 if (err) {
                     return next(err);
                 }

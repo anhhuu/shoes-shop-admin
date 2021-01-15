@@ -14,7 +14,7 @@ class Modal {
             $('#modalMessage').html(title);
 
         }
-        setTimeout(() => this.hideModel(), 5000);
+        setTimeout(() => this.hideModel(), 2000);
     }
 
     hideModel() {
@@ -118,7 +118,6 @@ $(document).ready(function() {
     })
     $('#address').blur(function(e) {
         const val = Validator.validate(Validator.ADDRESS, $('#address'));
-
         if (!val) {
             modal.showModel('Your input is not valid', 'Address is required');
         }
