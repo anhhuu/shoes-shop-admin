@@ -109,14 +109,19 @@ module.exports.updatePassword = async(userObj) => {
  * @param user
  * @returns {Promise<boolean>}
  */
-exports.createUser = async(user) => {
+module.exports.createUser = async(user) => {
     try {
         const userObj = await User.findOne({ email: user.email });
 
         if (userObj) {
             return false;
         }
-        const roleID = (await Role.findOne({ name: user.role_name }))._id
+        console.log('x');
+        //console.log(user);
+
+        let roleID = await Role.findOne({ name: user.role_name }).lean();
+        roleID = roleID._id;
+        console.log(user);
         delete user.role_name;
         const userResult = await User.create({...user, role_id: roleID });
 

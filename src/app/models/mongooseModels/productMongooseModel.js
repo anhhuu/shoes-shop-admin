@@ -21,4 +21,4 @@ const Product = new Schema({
     timestamps: true,
 });
 Product.plugin(mongoosePaginate);
-module.exports = mongoose.model('Product', Product);
+module.exports = mongoose.model('Shoes', Product);

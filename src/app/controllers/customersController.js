@@ -1,3 +1,4 @@
+const roleMongooseModel = require('../models/mongooseModels/roleMongooseModel');
 const userService = require('../models/services/userService')
 
 module.exports.index = async(req, res, next) => {
@@ -16,6 +17,8 @@ module.exports.index = async(req, res, next) => {
 module.exports.getEditPage = async(req, res, next) => {
     const id = req.params.id;
     const user = await userService.getUserProfile(id);
+    const role = await roleMongooseModel.findById(user.role_id);
+    user.role_id = role;
     console.log(user);
     res.render('customers/customersEdit', { account: user });
 }

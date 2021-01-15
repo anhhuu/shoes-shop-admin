@@ -1,15 +1,16 @@
 const jwt = require('jsonwebtoken');
+const { use } = require('passport');
 const { sendMail } = require("../../../config/mailjet");
 const userService = require("../../models/services/userService");
 
 
-exports.logout = (req, res) => {
+module.exports.logout = (req, res) => {
     req.logout();
     res.redirect('/');
 }
 
 
-exports.signup = async(req, res, next) => {
+module.exports.signup = async(req, res, next) => {
 
     try {
         const { first_name, last_name, password, username: email, phone_number, address } = req.body;
@@ -23,6 +24,8 @@ exports.signup = async(req, res, next) => {
             avatar_image_url: '',
             role_name: process.env.ROLE_NAME
         });
+
+        //console.log(user);
 
         if (user) {
             const userEmail = user.email;
@@ -50,7 +53,7 @@ exports.signup = async(req, res, next) => {
     }
 }
 
-exports.verification = async(req, res, next) => {
+module.exports.verification = async(req, res, next) => {
 
     try {
 
@@ -77,7 +80,7 @@ exports.verification = async(req, res, next) => {
 
 }
 
-exports.checkAuthentication = async(req, res, next) => {
+module.exports.checkAuthentication = async(req, res, next) => {
     if (req.isAuthenticated()) {
         next();
     } else {
