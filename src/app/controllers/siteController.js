@@ -1,8 +1,14 @@
 const passport = require('../../config/passport');
+const productService = require('../models/services/productService');
 
 module.exports.index = async (req, res, next) => {
 
-    res.render('index');
+
+    const topTenProducts =await productService.getTopTenProducts();
+    res.render('index', {
+        topTenProducts
+    });
+
 }
 
 module.exports.getLoginPage = async (req, res, next) => {
