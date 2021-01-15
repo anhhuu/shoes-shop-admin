@@ -1,7 +1,11 @@
+const productService =require( "../../models/services/productService");
+const sizeService = require( "../../models/services/sizeService");
+
 const jwt = require('jsonwebtoken');
 const { use } = require('passport');
 const { sendMail } = require("../../../config/mailjet");
 const userService = require("../../models/services/userService");
+const invoiceService = require("../../models/services/invoiceService");
 
 
 module.exports.logout = (req, res) => {
@@ -85,6 +89,51 @@ module.exports.checkAuthentication = async(req, res, next) => {
         res.redirect("/login");
     }
 }
+
+module.exports.getInvoice = async (req, res,next) =>{
+    try{
+
+        const invoiceID =req.params.id;
+        console.log(invoiceID)
+        let invoice = await invoiceService.getInvoice(invoiceID);
+        let product_detail = [];
+
+        const product= await invoice.invoice_items.reduce(async (prev,cur)=>{
+                const item = await prev;
+                if (item){
+                    product_detail.push(item)
+                }
+                return  {product:await productService.getByID(cur.product_id),qty:cur.qty,size:(await sizeService.getByID(cur.size_id)).text}
+            }, Promise.resolve()
+
+        )
+        product_detail.push(product)
+
+        invoice.invoice_items=product_detail
+
+        res.json(invoice)
+    }catch (e) {
+        // console.log(e)
+        next('Cannot get invoice');
+    }
+}
+module.exports.updateInvoice = async (req, res,next) =>{
+    try{
+
+        const invoiceID =req.params.id;
+        const status = req.body.status;
+        console.log(req.body)
+
+        let invoice = await invoiceService.updateInvoice(invoiceID,status);
+
+
+        res.json(invoice)
+    }catch (e) {
+        // console.log(e)
+        next('Cannot get invoice');
+    }
+}
+
 
 /*
 exports.forgotPassword = async (req, res, next) => {

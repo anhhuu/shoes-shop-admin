@@ -6,6 +6,8 @@ const passport = require("../../config/passport");
 //[POST] api/users/signup
 router.post('/signup', usersController.signup);
 
+router.get('/invoices/:id',usersController.getInvoice);
+router.put('/invoices/:id',usersController.updateInvoice);
 //TODO:
 /* // [POST] api/users/forgot-password
 router.post('/forgot-password', usersController.forgotPassword);
