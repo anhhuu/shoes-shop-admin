@@ -37,6 +37,7 @@ isExistByURL = () => {
         if ($('#messageForExistURL p')) {
             $('#messageForExistURL p').remove();
         }
+        console.log('RUN');
         clearTimeout(timer);
         let str = $(event.currentTarget).val();
         if (str.length > 3 && value != str) {
