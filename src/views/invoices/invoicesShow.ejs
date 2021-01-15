@@ -1,0 +1,79 @@
+<div class="container-fluid">
+    <h1 class="mt-4">Đơn hàng</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active"><a href="/">Trang chủ</a>/Đơn hàng</li>
+    </ol>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>Đơn hàng
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Thời gian</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái</th>
+                                <th>Tổng tiền</th>
+                                <th>Phương thức thanh toán</th>
+                                <th>Sửa</th>
+                            </tr>
+                        </thead>
+                        <tfoot hidden>
+                            <tr>
+                                <th>ID</th>
+                                <th>Email</th>
+                                <th>Thời gian</th>
+                                <th>Số lượng</th>
+                                <th>Trạng thái</th>
+                                <th>Tổng tiền</th>
+                                <th>Phương thức thanh toán</th>
+                                <th>Sửa</th>
+                            </tr>
+                        </tfoot>
+                        <% for(let i = 0; i < invoices.length; i++) { %>
+                        <tr>
+                            <td>
+                                <a href="#">
+                                    <%= invoices[i]._id %>
+                                </a>
+                            </td>
+
+                            <td>
+                                <%= invoices[i].user_id.email %>
+                            </td>
+                            <td>
+                                <%= new Date(invoices[i].createdAt).toLocaleString() %>
+                            </td>
+                            <td>
+                                <%= invoices[i].invoice_items.length %>
+                            </td>
+                            <td>
+                                <%= invoices[i].status %>
+                            </td>
+                            <td>
+                                <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(invoices[i].totalFee) %>
+                            </td>
+                            <td>
+                                <%= invoices[i].payment_method %>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    <div <i class="fas fa-edit"></i></div>
+                                </a>
+                            </td>
+                        </tr>
+                        <% } %>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/resources/js/categoryCreate.js"></script>
