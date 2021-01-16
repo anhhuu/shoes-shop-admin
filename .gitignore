@@ -1,4 +1,5 @@
 .idea
+src/.env
 
 # Logs
 logs
